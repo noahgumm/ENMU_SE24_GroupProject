@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="HotelReservationApp" default="build" basedir="">
+
+    <!-- Define project properties -->
+    <property name="src.dir" value="src/main/java"/>
+    <property name="web.dir" value="src/main/webapp"/>
+    <property name="build.dir" value="target"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="classes.dir" value="target/classes"/>
+    <property name="generated.dir" value="target/generated-sources"/>
+    <property name="annotations.dir" value="target/generated-sources/annotations"/>
+    <property name="war.name" value="HotelReservationApp.war"/>
+
+    <!-- Dependencies from lib folder -->
+    <path id="classpath">
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- Clean up target folder and war file -->
+    <target name="clean">
+        <delete dir="target" />
+        <delete file="HotelReservationApp.war" />
+    </target>
+
+    <!-- Compile -->
+    <target name="compile" depends="clean">
+        <mkdir dir="target/classes"/>
+        <javac srcdir="${src.dir}" destdir="target/classes" classpathref="classpath"/>
+    </target>
+
+    <!-- Generate sources (if there are any) -->
+    <target name="generate">
+        <mkdir dir="target/generated-sources/annotations"/>
+        <!-- Add any source generation tasks here -->
+    </target>
+
+    <!-- Package WAR file -->
+    <target name="war" depends="compile, generate">
+        <war destfile="HotelReservationApp.war" webxml="src/main/webapp/WEB-INF/web.xml">
+            <fileset dir="src/main/webapp"/>
+            <classes dir="target/classes"/>
+            <lib dir="lib"/>
+        </war>
+    </target>
+
+    <!-- Default target -->
+    <!-- Run this before building the project and launching the tomcat server -->
+    <target name="build" depends="war"/>
+
+</project>
