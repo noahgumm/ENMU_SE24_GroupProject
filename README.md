@@ -14,7 +14,7 @@ Requirements: Ant and Apache Tomcat
     <li>
         Start the server using the startup.bat (startup.sh for Linux) file located 
         within the bin directory of your tomcat installation. You can then visit the webpage at
-        http://localhost:8080/HotelReservationApp_war/
+        http://localhost:8080/HotelReservationApp/
     </li>
 </ol>
 <h3> Running Using IntelliJ </h3>
