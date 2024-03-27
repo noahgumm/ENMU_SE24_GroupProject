@@ -4,7 +4,6 @@
     <root id="archive" name="HotelReservationApp.war">
       <element id="module-output" name="HotelReservationApp" />
       <element id="library" level="project" name="javax.annotation" />
-      <element id="javaee-facet-resources" facet="HotelReservationApp/web/Web" />
     </root>
   </artifact>
 </component>
