@@ -4,7 +4,7 @@ Requirements: Ant and Apache Tomcat
 <ol>
     <li> Build the project in order to compile classes</li>
     <li> Navigate to the root directory and run 'ant build'. 
-         This will generate the compiled classes withing a folder named target.
+         This will generate the compiled classes within a folder named target.
          It will also generate a war file using those classes and the .jars in the lib folder.
     </li>
     <li>

@@ -11,9 +11,9 @@
             <h3>Login</h3>
             <!--
                 action will be the login servlet
-                which should route user to welcome page upon successful login
+                which should route user to login page upon successful registration
              -->
-            <form action="loginServlet" method="post">
+            <form action="loginUserSuccess" method="post">
                 <label for="emailId">Email</label>
                 <input type="email" placeholder="youremail@example.com" name="emailId" id="emailId" required>
 
