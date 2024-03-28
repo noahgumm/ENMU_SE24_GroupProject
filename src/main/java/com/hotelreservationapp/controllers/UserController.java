@@ -44,4 +44,31 @@ public class UserController {
             dispatcher.forward(request, response);
         }
     }
+    
+    /*
+        Add User Function
+        Allows users to register on the app usings servlets to communicate with JSP pages.
+       
+        @param request  The login request with the user data 
+        @param response The response that will be send back to the server
+    */
+    public void addUser(HttpServletRequest request, HttpServletResponse response) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+             
+        // Perform validate using the User Model
+        boolean isValid = userModel.validateCredentials(username, password);
+      
+        if (isAuthenticated) {
+            // Add the user to the model
+            userModel.addUser(username, password);
+            request.setAttribute("username", username);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/register-success.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            request.setAttribute("error", "Invalid user credentials. Please try again.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/register.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
 }
