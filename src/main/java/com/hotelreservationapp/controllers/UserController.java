@@ -15,21 +15,22 @@ import com.hotelreservationapp.models.UserModel;
 
 import java.io.IOException;
         
-@WebServlet(name = "UserController", value = "/user")
+@WebServlet(name = "UserController", value="/HotelReservationApp_war/UserController")
 public class UserController extends HttpServlet {
     private UserModel userModel;
     
     // Constructor
+    public UserController(){}
     public UserController(UserModel userModel) {
         this.userModel = userModel;
     }
     
     /*
         Login User Function
-        Allows users to log in to the app usings servlets to communicate with JSP pages.
+        Allows users to log in to the app using servlets to communicate with JSP pages.
     
         @param request  The login request with the user data 
-        @param response The response that will be send back to the server
+        @param response The response that will be sent back to the server
     */
 
     public void loginView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,12 +53,14 @@ public class UserController extends HttpServlet {
         String password = request.getParameter("password");
 
         // Perform authentication using the User Model
-        boolean isAuthenticated = userModel.authenticateUser(username, password);
+        //Keep commented out for now to ensure login for any data entered
+        //boolean isAuthenticated = userModel.authenticateUser(username, password);
+        boolean isAuthenticated = true;
 
         // Forward to Success or Login View based on authentication result
         if (isAuthenticated) {
             request.setAttribute("username", username);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/success.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/loginViewSuccess.jsp");
             dispatcher.forward(request, response);
         } else {
             request.setAttribute("error", "Login authentication failed. Please try again.");
@@ -66,27 +69,19 @@ public class UserController extends HttpServlet {
         }
     }
 
-    public void doGet(
-      HttpServletRequest request, HttpServletResponse response) 
-      throws ServletException, IOException {
-
-        loginView(request, response);
-    }
-
     @Override
     protected void doPost(
       HttpServletRequest request, HttpServletResponse response) 
       throws ServletException, IOException {
-
-        loginUserSuccess(request, response);
+        loginUser(request,response);
     }
     
     /*
         Add User Function
-        Allows users to register on the app usings servlets to communicate with JSP pages.
+        Allows users to register on the app using servlets to communicate with JSP pages.
        
         @param request  The login request with the user data 
-        @param response The response that will be send back to the server
+        @param response The response that will be sent back to the server
     */
     public void addUser(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
         String username = request.getParameter("username");

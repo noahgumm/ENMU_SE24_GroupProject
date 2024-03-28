@@ -13,15 +13,17 @@
                 action will be the login servlet
                 which should route user to login page upon successful registration
              -->
-            <form action="loginUserSuccess" method="post">
-                <label for="emailId">Email</label>
-                <input type="email" placeholder="youremail@example.com" name="emailId" id="emailId" required>
+            <form name="loginForm" action="/HotelReservationApp_war/UserController" method="post">
+                <input type="hidden" name="action" value="login">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required>
 
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" required>
 
                 <button type="submit">Submit</button>
             </form>
+            <button><a href="registerView.jsp">Register</a></button>
         </div>
     </body>
 </html>

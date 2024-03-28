@@ -38,8 +38,9 @@ label {
 .container button {
     width: 10em;
     height: 2.5em;
+    margin-bottom: 1em;
     background-image: linear-gradient(to right, #00b4db, #0083b0);
-    color: white;
+    color: black;
     border-radius: 8px;
     border: none;
     cursor: pointer;
