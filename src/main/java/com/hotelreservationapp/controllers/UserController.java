@@ -8,6 +8,9 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.hotelreservationapp.models.UserModel;
+
 import java.io.IOException;
         
 public class UserController {
@@ -52,14 +55,14 @@ public class UserController {
         @param request  The login request with the user data 
         @param response The response that will be send back to the server
     */
-    public void addUser(HttpServletRequest request, HttpServletResponse response) {
+    public void addUser(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
              
         // Perform validate using the User Model
         boolean isValid = userModel.validateCredentials(username, password);
       
-        if (isAuthenticated) {
+        if (isValid) {
             // Add the user to the model
             userModel.addUser(username, password);
             request.setAttribute("username", username);

@@ -1,4 +1,4 @@
-package com.hotelreservationapp.controllers;
+package com.hotelreservationapp;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
