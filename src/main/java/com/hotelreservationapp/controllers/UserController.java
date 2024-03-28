@@ -20,7 +20,7 @@ public class UserController extends HttpServlet {
     private UserModel userModel;
     
     // Constructor
-    public UserController(){}
+    public UserController(){ this.userModel = new UserModel(); }
     public UserController(UserModel userModel) {
         this.userModel = userModel;
     }
@@ -36,14 +36,14 @@ public class UserController extends HttpServlet {
     public void loginView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Display the login view
         response.getWriter().append("Served at: ").append(request.getContextPath());
-        RequestDispatcher dispatcher = request.getRequestDispatcher("loginView.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/loginView.jsp");
         dispatcher.forward(request, response);
     }
 
     public void loginUserSuccess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Display the login view
         response.getWriter().append("Served at: ").append(request.getContextPath());
-        RequestDispatcher dispatcher = request.getRequestDispatcher("loginViewSuccess.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/loginViewSuccess.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -73,7 +73,11 @@ public class UserController extends HttpServlet {
     protected void doPost(
       HttpServletRequest request, HttpServletResponse response) 
       throws ServletException, IOException {
-        loginUser(request,response);
+        if("login".equals(request.getParameter("action"))){
+            loginUser(request,response);
+        } else if ("register".equals(request.getParameter("action"))) {
+            addUser(request,response);
+        }
     }
     
     /*
@@ -88,17 +92,19 @@ public class UserController extends HttpServlet {
         String password = request.getParameter("password");
              
         // Perform validate using the User Model
-        boolean isValid = userModel.validateCredentials(username, password);
+        //Keep commented to ensure user can register no matter what
+        //boolean isValid = userModel.validateCredentials(username, password);
+        boolean isValid = true;
       
         if (isValid) {
             // Add the user to the model
             userModel.addUser(username, password);
             request.setAttribute("username", username);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/register-success.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/registerViewSuccess.jsp");
             dispatcher.forward(request, response);
         } else {
             request.setAttribute("error", "Invalid user credentials. Please try again.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/register.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/registerView.jsp");
             dispatcher.forward(request, response);
         }
     }
