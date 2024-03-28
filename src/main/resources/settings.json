@@ -1,0 +1,10 @@
+{
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "root",
+    "password": "password",
+    "database_name": "hotel_reservation_system",
+    "jdbc_url" : "jdbc:mysql://localhost:3306/hotel_reservation_system"
+  }
+}
