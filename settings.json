@@ -1,7 +1,9 @@
 {
     "database": {
         "host": "localhost",
-        "port": 27017,
-        "database_name": "mydb"
+        "port": "3306",
+        "database_name": "hotel_reservation_system",
+        "user" : "root",
+        "password" : "password"
     }
 }

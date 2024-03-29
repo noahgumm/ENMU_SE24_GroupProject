@@ -16,7 +16,7 @@ import com.hotelreservationapp.models.Database.UserDatabaseManager;
 
 import java.io.IOException;
         
-@WebServlet(name = "UserController", value="/HotelReservationApp_war/UserController")
+@WebServlet(name = "UserController", value="/HotelReservationApp/UserController")
 public class UserController extends HttpServlet {
     private UserModel userModel;
     

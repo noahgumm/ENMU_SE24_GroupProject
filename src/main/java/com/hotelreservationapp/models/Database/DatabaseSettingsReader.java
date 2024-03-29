@@ -16,18 +16,28 @@ public class DatabaseSettingsReader {
      */
     public DatabaseSettingsReader(String settingsFilePath) {
         // Read the settings file
-        String fileContents = "";
-        File file = new File(settingsFilePath);
-        try {
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                fileContents += scanner.nextLine();
-            }
-            scanner.close();
-        } catch (Exception e) {
-            fileContents = "";
-        }
-        System.out.println(fileContents);
+        String fileContents = "{\r\n" + //
+                        "    \"database\": {\r\n" + //
+                        "        \"host\": \"localhost\",\r\n" + //
+                        "        \"port\": \"3306\",\r\n" + //
+                        "        \"database_name\": \"hotel_reservation_system\",\r\n" + //
+                        "        \"user\" : \"root\",\r\n" + //
+                        "        \"password\" : \"password\"\r\n" + //
+                        "    }\r\n" + //
+                        "}";
+        String dbConn = "jdbc:mysql://localhost:3306/hotel_reservation_system?user=root&password=password";
+        
+        // File file = new File(settingsFilePath);
+        // try {
+        //     Scanner scanner = new Scanner(file);
+        //     while (scanner.hasNextLine()) {
+        //         fileContents += scanner.nextLine();
+        //     }
+        //     scanner.close();
+        // } catch (Exception e) {
+        //     fileContents = "";
+        // }
+        // System.out.println(fileContents);
 
         JSONObject settings = new JSONObject(fileContents);
 

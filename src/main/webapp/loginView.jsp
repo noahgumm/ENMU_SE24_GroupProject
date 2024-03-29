@@ -13,7 +13,7 @@
                 action will be the login servlet
                 which should route user to login page upon successful registration
              -->
-            <form name="loginForm" action="HotelReservationApp_war/UserController" method="post">
+            <form name="loginForm" action="HotelReservationApp/UserController" method="post">
                 <input type="hidden" name="action" value="login">
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" required>
