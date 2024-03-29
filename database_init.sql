@@ -25,7 +25,7 @@ CREATE TABLE rooms (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table for storing user bookings
+-- Table for storing user reservations
 CREATE TABLE reservations (
     reservation_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -52,11 +52,11 @@ CREATE TABLE admins (
 CREATE TABLE transactions (
     transaction_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    booking_id INT,
+    reservation_id INT,
     amount DECIMAL(10, 2) NOT NULL,
     transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (booking_id) REFERENCES bookings(booking_id)
+    FOREIGN KEY (reservation_id) REFERENCES reservations(reservation_id)
 );
 
 CREATE TABLE user_payment_methods (

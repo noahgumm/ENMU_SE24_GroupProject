@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.hotelreservationapp.models.UserModel;
+import com.hotelreservationapp.models.Database.UserDatabaseManager;
 
 import java.io.IOException;
         
@@ -55,8 +56,11 @@ public class UserController extends HttpServlet {
         // Perform authentication using the User Model
         //Keep commented out for now to ensure login for any data entered
         //boolean isAuthenticated = userModel.authenticateUser(username, password);
-        boolean isAuthenticated = true;
-
+        UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
+        userModel = userDatabaseManager.read(username);
+        // boolean isAuthenticated = true;
+        boolean isAuthenticated = userModel.getPassword().equals(password);
+        userDatabaseManager.close();
         // Forward to Success or Login View based on authentication result
         if (isAuthenticated) {
             request.setAttribute("username", username);
@@ -94,15 +98,22 @@ public class UserController extends HttpServlet {
         // Perform validate using the User Model
         //Keep commented to ensure user can register no matter what
         //boolean isValid = userModel.validateCredentials(username, password);
-        boolean isValid = true;
+        UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
+        userModel = userDatabaseManager.read(username);
+
+        boolean isValid = userModel.getUsername() == "";
       
         if (isValid) {
             // Add the user to the model
-            userModel.addUser(username, password);
+            userModel.setUsername(username);
+            userModel.setPassword(password);
+            userDatabaseManager.create(userModel);
+            userDatabaseManager.close();
             request.setAttribute("username", username);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/registerViewSuccess.jsp");
             dispatcher.forward(request, response);
         } else {
+            userDatabaseManager.close();
             request.setAttribute("error", "Invalid user credentials. Please try again.");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/registerView.jsp");
             dispatcher.forward(request, response);

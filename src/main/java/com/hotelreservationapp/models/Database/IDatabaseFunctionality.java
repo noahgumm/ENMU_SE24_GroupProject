@@ -1,29 +1,31 @@
-package com.hotelreservationapp.models;
+package com.hotelreservationapp.models.Database;
 
 import java.util.List;
 
 /**
  * Interface that defines the database functionality.
- * @param <T> The type of object that the database functionality is for
  */
 public interface IDatabaseFunctionality<T> {
     /**
      * Creates a new object in the database.
      * @param object The object to create
+     * @return True if the object was created successfully, false otherwise
      */
-    void create(T object);
+    boolean create(T object);
 
     /**
      * Updates an object in the database.
      * @param object The object to update
+     * @return True if the object was updated successfully, false otherwise
      */
-    void update(T object);
+    boolean update(T object);
     
     /**
      * Deletes an object from the database.
      * @param object The object to delete
+     * @return True if the object was deleted successfully, false otherwise
      */
-    void delete(T object);
+    boolean delete(T object);
     
     /**
      * Reads an object from the database based on the provided ID.
