@@ -77,10 +77,16 @@ public class UserController extends HttpServlet {
     protected void doPost(
       HttpServletRequest request, HttpServletResponse response) 
       throws ServletException, IOException {
-        if("login".equals(request.getParameter("action"))){
-            loginUser(request,response);
-        } else if ("register".equals(request.getParameter("action"))) {
-            addUser(request,response);
+        try{
+            if("login".equals(request.getParameter("action"))){
+                //Attempt to login if the hidden fields action parameter is equal to login
+                    loginUser(request,response);
+            } else if ("register".equals(request.getParameter("action"))) {
+                //Attempt to login if the hidden fields action parameter is equal to register
+                    loginUser(request,response);
+            }
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
     }
     
