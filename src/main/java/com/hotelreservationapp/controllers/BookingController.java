@@ -18,42 +18,11 @@ import java.io.PrintWriter;
 public class BookingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        // RequestDispatcher requestDispatcher = req.getRequestDispatcher("home.jsp");
-        // requestDispatcher.forward(req, resp);
-        
-        resp.setContentType("text/html");
-
-        // Write the response message, in an HTML page
-        try (PrintWriter out = resp.getWriter()) {
-            // Writing HTML content
-            out.println("<!DOCTYPE html>");
-            out.println("<html><head>");
-            out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
-            out.println("<title>Booking</title></head>");
-            out.println("<body>");
-            out.println("<h1>Booking</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        resp.sendRedirect("bookingView.jsp");
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
         super.doPost(req, resp);
     }
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        super.doPut(req, resp);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        super.doDelete(req, resp);
-    }
-
 }

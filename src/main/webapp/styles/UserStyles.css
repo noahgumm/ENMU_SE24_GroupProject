@@ -1,28 +1,28 @@
 @font-face {
     font-family: 'Basis Grotesque Pro';
-    src: url('/HotelReservationApp/fonts/BasisGrotesquePro-Regular.ttf') format('truetype');
+    src: url('../fonts/BasisGrotesquePro-Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Basis Grotesque Bold';
-    src: url('/HotelReservationApp/fonts/BasisGrotesquePro-Bold.ttf') format('truetype');
+    src: url('../fonts/BasisGrotesquePro-Bold.ttf') format('truetype');
 }
 
 
 @font-face {
     font-family: 'Basis Grotesque Pro';
-    src: url('/HotelReservationApp/fonts/BasisGrotesquePro-Regular.ttf') format('truetype');
+    src: url('../fonts/BasisGrotesquePro-Regular.ttf') format('truetype');
 }
 
 
 @font-face {
     font-family: 'Bodoni Moda';
-    src: url('/HotelReservationApp/fonts/BodoniModa-Variable.ttf') format('truetype');
+    src: url('../fonts/BodoniModa-Variable.ttf') format('truetype');
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-image: url('/HotelReservationApp/images/bg1.jpg');
+    background-image: url('../images/bg1.jpg');
     background-size: cover;
     background-position: center;
     margin: 0;

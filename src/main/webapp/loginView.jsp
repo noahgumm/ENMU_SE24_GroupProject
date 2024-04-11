@@ -7,8 +7,8 @@
     </head>
     <body>
         <div class="container">		
-			<img class="logo" src="/HotelReservationApp/images/logo.png" alt="Logo">
-			
+			<img class="logo" src="images/logo.png" alt="Logo">
+
             <h1>Sign In</h1>
             <!--
                 action will be the login servlet
@@ -16,7 +16,8 @@
              -->
             <form name="loginForm" action="UserController" method="post">
                 <input type="hidden" name="action" value="login">
-                <input type="email" name="username" id="username" placeholder="Email" required>
+                <p>${sessionScope.error}</p>
+                <input type="email" name="email" id="email" placeholder="Email" required>
                 <input type="password" name="password" id="password" placeholder="Password" required>
 				<p><a href="registerView.jsp">New? Create an account.</a></p>
 				<br>

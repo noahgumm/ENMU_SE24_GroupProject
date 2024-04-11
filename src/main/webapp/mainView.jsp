@@ -1,8 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%			
-	//Temp test data
-	String firstname = "User";
-%>	
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,16 +7,16 @@
     </head>
 	<style>
 		body {
-			background-image: url('/HotelReservationApp/images/bg2.jpg');
+			background-image: url('images/bg2.jpg');
 		}
 	</style>
     <body>
         <div class="container">
-			<img class="logo" src="/HotelReservationApp/images/logo.png" alt="Logo">
+			<img class="logo" src="images/logo.png" alt="Logo">
 			
             <h1>Booking Manager</h1>
 			
-			<h2>Welcome <%= firstname %></h2>
+			<h2>Welcome ${sessionScope.username}</h2>
 			
             <a href="bookingView.jsp"><button>BOOK NOW</button></a><br><br>
 			
@@ -28,7 +24,7 @@
 			
             <a href="accountView.jsp"><button>MY ACCOUNT</button></a><br><br>
 			
-            <form name="logoutForm" action="HomeController" method="post">
+            <form name="logoutForm" action="Home" method="post">
 				<button type="submit">SIGN OUT</button>
 			</form>
         </div>

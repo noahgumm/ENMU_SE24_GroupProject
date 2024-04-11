@@ -28,15 +28,15 @@ public interface IDatabaseFunctionality<T> {
     boolean delete(T object);
     
     /**
-     * Reads an object from the database based on the provided ID.
-     * @param id
-     * @return
+     * Reads an object from the database based on the provided email.
+     * @param email The email of the user
+     * @return the found user
      */
-    T read(int id);
+    T read(String email);
 
     /**
      * Reads all objects from the database.
-     * @return
+     * @return all users
      */
     List<T> readAll();
 }
