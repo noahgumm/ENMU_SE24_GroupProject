@@ -2,43 +2,36 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="styles/loginStyles.css" />
-        <title>Registration</title>
+        <link rel="stylesheet" href="styles/UserStyles.css" />
+        <title>Register</title>
     </head>
     <body>
         <div class="container">
-            <h2>Hotel Reservation App</h2>
-            <h3>Registration</h3>
+			<img class="logo" src="/HotelReservationApp/images/logo.png" alt="Logo">
+			
+            <h1>Register</h1>
             <!--
                 action will be the login servlet
                 which should route user to login page upon successful registration
              -->
+            <a href="loginView.jsp"><p class="back"><</p></a>
             <form action="HotelReservationApp/UserController" method="post">
                 <input type="hidden" name="action" value="register">
-                <label for="emailId">Email</label>
-                <input type="email" placeholder="youremail@example.com" name="emailId" id="emailId" required>
+				
+                <input type="email" placeholder="Email" name="emailId" id="emailId" required>
 
-                <label for="firstName">First Name</label>
-                <input type="text" name="firstName" id="firstName" required>
+                <input type="password" name="password" placeholder="Password" id="password" required>
 
-                <label for="lastName">Last Name</label>
-                <input type="text" name="lastName" id="lastName" required>
+                <input type="text" name="firstName" placeholder="First Name" id="firstName" required>
 
-                <label for="address">Address</label>
-                <input type="text" name="address" id="address" required>
+                <input type="text" name="lastName" placeholder="Last Name"  id="lastName" required>
 
-                <label for="phone">Phone Number</label>
-                <input type="text" name="phone" id="phone" required>
+                <input type="text" name="address" placeholder="Address" id="address" required>
 
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" required>
-
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" required>
-
-                <button type="submit">Submit</button>
+                <input type="text" name="phone" placeholder="Phone Number" id="phone" required>
+				<br><br>
+                <button type="submit">CREATE ACCOUNT</button>
             </form>
-            <button><a href="loginView.jsp">Back</a></button>
         </div>
     </body>
 </html>
