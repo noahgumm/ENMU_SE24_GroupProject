@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="6c7ab835-1616-43af-8e4f-e2b1a097375c" name="@localhost Mapping">
+      <data-sources db="83500528-926a-46cc-b5d6-fa2f78bd3382" ddl="be83b654-822f-499f-93e7-f324e9ea2b78" />
+      <scope>
+        <node kind="schema" qname="hotel_reservation_system" />
+      </scope>
+    </mapping>
+    <mapping uuid="6c7ab835-1616-43af-8e4f-e2b1a097375c" name="@localhost Mapping">
+      <data-sources db="83500528-926a-46cc-b5d6-fa2f78bd3382" ddl="be83b654-822f-499f-93e7-f324e9ea2b78" />
+      <scope>
+        <node kind="schema" qname="hotel_reservation_system" />
+      </scope>
+    </mapping>
+  </component>
+</project>

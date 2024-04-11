@@ -13,7 +13,7 @@
     </head>
 	<style>
 		body {
-			background-image: url('/HotelReservationApp/images/bg3.jpg');
+			background-image: url('images/bg3.jpg');
 		}
 	</style>
 	<body>
@@ -105,7 +105,7 @@
 				}
 				%>
 			<br><br>	
-            <form name="roomsForm" action="BookingController" method="post">
+            <form name="roomsForm" action="Booking" method="post">
 				<h3>Selected Rooms:</h3>
 				<div id="selected-rooms"></div><br><br>
                 <input type="hidden" id="roomCount" name="roomCount" value="0">

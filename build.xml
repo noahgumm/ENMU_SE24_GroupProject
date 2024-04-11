@@ -47,6 +47,9 @@
 
     <!-- Default target -->
     <!-- Run this before building the project and launching the tomcat server -->
-    <target name="build" depends="war"/>
+    <target name="build" depends="war">
+        <!-- Copy war file to your directory of tomcat -->
+        <!-- copy file="HotelReservationApp.war" todir="C:\Program Files\apache-tomcat-9.0.86\webapps" /> -->
+    </target>
 
 </project>

@@ -14,12 +14,12 @@
     </head>
 	<style>
 		body {
-			background-image: url('/HotelReservationApp/images/bg2.jpg');
+			background-image: url('images/bg2.jpg');
 		}
 	</style>
     <body>
         <div class="container">
-			<img class="logo" src="/HotelReservationApp/images/logo.png" alt="Logo">
+			<img class="logo" src="images/logo.png" alt="Logo">
 			
             <h1>My Reservations</h1>
             <a href="mainView.jsp"><p class="back"><</p></a>

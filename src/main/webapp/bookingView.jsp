@@ -8,7 +8,7 @@
     </head>
 	<style>
 		body {
-			background-image: url('/HotelReservationApp/images/bg3.jpg');
+			background-image: url('images/bg3.jpg');
 		}
 	</style>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -17,13 +17,13 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <body>
         <div class="container">
-			<img class="logo" src="/HotelReservationApp/images/logo.png" alt="Logo">
+			<img class="logo" src="images/logo.png" alt="Logo">
 			
             <h1>Book Your Trip</h1>		
 			
             <a href="mainView.jsp"><p class="back"><</p></a>
 			
-            <form name="bookingForm" action="BookingController" method="post">		
+            <form name="bookingForm" action="Booking" method="post">
 				<label for="guests">Number of Guests</label><br>
 				<button type="button" onclick="this.parentNode.querySelector('#guests').stepDown()" id="increment1">- </button>
 				<input type="number" id="guests" name="guests" class="number-input" min="1" value="1" max="100" />

@@ -2,6 +2,7 @@ package com.hotelreservationapp.models.Database;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,7 +59,6 @@ public class UserDatabaseManager extends DatabaseManager implements IDatabaseFun
     @Override
     public boolean delete(UserModel object) {
         // Delete user
-
         String sql = "DELETE FROM users WHERE user_id = ?;";
         int numRows = 0;
         try {
@@ -72,30 +72,6 @@ public class UserDatabaseManager extends DatabaseManager implements IDatabaseFun
         return numRows > 0;
     }
 
-    @Override
-    public UserModel read(int id) {
-        // Read user
-        //write SQL here. read into UserModel object
-        String sql = "SELECT * FROM users WHERE user_id = ?;";
-        UserModel user = new UserModel();
-        try {
-            PreparedStatement statement =  databaseConnector.databaseConnection.prepareStatement(sql);
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                user.setUserId(resultSet.getInt("user_id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPhoneNumber(resultSet.getString("phone_number"));
-                user.setCreatedAt(resultSet.getString("created_at"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
-
     public List<UserModel> readAll() {
         // Read user
         //write SQL here. read into UserModel objects
@@ -103,6 +79,7 @@ public class UserDatabaseManager extends DatabaseManager implements IDatabaseFun
 
         String sql = "SELECT * FROM users;";
         try {
+            databaseConnector.connect();
             Statement statement =  databaseConnector.databaseConnection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -121,16 +98,15 @@ public class UserDatabaseManager extends DatabaseManager implements IDatabaseFun
         return users;
     }
 
-    public UserModel read(String userName){
-        // Read user
-        //write SQL here. read into UserModel object
-        String sql = "SELECT * FROM users WHERE username = ?;";
+    public UserModel read(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?;";
         UserModel user = new UserModel();
         try {
-            PreparedStatement statement =  databaseConnector.databaseConnection.prepareStatement(sql);
-            statement.setString(1, userName);
+            databaseConnector.connect();
+            PreparedStatement statement = databaseConnector.databaseConnection.prepareStatement(sql);
+            statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 user.setUserId(resultSet.getInt("user_id"));
                 user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
@@ -138,7 +114,7 @@ public class UserDatabaseManager extends DatabaseManager implements IDatabaseFun
                 user.setPhoneNumber(resultSet.getString("phone_number"));
                 user.setCreatedAt(resultSet.getString("created_at"));
             }
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return user;

@@ -14,7 +14,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
-        <url-pattern>/HotelReservationApp/UserController</url-pattern>
+        <url-pattern>/UserController</url-pattern>
     </servlet-mapping>
 
     <servlet>

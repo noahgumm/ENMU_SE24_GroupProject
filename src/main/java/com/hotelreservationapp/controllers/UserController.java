@@ -1,9 +1,5 @@
 package com.hotelreservationapp.controllers;
 
-/**
- *
- * @author Zachary Marrs
- */
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,17 +11,19 @@ import com.hotelreservationapp.models.UserModel;
 import com.hotelreservationapp.models.Database.UserDatabaseManager;
 
 import java.io.IOException;
-        
-@WebServlet(name = "UserController", value="/HotelReservationApp/UserController")
+import java.util.Objects;
+
+/**
+ *
+ * @author Zachary Marrs
+ */
+@WebServlet(name = "UserController", value="/UserController")
 public class UserController extends HttpServlet {
     private UserModel userModel;
-    
-    // Constructor
-    public UserController(){ this.userModel = new UserModel(); }
-    public UserController(UserModel userModel) {
-        this.userModel = userModel;
+
+    public UserController(){
+        userModel = new UserModel();
     }
-    
     /*
         Login User Function
         Allows users to log in to the app using servlets to communicate with JSP pages.
@@ -34,41 +32,27 @@ public class UserController extends HttpServlet {
         @param response The response that will be sent back to the server
     */
 
-    public void loginView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Display the login view
-        response.getWriter().append("Served at: ").append(request.getContextPath());
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/loginView.jsp");
-        dispatcher.forward(request, response);
-    }
-
-    public void loginUserSuccess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Display the login view
-        response.getWriter().append("Served at: ").append(request.getContextPath());
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/loginViewSuccess.jsp");
-        dispatcher.forward(request, response);
-    }
-
     public void loginUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve username and password from the request parameters
-        String username = request.getParameter("username");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         // Perform authentication using the User Model
         //Keep commented out for now to ensure login for any data entered
         //boolean isAuthenticated = userModel.authenticateUser(username, password);
         UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
-        userModel = userDatabaseManager.read(username);
+        userModel = userDatabaseManager.read(email);
+
         // boolean isAuthenticated = true;
-        boolean isAuthenticated = userModel.getPassword().equals(password);
+        boolean isAuthenticated = Objects.equals(userModel.getPassword(), password);
         userDatabaseManager.close();
         // Forward to Success or Login View based on authentication result
         if (isAuthenticated) {
-            request.setAttribute("username", username);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/loginViewSuccess.jsp");
-            dispatcher.forward(request, response);
+            request.getSession().setAttribute("username", userModel.getUsername());
+            response.sendRedirect("Home");
         } else {
-            request.setAttribute("error", "Login authentication failed. Please try again.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/loginView.jsp");
+            request.getSession().setAttribute("error", "Error finding account.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
             dispatcher.forward(request, response);
         }
     }
@@ -76,14 +60,14 @@ public class UserController extends HttpServlet {
     @Override
     protected void doPost(
       HttpServletRequest request, HttpServletResponse response) 
-      throws ServletException, IOException {
+      throws ServletException {
         try{
             if("login".equals(request.getParameter("action"))){
-                //Attempt to login if the hidden fields action parameter is equal to login
+                //Attempt to log in if the hidden fields action parameter is equal to log in
                     loginUser(request,response);
             } else if ("register".equals(request.getParameter("action"))) {
-                //Attempt to login if the hidden fields action parameter is equal to register
-                    loginUser(request,response);
+                //Attempt to add user if the hidden fields action parameter is equal to register
+                    addUser(request,response);
             }
         } catch (Exception e) {
             throw new ServletException(e);
@@ -100,23 +84,27 @@ public class UserController extends HttpServlet {
     public void addUser(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String phoneNumber = request.getParameter("phone");
              
         // Perform validate using the User Model
         //Keep commented to ensure user can register no matter what
         //boolean isValid = userModel.validateCredentials(username, password);
         UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
-        userModel = userDatabaseManager.read(username);
+        userModel = userDatabaseManager.read(email);
+        boolean isValid = userModel.getUsername() == null;
 
-        boolean isValid = userModel.getUsername() == "";
-      
         if (isValid) {
             // Add the user to the model
             userModel.setUsername(username);
             userModel.setPassword(password);
+            userModel.setEmail(email);
+            userModel.setPhoneNumber(phoneNumber);
+
             userDatabaseManager.create(userModel);
             userDatabaseManager.close();
             request.setAttribute("username", username);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/registerViewSuccess.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
             dispatcher.forward(request, response);
         } else {
             userDatabaseManager.close();
