@@ -43,7 +43,7 @@
 				
 				<div id="totalSummary">
 					<h4>Total</h4>
-					<div id="roomcount-text">$<%= orderTotal %></div> 
+					<div>$<%= orderTotal %></div>
 				</div>
 			</div><br><br>
 						
