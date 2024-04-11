@@ -3,4 +3,90 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
+    <!-- First page displayed to user -->
+    <welcome-file-list>
+        <welcome-file>loginView.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>UserController</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.UserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserController</servlet-name>
+        <url-pattern>/HotelReservationApp/UserController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.UserLoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.HomeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Cart</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.CartController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Cart</servlet-name>
+        <url-pattern>/Cart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ManageRooms</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ManageRoomsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManageRooms</servlet-name>
+        <url-pattern>/ManageRooms</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ManageFloors</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ManageFloorsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManageFloors</servlet-name>
+        <url-pattern>/ManageFloors</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>Booking</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.BookingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Booking</servlet-name>
+        <url-pattern>/Booking</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReservationManagement</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ReservationManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReservationManagement</servlet-name>
+        <url-pattern>/ReservationManagement</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminLogin</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.AdminLoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLogin</servlet-name>
+        <url-pattern>/AdminLogin</url-pattern>
+    </servlet-mapping>
 </web-app>

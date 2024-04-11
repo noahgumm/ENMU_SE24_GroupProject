@@ -2,25 +2,35 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="styles/loginStyles.css" />
-        <title>Login</title>
+        <link rel="stylesheet" href="styles/UserStyles.css" />
+        <title>Register</title>
     </head>
     <body>
         <div class="container">
-            <h2>Hotel Reservation App</h2>
-            <h3>Registration</h3>
+			<img class="logo" src="/HotelReservationApp/images/logo.png" alt="Logo">
+			
+            <h1>Register</h1>
             <!--
                 action will be the login servlet
                 which should route user to login page upon successful registration
              -->
-            <form action="registerServlet" method="post">
-                <label for="emailId">Email</label>
-                <input type="email" placeholder="youremail@example.com" name="emailId" id="emailId" required>
+            <a href="loginView.jsp"><p class="back"><</p></a>
+            <form action="HotelReservationApp/UserController" method="post">
+                <input type="hidden" name="action" value="register">
+				
+                <input type="email" placeholder="Email" name="emailId" id="emailId" required>
 
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" required>
+                <input type="password" name="password" placeholder="Password" id="password" required>
 
-                <button type="submit">Submit</button>
+                <input type="text" name="firstName" placeholder="First Name" id="firstName" required>
+
+                <input type="text" name="lastName" placeholder="Last Name"  id="lastName" required>
+
+                <input type="text" name="address" placeholder="Address" id="address" required>
+
+                <input type="text" name="phone" placeholder="Phone Number" id="phone" required>
+				<br><br>
+                <button type="submit">CREATE ACCOUNT</button>
             </form>
         </div>
     </body>
