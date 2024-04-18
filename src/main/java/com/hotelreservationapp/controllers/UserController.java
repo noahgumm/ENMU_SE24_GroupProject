@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.hotelreservationapp.models.UserModel;
-import com.hotelreservationapp.models.Database.UserDatabaseManager;
+import com.hotelreservationapp.models.Database.Tables.User;
+import com.hotelreservationapp.models.DatabaseLogic.DatabaseManager;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -19,10 +19,10 @@ import java.util.Objects;
  */
 @WebServlet(name = "UserController", value="/UserController")
 public class UserController extends HttpServlet {
-    private UserModel userModel;
+    private User userModel;
 
     public UserController(){
-        userModel = new UserModel();
+        userModel = new User();
     }
     /*
         Login User Function
@@ -40,12 +40,11 @@ public class UserController extends HttpServlet {
         // Perform authentication using the User Model
         //Keep commented out for now to ensure login for any data entered
         //boolean isAuthenticated = userModel.authenticateUser(username, password);
-        UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
-        userModel = userDatabaseManager.read(email);
+        DatabaseManager databaseManager = new DatabaseManager();
+        userModel = databaseManager.userDbManager.getUser(email);
 
         // boolean isAuthenticated = true;
         boolean isAuthenticated = Objects.equals(userModel.getPassword(), password);
-        userDatabaseManager.close();
         // Forward to Success or Login View based on authentication result
         if (isAuthenticated) {
             request.getSession().setAttribute("username", userModel.getUsername());
@@ -90,8 +89,8 @@ public class UserController extends HttpServlet {
         // Perform validate using the User Model
         //Keep commented to ensure user can register no matter what
         //boolean isValid = userModel.validateCredentials(username, password);
-        UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
-        userModel = userDatabaseManager.read(email);
+        DatabaseManager databaseManager = new DatabaseManager();
+        userModel = databaseManager.userDbManager.getUser(email);
         boolean isValid = userModel.getUsername() == null;
 
         if (isValid) {
@@ -101,13 +100,11 @@ public class UserController extends HttpServlet {
             userModel.setEmail(email);
             userModel.setPhoneNumber(phoneNumber);
 
-            userDatabaseManager.create(userModel);
-            userDatabaseManager.close();
+            databaseManager.userDbManager.createUser(userModel);
             request.setAttribute("username", username);
             RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
             dispatcher.forward(request, response);
         } else {
-            userDatabaseManager.close();
             request.setAttribute("error", "Invalid user credentials. Please try again.");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/registerView.jsp");
             dispatcher.forward(request, response);
