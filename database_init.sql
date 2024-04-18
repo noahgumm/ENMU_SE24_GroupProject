@@ -40,6 +40,20 @@ CREATE TABLE reservations (
     FOREIGN KEY (room_id) REFERENCES rooms(room_id)
 );
 
+-- Table for storing user bookings
+CREATE TABLE bookings (
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    room_id INT,
+    check_in_date DATE,
+    check_out_date DATE,
+    total_price DECIMAL(10, 2),
+    booking_status ENUM('pending', 'confirmed', 'cancelled') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
+);
+
 -- Table for storing admin information
 CREATE TABLE admins (
     admin_id INT AUTO_INCREMENT PRIMARY KEY,
