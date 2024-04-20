@@ -44,7 +44,7 @@ public class UserController extends HttpServlet {
         userModel = databaseManager.userDbManager.getUser(email);
 
         // boolean isAuthenticated = true;
-        boolean isAuthenticated = Objects.equals(userModel.getPassword(), password);
+        boolean isAuthenticated = userModel == null || Objects.equals(userModel.getPassword(), password);
         // Forward to Success or Login View based on authentication result
         if (isAuthenticated) {
             request.getSession().setAttribute("username", userModel.getUsername());

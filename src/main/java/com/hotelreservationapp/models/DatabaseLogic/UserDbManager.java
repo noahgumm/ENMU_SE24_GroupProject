@@ -81,7 +81,7 @@ public class UserDbManager extends DbManagerBase {
         catch (Exception e){
 
         }
-        return user;
+        return null;
     }
 
     /**

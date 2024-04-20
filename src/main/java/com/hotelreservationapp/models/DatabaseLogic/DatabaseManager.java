@@ -30,6 +30,7 @@ public class DatabaseManager extends DbManagerBase {
     public DatabaseManager(){
         SettingsReader settingsReader = new SettingsReader();
         ConnectionsConfig settings = settingsReader.readSettings();
+        System.out.println(settings.getConnections());
         Connection aws = findConnectionByName(settings, "DEFAULT");
         String dbURL = "jdbc:mysql://" + aws.getConnectionValues().getHost() + ":" + aws.getConnectionValues().getPort() + "/" + aws.getConnectionValues().getDatabase_name();
         super.setDbURL(dbURL);
@@ -69,13 +70,14 @@ public class DatabaseManager extends DbManagerBase {
     private static Connection findConnectionByName(ConnectionsConfig config, String name) {
         try{
             for (Connection connection : config.getConnections()) {
+                System.out.println(connection.getConnectionName() + " vs " + name);
                 if (connection.getConnectionName().equals(name)) {
                     return connection;
                 }
             }
         }
         catch(Exception e){
-
+            e.printStackTrace();
         }
         return null;
     }
