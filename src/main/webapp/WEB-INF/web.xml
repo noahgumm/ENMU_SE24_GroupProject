@@ -9,15 +9,6 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>UserController</servlet-name>
-        <servlet-class>com.hotelreservationapp.controllers.UserController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UserController</servlet-name>
-        <url-pattern>/UserController</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>com.hotelreservationapp.controllers.UserLoginController</servlet-class>
     </servlet>
@@ -89,4 +80,41 @@
         <servlet-name>AdminLogin</servlet-name>
         <url-pattern>/AdminLogin</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminHome</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.AdminHomeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminHome</servlet-name>
+        <url-pattern>/AdminHome</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ManageReservations</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.AdminReservationsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManageReservations</servlet-name>
+        <url-pattern>/ManageReservations</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ModifyRoom</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ModifyRoomController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModifyRoom</servlet-name>
+        <url-pattern>/ModifyRoom</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ModifyReservation</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ModifyReservationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModifyReservation</servlet-name>
+        <url-pattern>/ModifyReservation</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -16,7 +16,7 @@ public class RoomDbManager extends  DbManagerBase{
     public RoomDbManager(String url, String username, String password){
         super(url, username, password);
     }
-
+    
     /**
      * Provided a room ID, get the room from the database.
      * @param roomID
@@ -25,9 +25,9 @@ public class RoomDbManager extends  DbManagerBase{
     public Room getRoom(int roomID){
         Room room = new Room();
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Rooms WHERE room_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM rooms WHERE room_id = ?");
             preparedStatement.setInt(1, roomID);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -43,8 +43,9 @@ public class RoomDbManager extends  DbManagerBase{
             conn.close();
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
+
         return room;
     }
 
@@ -55,9 +56,9 @@ public class RoomDbManager extends  DbManagerBase{
     public List<Room> getAllRooms(){
         List<Room> rooms = new ArrayList<>();
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Rooms");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM rooms");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int roomId = rs.getInt("room_id");
@@ -73,7 +74,7 @@ public class RoomDbManager extends  DbManagerBase{
             conn.close();
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
         return  rooms;
     }
@@ -117,8 +118,56 @@ public class RoomDbManager extends  DbManagerBase{
             }
             conn.close();
         }catch (Exception e){
-
+            e.printStackTrace();
         }
         return  room;
+    }
+
+    /**
+     * Updates a room in the database
+     * @param room The room to be updated
+     * */
+    public void updateRoom(Room room){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+
+            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE rooms SET room_number = ?, " +
+                    "room_type = ?, floor_number = ?, price_per_night = ?, room_description = ?, number_of_beds = ? WHERE room_id = ?");
+
+            preparedStatement.setString(1, room.getRoomNumber());
+            preparedStatement.setString(2, room.getRoomType());
+            preparedStatement.setInt(3, room.getFloorNumber());
+            preparedStatement.setDouble(4, room.getPricePerNight());
+            preparedStatement.setString(5, room.getRoomDescription());
+            preparedStatement.setInt(6, room.getNumberOfBeds());
+            preparedStatement.setInt(7, room.getRoomId());
+
+            // Execute the update statement
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /**
+    * Deletes room from database
+     * @param roomID The ID of the room to be deleted
+    * */
+    public void deleteRoom(int roomID){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+
+            PreparedStatement preparedStatement = conn.prepareStatement("DELETE from rooms WHERE room_id = ?");
+
+            preparedStatement.setInt(1, roomID);
+
+            // Execute the update statement
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

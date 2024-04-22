@@ -1,6 +1,5 @@
 package com.hotelreservationapp.models.Settings;
 
-
 import java.util.List;
 
 public class ConnectionsConfig {

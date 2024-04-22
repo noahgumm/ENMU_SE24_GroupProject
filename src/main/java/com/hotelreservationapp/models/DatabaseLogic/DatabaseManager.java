@@ -75,7 +75,7 @@ public class DatabaseManager extends DbManagerBase {
             }
         }
         catch(Exception e){
-
+            e.printStackTrace();
         }
         return null;
     }

@@ -15,7 +15,7 @@
                 which should route user to login page upon successful registration
              -->
             <a href="loginView.jsp"><p class="back"><</p></a>
-            <form action="UserController" method="post">
+            <form action="Login" method="post">
                 <input type="hidden" name="action" value="register">
 				
                 <input type="email" placeholder="Email" name="email" id="email" required>

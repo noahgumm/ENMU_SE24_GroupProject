@@ -2,7 +2,7 @@ package com.hotelreservationapp.models.Settings;
 
 import  com.google.gson.*;
 
-import java.io.FileReader;
+import java.io.*;
 
 /**
  * Reads the settings.json file for database settings.
@@ -10,7 +10,7 @@ import java.io.FileReader;
  */
 public class SettingsReader {
 
-    private final String settingsPath = "src/main/java/settings.json";
+    private final String settingsPath = "src/main/resources/settings.json";
 
     public SettingsReader() {
     }
@@ -18,11 +18,12 @@ public class SettingsReader {
     public ConnectionsConfig readSettings() {
         Gson gson = new Gson();
         try  {
+            // Read json file to classes
             FileReader reader = new FileReader(settingsPath);
             return gson.fromJson(reader, ConnectionsConfig.class);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace(); // Log the error or handle it appropriately
         }
-        return  new ConnectionsConfig();
+        return new ConnectionsConfig(); // Return an empty config if there's an error
     }
 }

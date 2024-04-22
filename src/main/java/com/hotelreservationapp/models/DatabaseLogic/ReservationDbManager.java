@@ -51,6 +51,40 @@ public class ReservationDbManager extends  DbManagerBase{
     }
 
     /**
+     * Provided a reservation status, gets all associated reservations.
+     * @param status
+     * @return
+     */
+    public List<Reservation> getReservationsByStatus(String status){
+        List<Reservation> reservations = new ArrayList<>();
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations WHERE reservation_status = ?");
+            preparedStatement.setString(1, status);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Reservation res = new Reservation();
+                res.setReservationId(rs.getInt("reservation_id"));
+                res.setUserId(rs.getInt("user_id"));
+                res.setRoomId(rs.getInt("room_id"));
+                res.setCheckInDate(rs.getDate("check_in_date"));
+                res.setCheckOutDate(rs.getDate("check_out_date"));
+                res.setNumGuests(rs.getInt("num_guests"));
+                res.setReservationStatus(rs.getString("reservation_status"));
+                res.setCreatedAt(rs.getTimestamp("created_at"));
+
+                reservations.add(res);
+            }
+            conn.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return  reservations;
+    }
+
+    /**
      * Provided a user ID, returns a list of registrations belonging to the user specified.
      * @param userID
      * @return
@@ -82,6 +116,59 @@ public class ReservationDbManager extends  DbManagerBase{
         }
         return  reservations;
     }
+
+    /**
+     * Provided a room ID, returns a list of reservations for the room
+     * @param roomID
+     * @return
+     */
+    public  List<Reservation> getReservationByRoom(int roomID){
+        List<Reservation> reservations = new ArrayList<>();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations where room_id = ?");
+            preparedStatement.setInt(1, roomID);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int reservationID = rs.getInt("reservation_id");
+                int userID = rs.getInt("user_id");
+                Date checkInDate = rs.getDate("check_in_date");
+                Date checkOutDate = rs.getDate("check_out_date");
+                double totalPrice = rs.getDouble("total_price");
+                int numGuests = rs.getInt("num_guests");
+                String reservationStatus = rs.getString("reservation_status");
+                Timestamp createdAt = rs.getTimestamp("created_at");
+
+                reservations.add(new Reservation(reservationID, userID,roomID,checkInDate,checkOutDate,totalPrice,numGuests,reservationStatus,createdAt));
+            }
+            conn.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return  reservations;
+    }
+
+    /**
+     * Deletes a reservation from the database
+     * @param reservationID The ID of the reservation to be deleted
+     */
+    public void deleteReservation(int reservationID){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM reservations WHERE reservation_id = ?");
+            preparedStatement.setInt(1, reservationID);
+            ResultSet rs = preparedStatement.executeQuery();
+            conn.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * Gets a list of all the reservations in the database.
@@ -192,6 +279,34 @@ public class ReservationDbManager extends  DbManagerBase{
 
         }
         return  reservation;
+    }
+
+    /**
+     * Updates a reservation based on the given reservation
+     * @param reservation reservation to update with new values
+     */
+    public void updateReservation(Reservation reservation){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE reservations SET " +
+                "user_id = ?, room_id = ?, check_in_date = ?, check_out_date = ?, total_price = ?, num_guests = ?, reservation_status = ? " +
+                "WHERE reservation_id = ?");
+
+            preparedStatement.setInt(1, reservation.getUserId());
+            preparedStatement.setInt(2, reservation.getRoomId());
+            preparedStatement.setDate(3, reservation.getCheckInDate());
+            preparedStatement.setDate(4, reservation.getCheckOutDate());
+            preparedStatement.setDouble(5, reservation.getTotalPrice());
+            preparedStatement.setInt(6, reservation.getNumGuests());
+            preparedStatement.setString(7, reservation.getReservationStatus());
+            preparedStatement.setInt(8, reservation.getReservationId());
+
+            preparedStatement.executeUpdate();
+            conn.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
 
