@@ -32,7 +32,9 @@ public class UserLoginController extends HttpServlet {
                 //Attempt to log in if the hidden fields action parameter is equal to log in
                 User user = databaseManager.userDbManager.getUser(request.getParameter("email"));
                 if(user != null && user.getPassword().equals(request.getParameter("password"))){
-                    request.getSession().setAttribute("username", user.getUsername());
+                    // request.getSession().setAttribute("username", user.getUsername());
+                    request.getSession().setAttribute("user", user);
+                    request.getSession().setMaxInactiveInterval(10*60);
                     response.sendRedirect("Home");
                 } else {
                     //this is keeping the error message throughout the entire session. I do not want this.

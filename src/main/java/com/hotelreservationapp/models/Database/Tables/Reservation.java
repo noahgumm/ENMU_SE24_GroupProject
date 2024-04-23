@@ -64,6 +64,14 @@ public class Reservation {
         return checkInDate;
     }
 
+    public String getCheckInDateAsString() {
+        return checkInDate.toString();
+    }
+
+    public String getCheckOutDateAsString() {
+        return checkOutDate.toString();
+    }
+
     public void setCheckInDate(Date checkInDate) {
         this.checkInDate = checkInDate;
     }

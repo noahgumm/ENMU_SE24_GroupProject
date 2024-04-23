@@ -53,6 +53,75 @@ public class UserPaymentMethodDbManager extends DbManagerBase{
     }
 
     /**
+     * Gets a user payment method using the card number and the user ID.
+     * @param cardID The unique ID of the user payment method record. THIS IS NOT THE CREDIT CARD NUMBER.
+     * @return The found record, or null if not found.
+     */
+    public UserPaymentMethod getUserPaymentMethod(int userID, String cardNum){
+        UserPaymentMethod userPaymentMethod = null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM user_payment_methods WHERE user_id = ? and card_number = ?");
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setString(2, cardNum);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int cardID = rs.getInt("card_id");
+                String cardNumber = rs.getString("card_number");
+                String cardHolderName = rs.getString("card_holder_name");
+                String cardType = rs.getString("card_type");
+                Date expiryDate = rs.getDate("expiry_date");
+                String cvv = rs.getString("cvv");
+                int userId = rs.getInt("user_id");
+                Timestamp createdAt = rs.getTimestamp("created_at");
+                boolean isDeleted = rs.getBoolean("is_deleted");
+
+                userPaymentMethod = new UserPaymentMethod(cardID, cardNumber,cardHolderName,cardType,expiryDate,cvv,userId,createdAt,isDeleted);
+            }
+            conn.close();
+        }
+        catch (Exception e){
+
+        }
+        return  userPaymentMethod;
+    }
+
+    public UserPaymentMethod getUserPaymentMethod(UserPaymentMethod userPaymentMethod){
+        UserPaymentMethod toReturn = null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM user_payment_methods WHERE user_id = ? and card_number = ? and card_holder_name = ? and card_type = ? and expiry_date = ? and cvv = ?");
+            preparedStatement.setInt(1, userPaymentMethod.getUserId());
+            preparedStatement.setString(2, userPaymentMethod.getCardNumber());
+            preparedStatement.setString(3, userPaymentMethod.getCardHolderName());
+            preparedStatement.setString(4, userPaymentMethod.getCardType());
+            preparedStatement.setDate(5, userPaymentMethod.getExpiryDate());
+            preparedStatement.setString(6, userPaymentMethod.getCvv());
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int cardID = rs.getInt("card_id");
+                String cardNumber = rs.getString("card_number");
+                String cardHolderName = rs.getString("card_holder_name");
+                String cardType = rs.getString("card_type");
+                Date expiryDate = rs.getDate("expiry_date");
+                String cvv = rs.getString("cvv");
+                int userId = rs.getInt("user_id");
+                Timestamp createdAt = rs.getTimestamp("created_at");
+                boolean isDeleted = rs.getBoolean("is_deleted");
+
+                toReturn = new UserPaymentMethod(cardID, cardNumber,cardHolderName,cardType,expiryDate,cvv,userId,createdAt,isDeleted);
+            }
+            conn.close();
+        }
+        catch (Exception e){
+
+        }
+        return toReturn;
+    }
+
+    /**
      * Provide a user ID, returns all the payment methods associated with the user.
      * @param userID
      * @return

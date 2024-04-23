@@ -58,7 +58,8 @@ public class ReservationDbManager extends  DbManagerBase{
     public  List<Reservation> getReservationsFor(int userID){
         List<Reservation> reservations = new ArrayList<>();
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            // Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations where user_id = ?");
             preparedStatement.setInt(1, userID);
@@ -78,7 +79,37 @@ public class ReservationDbManager extends  DbManagerBase{
             conn.close();
         }
         catch (Exception e){
+            e.printStackTrace();
+        }
+        return  reservations;
+    }
 
+    public  List<Reservation> getReservationsFor(int userID, String reservStatus){
+        List<Reservation> reservations = new ArrayList<>();
+        try{
+            // Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations where user_id = ? and reservation_status = ?");
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setString(2, reservStatus);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int reservationID = rs.getInt("reservation_id");
+                int roomId = rs.getInt("room_id");
+                Date checkInDate = rs.getDate("check_in_date");
+                Date checkOutDate = rs.getDate("check_out_date");
+                double totalPrice = rs.getDouble("total_price");
+                int numGuests = rs.getInt("num_guests");
+                String reservationStatus = rs.getString("reservation_status");
+                Timestamp createdAt = rs.getTimestamp("created_at");
+
+                reservations.add(new Reservation(reservationID, userID,roomId,checkInDate,checkOutDate,totalPrice,numGuests,reservationStatus,createdAt));
+            }
+            conn.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
         return  reservations;
     }
@@ -113,6 +144,20 @@ public class ReservationDbManager extends  DbManagerBase{
 
         }
         return  reservations;
+    }
+
+    public void setReservationStatus(Reservation reservation, String status){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            String query = "UPDATE reservations SET reservation_status = ? WHERE reservation_id = ?"; 
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, reservation.getReservationId());
+            int results = preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 
