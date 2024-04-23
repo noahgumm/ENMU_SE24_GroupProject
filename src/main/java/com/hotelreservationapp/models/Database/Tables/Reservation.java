@@ -16,6 +16,7 @@ public class Reservation {
     private Date checkOutDate;
     private double totalPrice;
     private int numGuests;
+	private boolean pets;
     private String reservationStatus;
     private Timestamp createdAt;
 
@@ -23,7 +24,7 @@ public class Reservation {
     }
 
     public Reservation(int reservationId,int userId, int roomId, Date checkInDate, Date checkOutDate, double totalPrice,
-                       int numGuests, String reservationStatus, Timestamp createdAt) {
+                       int numGuests, boolean pets, String reservationStatus, Timestamp createdAt) {
         this.reservationId = reservationId;
         this.userId = userId;
         this.roomId = roomId;
@@ -31,6 +32,7 @@ public class Reservation {
         this.checkOutDate = checkOutDate;
         this.totalPrice = totalPrice;
         this.numGuests = numGuests;
+		this.pets = pets;
         this.reservationStatus = reservationStatus;
         this.createdAt = createdAt;
     }
@@ -106,5 +108,13 @@ public class Reservation {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+	
+    public boolean getPets() {
+        return pets;
+    }
+	
+    public void setPets(boolean pets) {
+        this.pets = pets;
     }
 }

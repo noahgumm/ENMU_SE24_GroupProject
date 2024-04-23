@@ -15,7 +15,8 @@
     <path id="classpath">
         <fileset dir="lib">
             <include name="*.jar"/>
-        </fileset>
+        </fileset>		
+		<pathelement location="lib/commons-io-2.16.1.jar"/>
     </path>
 
     <!-- Clean up target folder and war file -->

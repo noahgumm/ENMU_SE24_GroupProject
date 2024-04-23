@@ -37,10 +37,11 @@ public class ReservationDbManager extends  DbManagerBase{
                 Date checkOutDate = rs.getDate("check_out_date");
                 double totalPrice = rs.getDouble("total_price");
                 int numGuests = rs.getInt("num_guests");
+				boolean pets = rs.getBoolean("pets");
                 String reservationStatus = rs.getString("reservation_status");
                 Timestamp createdAt = rs.getTimestamp("created_at");
 
-                reservation = new Reservation(reservationID, userID,roomId,checkInDate,checkOutDate,totalPrice,numGuests,reservationStatus,createdAt);
+                reservation = new Reservation(reservationID, userID,roomId,checkInDate,checkOutDate,totalPrice,numGuests,pets,reservationStatus,createdAt);
             }
             conn.close();
         }
@@ -70,10 +71,11 @@ public class ReservationDbManager extends  DbManagerBase{
                 Date checkOutDate = rs.getDate("check_out_date");
                 double totalPrice = rs.getDouble("total_price");
                 int numGuests = rs.getInt("num_guests");
+				boolean pets = rs.getBoolean("pets");
                 String reservationStatus = rs.getString("reservation_status");
                 Timestamp createdAt = rs.getTimestamp("created_at");
 
-                reservations.add(new Reservation(reservationID, userID,roomId,checkInDate,checkOutDate,totalPrice,numGuests,reservationStatus,createdAt));
+                reservations.add(new Reservation(reservationID,userID,roomId,checkInDate,checkOutDate,totalPrice,numGuests,pets,reservationStatus,createdAt));
             }
             conn.close();
         }
@@ -102,10 +104,11 @@ public class ReservationDbManager extends  DbManagerBase{
                 Date checkOutDate = rs.getDate("check_out_date");
                 double totalPrice = rs.getDouble("total_price");
                 int numGuests = rs.getInt("num_guests");
+				boolean pets = rs.getBoolean("pets");
                 String reservationStatus = rs.getString("reservation_status");
                 Timestamp createdAt = rs.getTimestamp("created_at");
 
-                reservations.add(new Reservation(reservationID, userID,roomId,checkInDate,checkOutDate,totalPrice,numGuests,reservationStatus,createdAt));
+                reservations.add(new Reservation(reservationID, userID,roomId,checkInDate,checkOutDate,totalPrice,numGuests,pets,reservationStatus,createdAt));
             }
             conn.close();
         }
@@ -133,10 +136,11 @@ public class ReservationDbManager extends  DbManagerBase{
                 Date checkOutDate = rs.getDate("check_out_date");
                 double totalPrice = rs.getDouble("total_price");
                 int numGuests = rs.getInt("num_guests");
+				boolean pets = rs.getBoolean("pets");
                 String reservationStatus = rs.getString("reservation_status");
                 Timestamp createdAt = rs.getTimestamp("created_at");
 
-                reservations.add(new Reservation(reservationID, userID,roomId,checkInDate,checkOutDate,totalPrice,numGuests,reservationStatus,createdAt));
+                reservations.add(new Reservation(reservationID, userID,roomId,checkInDate,checkOutDate,totalPrice,numGuests,pets,reservationStatus,createdAt));
             }
             conn.close();
         }
@@ -148,7 +152,7 @@ public class ReservationDbManager extends  DbManagerBase{
 
     public Reservation createReservation(Reservation reservation){
         return createReservation(reservation.getUserId(), reservation.getRoomId(), reservation.getCheckInDate().toString(),
-                reservation.getCheckOutDate().toString(), reservation.getTotalPrice(), reservation.getNumGuests(), reservation.getReservationStatus());
+                reservation.getCheckOutDate().toString(), reservation.getTotalPrice(), reservation.getNumGuests(), reservation.getPets(), reservation.getReservationStatus());
     }
 
     /**
@@ -163,21 +167,22 @@ public class ReservationDbManager extends  DbManagerBase{
      * @return The newly created reservation. If failed to create, returns null.
      */
     public Reservation createReservation(int userID, int roomID, String checkInDate, String checkoutDate,
-                                         double totalPrice, int numGuests, String reservationStatus){
+                                         double totalPrice, int numGuests, boolean pets, String reservationStatus){
         Reservation reservation = null;
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement
                     ("INSERT INTO reservations(user_id, room_id, check_in_date, check_out_date,total_price,num_guests,reservation_status, created_at) " +
-                            "values (?,?,?,?,?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
+                            "values (?,?,?,?,?,?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, roomID);
             preparedStatement.setDate(3, java.sql.Date.valueOf(checkInDate));
             preparedStatement.setDate(4, java.sql.Date.valueOf(checkoutDate));
             preparedStatement.setDouble(5, totalPrice);
             preparedStatement.setInt(6, numGuests);
-            preparedStatement.setString(7, reservationStatus);
+            preparedStatement.setBoolean(7, pets);
+            preparedStatement.setString(8, reservationStatus);
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             int key = -1;
@@ -192,6 +197,40 @@ public class ReservationDbManager extends  DbManagerBase{
 
         }
         return  reservation;
+    }
+	
+	 /**
+     * Updates an existing reservation in the database.
+     * @param reservation The reservation object containing updated details.
+     * @return True if the update is successful, false otherwise.
+     */
+    public boolean updateReservation(Reservation reservation) {
+        boolean success = false;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement(
+                    "UPDATE reservations SET user_id=?, room_id=?, check_in_date=?, check_out_date=?, " +
+                    "total_price=?, num_guests=?, pets=?, reservation_status=? WHERE reservation_id=?"
+            );
+            preparedStatement.setInt(1, reservation.getUserId());
+            preparedStatement.setInt(2, reservation.getRoomId());
+            preparedStatement.setDate(3, reservation.getCheckInDate());
+            preparedStatement.setDate(4, reservation.getCheckOutDate());
+            preparedStatement.setDouble(5, reservation.getTotalPrice());
+            preparedStatement.setInt(6, reservation.getNumGuests());
+            preparedStatement.setBoolean(7, reservation.getPets());
+            preparedStatement.setString(8, reservation.getReservationStatus());
+            preparedStatement.setInt(9, reservation.getReservationId());
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                success = true;
+            }
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
     }
 }
 

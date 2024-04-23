@@ -1,13 +1,14 @@
 package com.hotelreservationapp.models.Database.Tables;
 
-
+import java.util.List;
 import java.sql.Timestamp;
+import java.io.Serializable;
 
 /**
- * Database table model
- * @author Griffin Graham, Joshua Espana
+ * Database table model for rooms
+ * @author Griffin Graham, Joshua Espana, Zachary Marrs
  */
-public class Room {
+public class Room implements Serializable {
     private int roomId;
     private String roomNumber;
     private String roomType;
@@ -20,15 +21,15 @@ public class Room {
     public Room() {
     }
 
-    public Room(int roomID, String roomNumber, String roomType, int floorNumber, double pricePerNight,
+    public Room(int roomId, String roomNumber, String roomType, int floorNumber, double pricePerNight,
                 String roomDescription, int numberOfBeds, Timestamp createdAt) {
+        this.roomId = roomId;
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.floorNumber = floorNumber;
         this.pricePerNight = pricePerNight;
         this.roomDescription = roomDescription;
         this.numberOfBeds = numberOfBeds;
-        this.roomId = roomID;
         this.createdAt = createdAt;
     }
 

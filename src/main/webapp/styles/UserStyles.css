@@ -219,6 +219,15 @@ option {
 	width: 100px;
 }
 
+.roomDeets{
+	font-size: 0.40em;
+	line-height: 1em;
+}
+
+#selected-rooms{
+	line-height: 1em;
+}
+
 #grandtotal{
 	text-align: center;
 	width: auto;
@@ -235,7 +244,7 @@ option {
     .container h3 {
         font-size: 5vw;
     }
-
+	
     input {
         padding: 2vw 4vw;
         margin-bottom: 2.5vw;
@@ -277,5 +286,5 @@ option {
 	.room-picture {
 		width: 10em;
 	}
-}
 
+}

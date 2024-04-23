@@ -23,7 +23,7 @@
 			
             <a href="mainView.jsp"><p class="back"><</p></a>
 			
-            <form name="bookingForm" action="Booking" method="post">
+            <form name="bookingForm" action="ReservationManagement" method="post">
 				<label for="guests">Number of Guests</label><br>
 				<button type="button" onclick="this.parentNode.querySelector('#guests').stepDown()" id="increment1">- </button>
 				<input type="number" id="guests" name="guests" class="number-input" min="1" value="1" max="100" />
