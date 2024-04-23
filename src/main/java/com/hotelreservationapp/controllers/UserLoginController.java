@@ -30,7 +30,8 @@ public class UserLoginController extends HttpServlet {
         try{
             if("login".equals(request.getParameter("action"))){
                 //Attempt to log in if the hidden fields action parameter is equal to log in
-                User user = databaseManager.userDbManager.getUser(request.getParameter("email"));
+                String email = request.getParameter("email");
+                User user = databaseManager.userDbManager.getUser(email);
                 if(user != null && user.getPassword().equals(request.getParameter("password"))){
                     // request.getSession().setAttribute("username", user.getUsername());
                     request.getSession().setAttribute("user", user);
@@ -47,8 +48,12 @@ public class UserLoginController extends HttpServlet {
                 }
             } else if ("register".equals(request.getParameter("action"))) {
                 //Attempt to add user if the hidden fields action parameter is equal to register
-                databaseManager.userDbManager.createUser(request.getParameter("username"), request.getParameter("email"), request.getParameter("email"), "" );
-                response.sendRedirect("Login");
+                String email = request.getParameter("email");
+                String password = request.getParameter("password");
+                String username = request.getParameter("username");
+                String phone = request.getParameter("phone");
+                databaseManager.userDbManager.createUser(username,password,email,phone);
+                response.sendRedirect("loginView.jsp");
             }
         } catch (Exception e) {
             throw new ServletException(e);

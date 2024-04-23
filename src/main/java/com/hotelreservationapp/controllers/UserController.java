@@ -91,9 +91,10 @@ public class UserController extends HttpServlet {
         //boolean isValid = userModel.validateCredentials(username, password);
         DatabaseManager databaseManager = new DatabaseManager();
         userModel = databaseManager.userDbManager.getUser(email);
-        boolean isValid = userModel.getUsername() == null;
+        boolean isValid = userModel == null || userModel.getUsername() == null;
 
         if (isValid) {
+            userModel = new User();
             // Add the user to the model
             userModel.setUsername(username);
             userModel.setPassword(password);
@@ -101,9 +102,7 @@ public class UserController extends HttpServlet {
             userModel.setPhoneNumber(phoneNumber);
 
             databaseManager.userDbManager.createUser(userModel);
-            request.setAttribute("username", username);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-            dispatcher.forward(request, response);
+            response.sendRedirect("loginView.jsp");
         } else {
             request.setAttribute("error", "Invalid user credentials. Please try again.");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/registerView.jsp");
