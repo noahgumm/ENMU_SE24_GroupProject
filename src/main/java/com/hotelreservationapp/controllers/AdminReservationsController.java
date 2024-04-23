@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import java.sql.Date;
 
-@WebServlet(name = "ManageReservations", urlPatterns = "/ManageReservations" )
+@WebServlet(name = "AdminReservations", urlPatterns = "/AdminReservations" )
 public class AdminReservationsController extends HttpServlet{
     
     @Override

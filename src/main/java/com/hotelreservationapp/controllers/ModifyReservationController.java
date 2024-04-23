@@ -69,7 +69,7 @@ public class ModifyReservationController extends HttpServlet{
 
         Modify(req);
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("ManageReservations");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("AdminReservations");
         dispatcher.forward(req, resp);
     }
 
