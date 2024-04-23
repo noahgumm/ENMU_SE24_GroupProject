@@ -16,12 +16,12 @@
     </head>
 	<style>
 		body {
-			background-image: url('/HotelReservationApp/images/bg4.jpg');
+			background-image: url('images/bg4.jpg');
 		}
 	</style>
     <body>
         <div class="container">
-			<img class="logo" src="/HotelReservationApp/images/logo.png" alt="Logo">
+			<img class="logo" src="images/logo.png" alt="Logo">
 			
             <h1>Enjoy Your Stay</h1>
 			
@@ -43,14 +43,14 @@
 				
 				<div id="totalSummary">
 					<h4>Total</h4>
-					<div id="roomcount-text">$<%= orderTotal %></div> 
+					<div>$<%= orderTotal %></div>
 				</div>
 			</div><br><br>
 						
             <h2>Thank you for booking at Valhalla! </h2><br><br>
 			
 			<a href="mainView.jsp"><button>HOME</button></a> 
-            <form name="logoutForm" action="HomeController" method="post">
+            <form name="logoutForm" action="Home" method="post">
 				<button type="submit">SIGN OUT</button>
 			</form>
         </div>

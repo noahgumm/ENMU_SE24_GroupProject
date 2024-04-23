@@ -1,0 +1,137 @@
+/* Global Fonts */
+@font-face {
+    font-family: princess;
+    src: url(../fonts/PrincessSofia-Regular.ttf);
+}
+
+@font-face {
+    font-family: badoni;
+    src: url(../fonts/BodoniModa-VariableFont_opszwght.ttf);
+}
+
+@font-face {
+    font-family: basisGrot;
+    src: url(../fonts/BasisGrotesquePro-Regular.ttf);
+}
+
+/* Main Styles */
+
+body {
+    background-image: url("../images/pool_background.jpg");
+    background-size: 100vw 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container Styles */
+.container {
+    font-family: badoni, serif;
+    background-color: #2e2929c4;
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.container h1 {
+    font-size: 3em;
+    padding: 0;
+    margin: 0;
+}
+
+.container p {
+    font-size: 1.5em;
+}
+
+/* Form Styles*/
+
+input {
+    background-color: transparent; /* Set background color to transparent */
+    border: none; /* Remove border */
+    outline: none; /* Remove outline */
+    color: white; /* Set text color to white */
+    border-bottom: 2.5px solid white; /* Add white underline */
+    width: 100%;
+    height: 2em;
+    font-size: 2em;
+    font-family: basisGrot, serif;
+    vertical-align: bottom;
+    z-index: 100;
+}
+
+input[type="hidden"] {
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    overflow: hidden;
+  }
+
+input:focus {
+    outline: none;
+}
+
+.container button {
+    font-family: basisGrot, serif;
+    width: 10em;
+    height: 2.5em;
+    margin-bottom: 1em;
+    background-image: linear-gradient(to right, #00b4db, #0083b0);
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 1.5em;
+}
+
+.container button:hover {
+    scale: 115%;
+}
+
+/* Link Styles */
+
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: white;
+}
+
+/* Logo Styles */
+
+.logo-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.logo-container > img {
+    position: relative;
+    bottom: 0;
+}
+  
+.logo-container > h1 {
+    font-family: princess, serif;
+    font-size: 3em;
+    text-shadow: 
+    -1px -1px 0 #3db0f6,  
+        1px -1px 0 #3db0f6,
+    -1px  1px 0 #3db0f6,
+        1px  1px 0 #3db0f6;
+    color: white;
+    text-align: center;
+    margin-top: -5px;
+}
+
+ 

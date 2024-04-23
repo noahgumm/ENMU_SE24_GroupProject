@@ -1,0 +1,14 @@
+body {
+    background-image: url(../images/pool_background.jpg);
+    background-size: 100vw 100vh;
+}
+
+button {
+    margin-top: 2em;
+    margin-bottom: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}

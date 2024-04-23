@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.hotelreservationapp.models.UserModel;
-import com.hotelreservationapp.models.Database.UserDatabaseManager;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,23 +18,7 @@ public class CartController extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // RequestDispatcher requestDispatcher = req.getRequestDispatcher("home.jsp");
-        // requestDispatcher.forward(req, resp);
-        
-        resp.setContentType("text/html");
-
-        // Write the response message, in an HTML page
-        try (PrintWriter out = resp.getWriter()) {
-            // Writing HTML content
-            out.println("<!DOCTYPE html>");
-            out.println("<html><head>");
-            out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
-            out.println("<title>GET Request Example</title></head>");
-            out.println("<body>");
-            out.println("<h1>CART</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        resp.sendRedirect("cartView.jsp");
     }
 
     @Override

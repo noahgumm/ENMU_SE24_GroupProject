@@ -15,7 +15,8 @@
     <path id="classpath">
         <fileset dir="lib">
             <include name="*.jar"/>
-        </fileset>
+        </fileset>		
+		<pathelement location="lib/commons-io-2.16.1.jar"/>
     </path>
 
     <!-- Clean up target folder and war file -->
@@ -47,6 +48,9 @@
 
     <!-- Default target -->
     <!-- Run this before building the project and launching the tomcat server -->
-    <target name="build" depends="war"/>
+    <target name="build" depends="war">
+        <!-- Copy war file to your directory of tomcat -->
+        <!-- copy file="HotelReservationApp.war" todir="C:\Program Files\apache-tomcat-9.0.86\webapps" /> -->
+    </target>
 
 </project>

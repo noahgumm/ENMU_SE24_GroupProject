@@ -1,4 +1,3 @@
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 
@@ -15,12 +14,12 @@
     </head>
 	<style>
 		body {
-			background-image: url('/HotelReservationApp/images/bg3.jpg');
+			background-image: url('images/bg3.jpg');
 		}
 	</style>
     <body>
         <div class="container">
-			<img class="logo" src="/HotelReservationApp/images/logo.png" alt="Logo">
+			<img class="logo" src="images/logo.png" alt="Logo">
 			
             <h1>Check Out</h1>		
 			

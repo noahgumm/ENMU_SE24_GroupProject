@@ -1,10 +1,18 @@
 <component name="ArtifactManager">
   <artifact type="war" name="HotelReservationApp">
     <output-path>$PROJECT_DIR$/out/artifacts/HotelReservationApp</output-path>
-    <root id="archive" name="HotelReservationApp.war">
-      <element id="module-output" name="HotelReservationApp" />
-      <element id="library" level="project" name="javax.annotation" />
-      <element id="javaee-facet-resources" facet="HotelReservationApp/web/Web" />
-    </root>
+    <properties id="ant-postprocessing">
+      <options>
+        <file>file://$PROJECT_DIR$/build.xml</file>
+        <target>build</target>
+      </options>
+    </properties>
+    <properties id="ant-preprocessing">
+      <options enabled="true">
+        <file>file://$PROJECT_DIR$/build.xml</file>
+        <target>build</target>
+      </options>
+    </properties>
+    <root id="archive" name="HotelReservationApp.war" />
   </artifact>
 </component>

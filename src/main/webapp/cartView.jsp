@@ -1,4 +1,3 @@
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 
@@ -7,7 +6,7 @@
 	Integer guests = 1;
 	Integer days = 3;
 	String pets = "yes";
-	Integer roomcount = 1;
+	int roomcount = 1;
 	String[][] rooms = {{"301", "Single", "1", "300.00"}};
 %>	
 <html>
@@ -18,18 +17,18 @@
     </head>
 	<style>
 		body {
-			background-image: url('/HotelReservationApp/images/bg3.jpg');
+			background-image: url('images/bg3.jpg');
 		}
 	</style>
     <body>
         <div class="container">
-			<img class="logo" src="/HotelReservationApp/images/logo.png" alt="Logo">
+			<img class="logo" src="images/logo.png" alt="Logo">
 			
             <h1>Your Stay</h1>		
 			
             <a href="roomView.jsp"><p class="back"><</p></a>
 			
-            <form name="cartForm" action="CartController" method="post">		
+            <form name="cartForm" action="Cart" method="post">
 				<label for="guests">Guests</label><br>
 				<input type="number" id="guests" name="guests" class="number-input" min="1" value="<%= guests %>" max="100" disabled /><br>
 				
@@ -39,7 +38,7 @@
 				<label for="pets">Bringing Pets?</label><br>
 				<input type="text" name="pets" id="pets" value="<%= pets %>" disabled /><br><br>
 				
-				<label for="rooms">Rooms</label><br>
+				<label>Rooms</label><br>
 				<div class="roomsList">				
 				<%			
 				Double grandTotal = 0.00;
@@ -60,15 +59,15 @@
 				<%
 						if ( roomType.equals("Single") ) {						
 				%>
-							<img src="/HotelReservationApp/images/single.jpeg" class="room-picture" />
+							<img src="images/single.jpeg" class="room-picture" alt="room"/>
 				<%
 						} else if ( roomType.equals("Deluxe") ) {						
 				%>
-							<img src="/HotelReservationApp/images/deluxe.jpg" class="room-picture" />
+							<img src="images/deluxe.jpg" class="room-picture" alt="room"/>
 				<%
 						} else if ( roomType.equals("Suite") ) {						
 				%>
-							<img src="/HotelReservationApp/images/suite.jpeg" class="room-picture" />
+							<img src="images/suite.jpeg" class="room-picture" alt="room"/>
 				<%
 						}
 				%>											
@@ -76,7 +75,7 @@
 						<input type="text" name="room<%= i %>type" id="room<%= i %>type" value="<%= roomType %>" class="roomtype" disabled />	
 						<input type="text" name="room<%= i %>beds" id="room<%= i %>beds" value="<%= roomBeds %> Bed(s)" class="roombeds" disabled />	
 						<input type="text" name="room<%= i %>rate" id="room<%= i %>rate" value="$<%= roomRate %> / day" class="roomrate" disabled />
-						<label  for="room<%= i %>total">Sub Total:</labe>
+						<label  for="room<%= i %>total">Sub Total:</label>
 						<input type="text" name="room<%= i %>total" id="room<%= i %>total" value="$<%= roomTotal %>" class="roomtotal" disabled />							
 					</div>
 				<%
