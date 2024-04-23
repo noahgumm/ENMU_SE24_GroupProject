@@ -37,6 +37,21 @@ public class Reservation {
         this.createdAt = createdAt;
     }
 
+
+    public Reservation(int reservationId,int userId, int roomId, Date checkInDate, Date checkOutDate, double totalPrice,
+                       int numGuests, String reservationStatus, Timestamp createdAt) {
+        this.reservationId = reservationId;
+        this.userId = userId;
+        this.roomId = roomId;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.totalPrice = totalPrice;
+        this.numGuests = numGuests;
+		this.pets = false;
+        this.reservationStatus = reservationStatus;
+        this.createdAt = createdAt;
+    }
+
     // Getters and setters
     public int getReservationId() {
         return reservationId;
