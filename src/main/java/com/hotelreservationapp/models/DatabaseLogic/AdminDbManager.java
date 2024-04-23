@@ -76,7 +76,7 @@ public class AdminDbManager extends DbManagerBase {
             conn.close();
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
         return user;
     }
@@ -88,7 +88,7 @@ public class AdminDbManager extends DbManagerBase {
     public List<Admin> getAdminAllUsers(){
         List<Admin> users = new ArrayList<>();
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Admins");
             ResultSet rs = preparedStatement.executeQuery();

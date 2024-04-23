@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -23,7 +22,7 @@ public class HomeController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        super.doPost(req, resp);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("mainView.jsp");
+        dispatcher.forward(req, resp);
     }
 }

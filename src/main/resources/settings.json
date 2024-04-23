@@ -1,28 +1,24 @@
 {
-  "DEFAULT": {
-      "host": "localhost",
-      "port": "3306",
-      "database_name": "hotel_reservation_system",
-      "user" : "root",
-      "password" : "password"
-  },
-  "DEFAULT_2":{
-      "host" : "hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com",
-      "port" : "3306",
-      "database_name" : "hotel_reservation_system",
-      "user" : "root",
-      "password" : "3NMU_S324_Gr0upPr0j3ct"
-  }
+  "connections": [
+    {
+      "connectionName": "DEFAULT",
+      "connectionValues": {
+        "host": "localhost",
+        "port": "3306",
+        "database_name": "hotel_reservation_system",
+        "user": "root",
+        "password": "password"
+      }
+    },
+    {
+      "connectionName": "DEFAULT_2",
+      "connectionValues": {
+        "host": "hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com",
+        "port": "3306",
+        "database_name": "hotel_reservation_system",
+        "user": "root",
+        "password": "3NMU_S324_Gr0upPr0j3ct"
+      }
+    }
+  ]
 }
-
-
-// {
-//   "database": {
-//     "host": "localhost",
-//     "port": 3306,
-//     "user": "root",
-//     "password": "password",
-//     "database_name": "hotel_reservation_system",
-//     "jdbc_url" : "jdbc:mysql://localhost:3306/hotel_reservation_system"
-//   }
-// }

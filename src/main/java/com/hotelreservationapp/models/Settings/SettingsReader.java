@@ -83,6 +83,6 @@ public class SettingsReader {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return  new ConnectionsConfig();
+        return new ConnectionsConfig(); // Return an empty config if there's an error
     }
 }
