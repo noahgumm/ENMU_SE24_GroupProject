@@ -32,6 +32,9 @@
                 <label for="guests"># of Guest(s)</label>
                 <input type="number" value="${guests}" name="guests" id="guests"/>
 
+                <label for="pets">Pets</label>
+                <input type="checkbox" id="pets" name="pets" value="${pets}">
+
                 <label for="status">Status</label>
                 <select name="status" id="status">
                     <option value="pending" ${status eq 'pending' ? 'selected' : ''}>Pending</option>

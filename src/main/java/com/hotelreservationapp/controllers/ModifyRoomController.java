@@ -106,7 +106,7 @@ public class ModifyRoomController extends HttpServlet{
         roomToModify.setNumberOfBeds(Integer.parseInt(req.getParameter("beds")));
 
         //Add room to database
-        database.roomDbManager.createRoom(roomToModify);
+        database.roomDbManager.createRoom(roomToModify.getRoomNumber(), roomToModify.getRoomType(), roomToModify.getFloorNumber(), roomToModify.getPricePerNight(), roomToModify.getRoomDescription(), roomToModify.getNumberOfBeds());
 
         //Notify user that room addition was successful
         req.setAttribute("message", "Room #" + roomToModify.getRoomNumber() + " added.");

@@ -277,33 +277,6 @@ public class RoomDbManager extends  DbManagerBase{
     }
 
     /**
-     * Updates a room in the database
-     * @param room The room to be updated
-     * */
-    public void updateRoom(Room room){
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-
-            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE rooms SET room_number = ?, " +
-                    "room_type = ?, floor_number = ?, price_per_night = ?, room_description = ?, number_of_beds = ? WHERE room_id = ?");
-
-            preparedStatement.setString(1, room.getRoomNumber());
-            preparedStatement.setString(2, room.getRoomType());
-            preparedStatement.setInt(3, room.getFloorNumber());
-            preparedStatement.setDouble(4, room.getPricePerNight());
-            preparedStatement.setString(5, room.getRoomDescription());
-            preparedStatement.setInt(6, room.getNumberOfBeds());
-            preparedStatement.setInt(7, room.getRoomId());
-
-            // Execute the update statement
-            preparedStatement.executeUpdate();
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    /**
     * Deletes room from database
      * @param roomID The ID of the room to be deleted
     * */

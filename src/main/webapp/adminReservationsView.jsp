@@ -97,6 +97,7 @@
                     <p>Price Total: <%= res.getTotalPrice() %></p>
                     <p># of Guests : <%= res.getNumGuests() %></p>
                     <p>Status : <%= res.getReservationStatus() %></p>
+                    <p>Pets : <%= res.getPets() %></p>
                     <p>Created At : <%= res.getCreatedAt() %></p>
 
                     <a href="ModifyReservation?action=modify&id=<%= res.getReservationId() %>"><button>Modify</button></a>

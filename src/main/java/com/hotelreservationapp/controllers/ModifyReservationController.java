@@ -55,6 +55,7 @@ public class ModifyReservationController extends HttpServlet{
             req.setAttribute("checkOutDate", reservationToModify.getCheckOutDate());
             req.setAttribute("totalPrice", reservationToModify.getTotalPrice());
             req.setAttribute("guests", reservationToModify.getNumGuests());
+            req.setAttribute("pets", reservationToModify.getPets());
             req.setAttribute("status", reservationToModify.getReservationStatus());
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("modifyReservationView.jsp");
@@ -84,6 +85,7 @@ public class ModifyReservationController extends HttpServlet{
         reservation.setCheckOutDate(Date.valueOf(req.getParameter("checkOutDate")));
         reservation.setTotalPrice(Float.parseFloat(req.getParameter("totalPrice")));
         reservation.setNumGuests(Integer.parseInt(req.getParameter("guests")));
+        reservation.setPets(Boolean.parseBoolean(req.getParameter("pets")));
         reservation.setReservationStatus(req.getParameter("status"));
 
         //Update database and notify user
