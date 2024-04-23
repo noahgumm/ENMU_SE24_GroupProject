@@ -30,6 +30,7 @@ public class DatabaseManager extends DbManagerBase {
     public DatabaseManager(){
         SettingsReader settingsReader = new SettingsReader();
         ConnectionsConfig settings = settingsReader.readSettings();
+        System.out.println(settings.getConnections());
         Connection aws = findConnectionByName(settings, "DEFAULT");
         String dbURL = "jdbc:mysql://" + aws.getConnectionValues().getHost() + ":" + aws.getConnectionValues().getPort() + "/" + aws.getConnectionValues().getDatabase_name();
         super.setDbURL(dbURL);
@@ -69,13 +70,14 @@ public class DatabaseManager extends DbManagerBase {
     private static Connection findConnectionByName(ConnectionsConfig config, String name) {
         try{
             for (Connection connection : config.getConnections()) {
+                System.out.println(connection.getConnectionName() + " vs " + name);
                 if (connection.getConnectionName().equals(name)) {
                     return connection;
                 }
             }
         }
         catch(Exception e){
-
+            e.printStackTrace();
         }
         return null;
     }
@@ -91,6 +93,51 @@ public class DatabaseManager extends DbManagerBase {
         List<UserPaymentMethod> paymentMethods = userPaymentMethodDbManager.getAllUserPaymentMethodsFor(userID);
         List<Reservation> reservations = reservationDbManager.getReservationsFor(userID);
         return new UserOverview(user, reservations, userTransactions, paymentMethods);
+    }
+
+    /**
+     * Gets all relevant information for a specific user's cart.
+     * @param userID The user's ID.
+     * @return The cart information.
+     * @author Joshua Espana
+     */
+    public CartInformation getCartInformationFor(int userID){
+        User user = userDbManager.getUser(userID);
+        List<RoomReservation> reservations = getRoomReservationsFor(userID);
+        return new CartInformation(user, reservations);
+    }
+
+    /**
+     * Gets all relevant information for a specific user's cart.
+     * @param user The user.
+     * @return The cart information.
+     * @author Joshua Espana
+     */
+    public CartInformation getCartInformationFor(User user){
+        List<RoomReservation> reservations = getRoomReservationsFor(user.getUserId());
+        return new CartInformation(user, reservations);
+    }
+
+    public List<RoomReservation> getRoomReservationsFor(int userID){
+        List<Reservation> reservations = reservationDbManager.getReservationsFor(userID, "pending");
+        List<RoomReservation> roomReservations = new ArrayList<>();
+        for(int i = 0; i < reservations.size(); ++i){
+            Reservation resv = reservations.get(i);
+            Room room = roomDbManager.getRoom(resv.getRoomId());
+            roomReservations.add(new RoomReservation(room, resv));
+        }
+        return roomReservations;
+    }
+
+    public List<RoomReservation> getRoomReservationsFor(User user){
+        List<Reservation> reservations = reservationDbManager.getReservationsFor(user.getUserId());
+        List<RoomReservation> roomReservations = new ArrayList<>();
+        for(int i = 0; i < reservations.size(); ++i){
+            Reservation resv = reservations.get(i);
+            Room room = roomDbManager.getRoom(resv.getRoomId());
+            roomReservations.add(new RoomReservation(room, resv));
+        }
+        return roomReservations;
     }
 
     public List<Room> getAvailableRoomsBetweenDates(String date1, String date2){
@@ -125,5 +172,38 @@ public class DatabaseManager extends DbManagerBase {
             reservation = reservationDbManager.getReservation(transaction.getReservationId());
         }
         return  new TransactionInformation(user, transaction, paymentMethod,reservation);
+    }
+
+    /**
+     * Takes a reservation and processes it as complete. Pays the reservation and sets the status to complete.
+     * If the payment method does not exist, it will be created and added to the users files.
+     * @param user The user.
+     * @param paymentMethod The payment method.
+     * @return The total amount paid for all reservations.
+     */
+    public double processReservationAsComplete(User user, UserPaymentMethod paymentMethod) {
+        //1. get all "pending" reservations for the user
+        //2. pay for the reservation
+        //3. set the reservation status to "complete"
+
+        //does the user payment method already exist?
+        paymentMethod.setUserId(user.getUserId());
+        UserPaymentMethod exising = userPaymentMethodDbManager.getUserPaymentMethod(paymentMethod);
+        if(exising == null) {
+            paymentMethod.setUserId(user.getUserId());
+            paymentMethod = userPaymentMethodDbManager.createUserPaymentMethod(paymentMethod);
+        }
+        else{
+            paymentMethod = exising;
+        }
+        final int userPaymentMethodID = paymentMethod.getUserPaymentMethodID();
+        var wrapper = new Object(){ double finalAmountPaid = 0;};
+        reservationDbManager.getReservationsFor(user.getUserId(), "pending").forEach(reservation -> {
+            wrapper.finalAmountPaid += reservation.getTotalPrice();
+            transactionDbManager.createTransaction(user.getUserId(), reservation.getReservationId(), reservation.getTotalPrice(), userPaymentMethodID);
+            reservationDbManager.setReservationStatus(reservation, "confirmed");
+        });
+
+        return wrapper.finalAmountPaid;
     }
 }
