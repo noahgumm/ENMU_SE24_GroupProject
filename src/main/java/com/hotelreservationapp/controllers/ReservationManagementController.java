@@ -55,7 +55,7 @@ public class ReservationManagementController extends HttpServlet {
             String dateRange = request.getParameter("dates");
 
             // Parse date range string to extract start and end dates
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy - MM/dd/yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             String[] dates = dateRange.split(" - ");
             Date startDate, endDate;
             try {
@@ -80,7 +80,7 @@ public class ReservationManagementController extends HttpServlet {
 			reservation.setCheckOutDate(checkOutDate);
 
             // Save the reservation to the database using ReservationDbManager
-			DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
+            DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
             databaseManager.reservationDbManager.createReservation(reservation);
 
             // Redirect to ManageRoomsController passing the date range as parameter

@@ -200,7 +200,7 @@ public class DatabaseManager extends DbManagerBase {
         var wrapper = new Object(){ double finalAmountPaid = 0;};
         reservationDbManager.getReservationsFor(user.getUserId(), "pending").forEach(reservation -> {
             wrapper.finalAmountPaid += reservation.getTotalPrice();
-            transactionDbManager.createTransaction(user.getUserId(), reservation.getReservationId(), reservation.getTotalPrice(), userPaymentMethodID);
+            transactionDbManager.createTransaction(user.getUserId(), reservation.getReservationId(), reservation.getTotalPrice());
             reservationDbManager.setReservationStatus(reservation, "confirmed");
         });
 

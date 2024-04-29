@@ -16,6 +16,7 @@ import java.sql.Date;
 /**
  * This servlet fetches room data in the doGet() method to populate the form
  * The servlet then forwards the admin to the rooms view along with the stored rooms.
+ * The servlet also handles deleting and modifying reservations
  * */
 @WebServlet(name = "ModifyRoom", urlPatterns = {"/ModifyReservation", "/DeleteReservation"})
 public class ModifyReservationController extends HttpServlet{
@@ -24,6 +25,7 @@ public class ModifyReservationController extends HttpServlet{
     //Found in url of request
     private int id;
 
+    //Handles deleting and modifying reservations
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Get the id of the room whose modify button was clicked
@@ -31,7 +33,7 @@ public class ModifyReservationController extends HttpServlet{
         id = Integer.parseInt(reservationID);
 
         //Get room data
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
+        DatabaseManager database = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
         Reservation reservationToModify = database.reservationDbManager.getReservation(id);
 
         String action = req.getServletPath();
@@ -66,8 +68,6 @@ public class ModifyReservationController extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getServletPath();
-
         Modify(req);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("AdminReservations");
@@ -75,7 +75,7 @@ public class ModifyReservationController extends HttpServlet{
     }
 
     private void Modify(HttpServletRequest req){
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
+        DatabaseManager database = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
         Reservation reservation = database.reservationDbManager.getReservation(id);
 
         //Update room information

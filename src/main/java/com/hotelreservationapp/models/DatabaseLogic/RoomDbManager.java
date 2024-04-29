@@ -30,7 +30,7 @@ public class RoomDbManager extends  DbManagerBase{
     public Room getRoom(int roomID){
         Room room = new Room();
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM rooms WHERE room_id = ?");
             preparedStatement.setInt(1, roomID);
@@ -61,7 +61,7 @@ public class RoomDbManager extends  DbManagerBase{
     public List<Room> getAllRooms(){
         List<Room> rooms = new ArrayList<>();
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM rooms");
             ResultSet rs = preparedStatement.executeQuery();
@@ -97,10 +97,10 @@ public class RoomDbManager extends  DbManagerBase{
     public Room createRoom(String roomNumber, String roomType, int floorNumber, double pricePerNight, String roomDescription, int numberOfBeds){
         Room room = null;
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement
-                    ("INSERT INTO Rooms(room_number, room_type, floor_number, price_per_night, room_description, number_of_beds, created_at) " +
+                    ("INSERT INTO rooms(room_number, room_type, floor_number, price_per_night, room_description, number_of_beds, created_at) " +
                             "VALUES (?, ?, ?, ?, ?, ?, now())", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, roomNumber);
             preparedStatement.setString(2, roomType);
@@ -131,10 +131,10 @@ public class RoomDbManager extends  DbManagerBase{
     public int getHighestFloorNumber() {
         int highestFloorNumber = -1;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT MAX(floor_number) AS max_floor FROM Rooms");
+            ResultSet rs = statement.executeQuery("SELECT MAX(floor_number) AS max_floor FROM rooms");
             if (rs.next()) {
                 highestFloorNumber = rs.getInt("max_floor");
             }
@@ -153,10 +153,10 @@ public class RoomDbManager extends  DbManagerBase{
     public boolean updateRoom(Room room) {
         boolean success = false;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement(
-                    "UPDATE Room SET room_number=?, room_type=?, floor_number=?, price_per_night=?, " +
+                    "UPDATE rooms SET room_number=?, room_type=?, floor_number=?, price_per_night=?, " +
                             "room_description=?, number_of_beds=? WHERE room_id=?"
             );
             preparedStatement.setString(1, room.getRoomNumber());
@@ -209,9 +209,9 @@ public class RoomDbManager extends  DbManagerBase{
     public List<DateRange> getBookedDatesForRoom(int roomID) {
         List<DateRange> bookedDates = new ArrayList<>();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT check_in_date, check_out_date FROM Bookings WHERE room_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT check_in_date, check_out_date FROM bookings WHERE room_id = ?");
             preparedStatement.setInt(1, roomID);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -236,9 +236,9 @@ public class RoomDbManager extends  DbManagerBase{
     public boolean bookRoom(int roomID, Date startDate, Date endDate) {
         boolean success = false;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Bookings (room_id, start_date, end_date) VALUES (?, ?, ?)");
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO bookings (room_id, check_in_date, check_out_date) VALUES (?, ?, ?)");
             preparedStatement.setInt(1, roomID);
             preparedStatement.setDate(2, startDate);
             preparedStatement.setDate(3, endDate);
@@ -261,7 +261,7 @@ public class RoomDbManager extends  DbManagerBase{
     public Timestamp getRoomTimestamp(int roomId) {
         Timestamp timestamp = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT created_at FROM Rooms WHERE room_id = ?");
             preparedStatement.setInt(1, roomId);

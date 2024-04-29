@@ -8,6 +8,8 @@
     <head>
         <link rel="stylesheet" href="styles/UserStyles.css" />
         <link rel="stylesheet" href="styles/adminStyles.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles/cardStyles.css" />
         <title>Reservations</title>
 
         <script>
@@ -89,19 +91,22 @@
                     for (Reservation res : reservations) {
                 %>
                 <li class="card">
-                    <p>Reservation ID : <%= res.getReservationId() %></p>
-                    <p>Customer ID : <%= res.getUserId() %></p>
-                    <p>Room ID : <%= res.getRoomId() %></p>
-                    <p>Check In : <%= res.getCheckInDate() %></p>
-                    <p>Check Out : <%= res.getCheckOutDate() %></p>
-                    <p>Price Total: <%= res.getTotalPrice() %></p>
-                    <p># of Guests : <%= res.getNumGuests() %></p>
-                    <p>Status : <%= res.getReservationStatus() %></p>
-                    <p>Pets : <%= res.getPets() %></p>
-                    <p>Created At : <%= res.getCreatedAt() %></p>
-
-                    <a href="ModifyReservation?action=modify&id=<%= res.getReservationId() %>"><button>Modify</button></a>
-                    <a href="DeleteReservation?action=delete&id=<%= res.getReservationId() %>"><button>Delete</button></a>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Reservation ID : <%= res.getReservationId() %></li>
+                        <li class="list-group-item">Customer ID : <%= res.getUserId() %></li>
+                        <li class="list-group-item">Room ID : <%= res.getRoomId() %></li>
+                        <li class="list-group-item">Check In : <%= res.getCheckInDate() %></li>
+                        <li class="list-group-item">Check Out : <%= res.getCheckOutDate() %></li>
+                        <li class="list-group-item">Price Total: <%= res.getTotalPrice() %></li>
+                        <li class="list-group-item"># of Guests : <%= res.getNumGuests() %></li>
+                        <li class="list-group-item">Status : <%= res.getReservationStatus() %></li>
+                        <li class="list-group-item">Pets : <%= res.getPets() %></li>
+                        <li class="list-group-item">Created At : <%= res.getCreatedAt() %></li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="ModifyReservation?action=modify&id=<%= res.getReservationId() %>"><button>Modify</button></a>
+                        <a href="DeleteReservation?action=delete&id=<%= res.getReservationId() %>"><button>Delete</button></a>
+                    </div>
                 </li>
                 <%
                     }

@@ -25,7 +25,7 @@ public class CartController extends BaseController {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DatabaseManager db = new DatabaseManager();
+        DatabaseManager db = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
         //is a user logged in? get the logged in user.
         User user = getSessionUser(req);
         // User user = getSessionUserOrSendToLoginPage(req, resp); //this will redirect to login if not logged in
@@ -44,7 +44,8 @@ public class CartController extends BaseController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
+        DatabaseManager db = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
+
         String cardType = req.getParameter("cardType");
         String cardNumber = req.getParameter("cardNumber");
         String expirationDate = req.getParameter("expirationDate");
@@ -55,13 +56,11 @@ public class CartController extends BaseController {
         User user = getSessionUser(req);
         // User user = getSessionUserOrSendToLoginPage(req, resp); //this will redirect to login if not logged in
         if(user == null){ //for testing
-            DatabaseManager db = new DatabaseManager();
             user = db.userDbManager.getUser(4);
             setSessionUser(req, user);
         }
 
         //get the cart for the logged in user
-        DatabaseManager db = new DatabaseManager();
         UserPaymentMethod paymentMethod = new UserPaymentMethod
         (
             0, 

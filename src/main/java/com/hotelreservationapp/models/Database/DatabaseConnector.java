@@ -17,12 +17,11 @@ public class DatabaseConnector implements AutoCloseable   {
 
     /**
      * Constructor for the DatabaseConnector class.
-     * @param connectionInformation The information needed to connect to the database
      */
     public DatabaseConnector(String settingsFilePath) {
-        String url = "jdbc:mysql://localhost:3306/hotel_reservation_system";
+        String url = "hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com";
         String username = "root";
-        String password = "password";
+        String password = "3NMU_S324_Gr0upPr0j3ct";
         this.settingsReader = new DatabaseSettingsReader(settingsFilePath);
         try{
             databaseConnection = DriverManager.getConnection(url, username, password);
