@@ -80,7 +80,7 @@ public class ReservationManagementController extends HttpServlet {
 			reservation.setCheckOutDate(checkOutDate);
 
             // Save the reservation to the database using ReservationDbManager
-			DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
+			DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "root", "password");
             databaseManager.reservationDbManager.createReservation(reservation);
 
             // Redirect to ManageRoomsController passing the date range as parameter

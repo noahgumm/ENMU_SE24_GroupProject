@@ -36,7 +36,7 @@ public class AdminLoginController extends HttpServlet {
         // Perform authentication using the User Model
         //Keep commented out for now to ensure login for any data entered
         //boolean isAuthenticated = userModel.authenticateUser(username, password);
-        DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
+        DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "root", "password");
 
         for (Admin a : databaseManager.adminDbManager.getAdminAllUsers()) {
             System.out.println(a.getEmail());

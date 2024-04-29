@@ -29,7 +29,7 @@ public class ModifyRoomController extends HttpServlet{
         id = Integer.parseInt(roomId);
 
         //Get room data
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
+        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","root","password");
         Room roomToModify = database.roomDbManager.getRoom(id);
 
         String action = req.getServletPath();
@@ -77,7 +77,7 @@ public class ModifyRoomController extends HttpServlet{
     }
 
     private void Modify(HttpServletRequest req){
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
+        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","root","password");
         Room roomToModify = database.roomDbManager.getRoom(id);
 
         //Update room information
@@ -94,7 +94,7 @@ public class ModifyRoomController extends HttpServlet{
     }
 
     private void Add(HttpServletRequest req){
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
+        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","root","password");
         Room roomToModify = new Room();
 
         //Store room information

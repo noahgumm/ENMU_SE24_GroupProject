@@ -28,6 +28,11 @@ input {
     font-family: 'Basis Grotesque Pro', sans-serif; /* Applying Basis Grotesque Pro font to the form inputs */
 }
 
+select option {
+    background: white;
+    color: black;
+  }
+
 
 input::placeholder{
     color: white; /* Set placeholder color to white */

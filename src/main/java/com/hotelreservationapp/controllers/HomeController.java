@@ -22,7 +22,7 @@ public class HomeController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("mainView.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("loginView.jsp");
         dispatcher.forward(req, resp);
     }
 }
