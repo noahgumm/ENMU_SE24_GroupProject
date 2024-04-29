@@ -19,10 +19,12 @@
 			<h2>Welcome ${sessionScope.username}</h2>
 			
             <a href="ManageReservations"><button>VIEW RESERVATIONS</button></a><br><br>
-			
             <a href="AdminRooms"><button>MANAGE ROOMS</button></a><br><br>
-
-			<a href="adminLoginView.jsp"><button>SIGN OUT</button></a>
+            <hr>
+            <div>Reports</div>
+            <a href="AdminReservationReport" target="_blank">RESERVATION REPORT</a>
+			<hr>
+            <a href="adminLoginView.jsp"><button>SIGN OUT</button></a>
         </div>
     </body>
 </html>

@@ -145,11 +145,11 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AdminReports</servlet-name>
-        <servlet-class>com.hotelreservationapp.controllers.AdminReportsController</servlet-class>
+        <servlet-name>AdminReservationReport</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.AdminReservationReportController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AdminReports</servlet-name>
-        <url-pattern>/AdminReports</url-pattern>
+        <servlet-name>AdminReservationReport</servlet-name>
+        <url-pattern>/AdminReservationReport</url-pattern>
     </servlet-mapping>
 </web-app>
