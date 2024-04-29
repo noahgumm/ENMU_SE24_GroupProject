@@ -206,4 +206,23 @@ public class DatabaseManager extends DbManagerBase {
 
         return wrapper.finalAmountPaid;
     }
+
+    public AdminReservationReport getAdminReservationReportFor(int reservationID){
+        Reservation reservation = reservationDbManager.getReservation(reservationID);
+        List<Room> rooms = roomDbManager.getRoomsFor(reservationID);
+        User user = userDbManager.getUser(reservation.getUserId());
+        return new AdminReservationReport(reservation, rooms, user);
+    }
+
+    public List<AdminReservationReport> getAdminReservationReportForAllReservations(){
+        List<AdminReservationReport> reports = new ArrayList<>();
+        List<Reservation> reservations = reservationDbManager.getAllReservations();
+        for(int i = 0; i < reservations.size(); ++i){
+            Reservation reservation = reservations.get(i);
+            List<Room> rooms = roomDbManager.getRoomsFor(reservation.getReservationId());
+            User user = userDbManager.getUser(reservation.getUserId());
+            reports.add(new AdminReservationReport(reservation, rooms, user));
+        }
+        return reports;
+    }
 }

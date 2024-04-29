@@ -3,7 +3,6 @@ package com.hotelreservationapp.models.DatabaseLogic;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
 
 import com.hotelreservationapp.models.Database.Tables.Room;
 import com.hotelreservationapp.models.Database.Tables.Bookings;
@@ -295,5 +294,25 @@ public class RoomDbManager extends  DbManagerBase{
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public List<Room> getRoomsFor(int reservationID){
+        List<Room> rooms = new ArrayList<>();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT room_id FROM reservation_rooms WHERE reservation_id = ?");
+            preparedStatement.setInt(1, reservationID);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int roomID = rs.getInt("room_id");
+                rooms.add(getRoom(roomID));
+            }
+            conn.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return  rooms;
     }
 }
