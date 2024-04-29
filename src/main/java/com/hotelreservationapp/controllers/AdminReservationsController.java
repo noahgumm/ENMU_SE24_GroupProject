@@ -12,14 +12,18 @@ import java.io.IOException;
 
 import java.sql.Date;
 
-@WebServlet(name = "AdminReservations", urlPatterns = "/AdminReservations" )
+/**
+ *  Handles displaying all reservations to the admin.
+ *  Also handles what search options should be displayed to the admin
+ */
+@WebServlet(name = "AdminReservations", urlPatterns = { "/AdminReservations" } )
 public class AdminReservationsController extends HttpServlet{
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         //Set an attribute to store all the rooms to display them on the page
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
+        DatabaseManager database = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
         req.getSession().setAttribute("reservations", database.reservationDbManager.getAllReservations());
 
         // Perform a redirect to the adminRoomsView.jsp
@@ -36,7 +40,7 @@ public class AdminReservationsController extends HttpServlet{
 
     private void SearchForReservation(HttpServletRequest req){
         //Set an attribute to store all the rooms to display them on the page
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
+        DatabaseManager database = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
 
         String selectedSearchOption = req.getParameter("searchType");
         System.out.println(selectedSearchOption);

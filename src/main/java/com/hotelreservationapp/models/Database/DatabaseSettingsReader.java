@@ -18,14 +18,14 @@ public class DatabaseSettingsReader {
         // Read the settings file
         String fileContents = "{\r\n" + //
                         "    \"database\": {\r\n" + //
-                        "        \"host\": \"localhost\",\r\n" + //
+                        "        \"host\": \"hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com\",\r\n" + //
                         "        \"port\": \"3306\",\r\n" + //
                         "        \"database_name\": \"hotel_reservation_system\",\r\n" + //
                         "        \"user\" : \"root\",\r\n" + //
-                        "        \"password\" : \"password\"\r\n" + //
+                        "        \"password\" : \"3NMU_S324_Gr0upPr0j3ct\"\r\n" + //
                         "    }\r\n" + //
                         "}";
-        String dbConn = "jdbc:mysql://localhost:3306/hotel_reservation_system?user=root&password=password";
+        String dbConn = "jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com";
         
         // File file = new File(settingsFilePath);
         // try {

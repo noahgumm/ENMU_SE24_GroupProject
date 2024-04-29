@@ -23,6 +23,7 @@
           <element id="library" level="project" name="gson-2.4" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="HotelReservationApp/web/Web" />
     </root>
   </artifact>
 </component>

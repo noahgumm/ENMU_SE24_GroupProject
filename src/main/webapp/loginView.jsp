@@ -22,7 +22,6 @@
              -->
             <form name="loginForm" action="Login" method="post">
                 <input type="hidden" name="action" value="login">
-                <p>${sessionScope.error}</p>
                 <input type="email" name="email" id="email" placeholder="Email" required>
                 <input type="password" name="password" id="password" placeholder="Password" required>
                 <p><a href="AdminLogin">Admins login here.</a></p>
