@@ -31,7 +31,7 @@ public class DatabaseManager extends DbManagerBase {
         SettingsReader settingsReader = new SettingsReader();
         ConnectionsConfig settings = settingsReader.readSettings();
         System.out.println(settings.getConnections());
-        Connection aws = findConnectionByName(settings, "DEFAULT");
+        Connection aws = findConnectionByName(settings, "AWS");
         String dbURL = "jdbc:mysql://" + aws.getConnectionValues().getHost() + ":" + aws.getConnectionValues().getPort() + "/" + aws.getConnectionValues().getDatabase_name();
         super.setDbURL(dbURL);
         super.setDbUsername(aws.getConnectionValues().getUser());

@@ -33,7 +33,7 @@ public class UserDbManager extends DbManagerBase {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Users(username, password, email, phone_number, created_at) values (?,?,?,?,now())",Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO users(username, password, email, phone_number, created_at) values (?,?,?,?,now())",Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, email);
@@ -66,7 +66,7 @@ public class UserDbManager extends DbManagerBase {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Users WHERE email = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -96,7 +96,7 @@ public class UserDbManager extends DbManagerBase {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Users WHERE user_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE user_id = ?");
             preparedStatement.setInt(1, userID);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -124,7 +124,7 @@ public class UserDbManager extends DbManagerBase {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Users");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM user");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int userID = rs.getInt("user_id");

@@ -85,7 +85,8 @@
         <p>Error: Highest floor number is missing.</p>
     <% } %>
     <br><br>	
-    <form name="roomsForm" action="/ReservationManagement" method="post">
+    <form name="roomsForm" action="ReservationManagement" method="post">
+        <input type="hidden" name="reservationID" value="<%= request.getParameter("reservationID") %>">
         <h3>Selected Rooms:</h3>
         <div id="selected-rooms"></div><br><br>
         <h3>Nights Staying:</h3>
@@ -124,7 +125,8 @@
             roomItem.type = "text"; 
             roomItem.disabled = true;
             let roomItemNumber = "room" + count; 
-            roomItem.name = roomItemNumber;
+            // roomItem.name = roomItemNumber;
+            roomItem.name = "selectedRoom"
             roomItem.className = "roomItem";
             roomItem.style.borderBottom = "none";
             selectedRoomsContainer.appendChild(roomItem);

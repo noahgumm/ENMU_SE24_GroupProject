@@ -31,7 +31,7 @@ public class ModifyReservationController extends HttpServlet{
         id = Integer.parseInt(reservationID);
 
         //Get room data
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","root","password");
+        DatabaseManager database = new DatabaseManager();
         Reservation reservationToModify = database.reservationDbManager.getReservation(id);
 
         String action = req.getServletPath();
@@ -75,14 +75,20 @@ public class ModifyReservationController extends HttpServlet{
     }
 
     private void Modify(HttpServletRequest req){
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","root","password");
+        DatabaseManager database = new DatabaseManager();
         Reservation reservation = database.reservationDbManager.getReservation(id);
 
         //Update room information
+
+        String checkInDate = req.getParameter("checkIn");
+        String checkOutDate = req.getParameter("checkOut");
+        Date checkIn = Date.valueOf(checkInDate);
+        Date checkOut = Date.valueOf(checkOutDate);
+
         reservation.setUserId(Integer.parseInt(req.getParameter("userID")));
         reservation.setRoomId(Integer.parseInt(req.getParameter("roomID")));
-        reservation.setCheckInDate(Date.valueOf(req.getParameter("checkInDate")));
-        reservation.setCheckOutDate(Date.valueOf(req.getParameter("checkOutDate")));
+        reservation.setCheckInDate(checkIn);
+        reservation.setCheckOutDate(checkOut);
         reservation.setTotalPrice(Float.parseFloat(req.getParameter("totalPrice")));
         reservation.setNumGuests(Integer.parseInt(req.getParameter("guests")));
         reservation.setPets(Boolean.parseBoolean(req.getParameter("pets")));

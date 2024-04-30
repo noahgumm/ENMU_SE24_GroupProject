@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.hotelreservationapp.models.DatabaseLogic.DatabaseManager;
 import com.hotelreservationapp.models.Database.Tables.Reservation;
+import com.hotelreservationapp.models.Database.Tables.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,6 +44,13 @@ public class ReservationManagementController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //logged in user
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            response.sendRedirect("loginView.jsp");
+            return;
+        }
+
          // Check if the request comes from the room selection page
         String roomSelectionParam = request.getParameter("roomSelectionParam");
         if (roomSelectionParam != null && roomSelectionParam.equals("fromRoomSelectionPage")) {
@@ -55,7 +63,7 @@ public class ReservationManagementController extends HttpServlet {
             String dateRange = request.getParameter("dates");
 
             // Parse date range string to extract start and end dates
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy - MM/dd/yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             String[] dates = dateRange.split(" - ");
             Date startDate, endDate;
             try {
@@ -67,10 +75,18 @@ public class ReservationManagementController extends HttpServlet {
                 return;
             }
 
+            
+
             // Create a new reservation with the provided details
             Reservation reservation = new Reservation();
             reservation.setNumGuests(guests);
             reservation.setPets(pets);
+            reservation.setUserId(user.getUserId());
+            reservation.setRoomId(0);
+            reservation.setTotalPrice(0);
+            reservation.setReservationStatus("pending");
+            
+
 			
 			// Convert Timestamp to java.sql.Date for check-in and check-out dates
 			java.sql.Date checkInDate = new java.sql.Date(startDate.getTime());
@@ -80,11 +96,11 @@ public class ReservationManagementController extends HttpServlet {
 			reservation.setCheckOutDate(checkOutDate);
 
             // Save the reservation to the database using ReservationDbManager
-			DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "root", "password");
-            databaseManager.reservationDbManager.createReservation(reservation);
+            DatabaseManager databaseManager = new DatabaseManager();
+            reservation = databaseManager.reservationDbManager.createReservation(reservation);
 
             // Redirect to ManageRoomsController passing the date range as parameter
-            response.sendRedirect(request.getContextPath() + "/ManageRooms?startDate=" + startDate.getTime() + "&endDate=" + endDate.getTime());
+            response.sendRedirect(request.getContextPath() + "/ManageRooms?reservationID="+ reservation.getReservationId()+"&startDate=" + startDate.getTime() + "&endDate=" + endDate.getTime());
         }
     }
 

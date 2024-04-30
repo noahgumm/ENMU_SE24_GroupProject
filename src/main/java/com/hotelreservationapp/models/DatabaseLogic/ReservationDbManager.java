@@ -304,7 +304,7 @@ public class ReservationDbManager extends  DbManagerBase {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement
-                    ("INSERT INTO reservations(user_id, room_id, check_in_date, check_out_date,total_price,num_guests,reservation_status, created_at) " +
+                    ("INSERT INTO reservations(user_id, room_id, check_in_date, check_out_date,total_price,num_guests,pets,reservation_status, created_at) " +
                             "values (?,?,?,?,?,?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, roomID);
@@ -325,7 +325,8 @@ public class ReservationDbManager extends  DbManagerBase {
             }
             conn.close();
         }catch (Exception e){
-
+            e.printStackTrace();
+            String msg = e.getMessage();
         }
         return  reservation;
     }
