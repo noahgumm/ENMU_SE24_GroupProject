@@ -1,5 +1,7 @@
 package com.hotelreservationapp.models.Database.Prepared;
 
+import java.util.List;
+
 import com.hotelreservationapp.models.Database.Tables.*;
 
 /**
@@ -9,20 +11,20 @@ import com.hotelreservationapp.models.Database.Tables.*;
  * @author Joshua Espana
  */
 public class RoomReservation {
-    private Room room;
+    private List<Room> rooms;
     private Reservation reservation;
 
-    public RoomReservation(Room room, Reservation reservation){
-        this.room = room;
+    public RoomReservation(List<Room> rooms, Reservation reservation){
+        this.rooms = rooms;
         this.reservation = reservation;
     }
 
-    public Room getRoom() {
-        return room;
+    public List<Room> getRooms() {
+        return rooms;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoom(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
     public Reservation getReservation() {

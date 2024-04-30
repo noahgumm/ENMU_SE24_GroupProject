@@ -122,9 +122,14 @@ public class DatabaseManager extends DbManagerBase {
         List<Reservation> reservations = reservationDbManager.getReservationsFor(userID, "pending");
         List<RoomReservation> roomReservations = new ArrayList<>();
         for(int i = 0; i < reservations.size(); ++i){
+            List<ReservationRooms> reservationRooms = reservationDbManager.getRoomReservations(reservations.get(i).getReservationId());
+            List<Room> rooms = new ArrayList<>();
+            for(int j = 0; j < reservationRooms.size(); ++j){
+                Room room = roomDbManager.getRoom(reservationRooms.get(j).getRoomID());
+                rooms.add(room);
+            }
             Reservation resv = reservations.get(i);
-            Room room = roomDbManager.getRoom(resv.getRoomId());
-            roomReservations.add(new RoomReservation(room, resv));
+            roomReservations.add(new RoomReservation(rooms, resv));
         }
         return roomReservations;
     }
@@ -133,9 +138,14 @@ public class DatabaseManager extends DbManagerBase {
         List<Reservation> reservations = reservationDbManager.getReservationsFor(user.getUserId());
         List<RoomReservation> roomReservations = new ArrayList<>();
         for(int i = 0; i < reservations.size(); ++i){
+            List<ReservationRooms> reservationRooms = reservationDbManager.getRoomReservations(reservations.get(i).getReservationId());
             Reservation resv = reservations.get(i);
-            Room room = roomDbManager.getRoom(resv.getRoomId());
-            roomReservations.add(new RoomReservation(room, resv));
+            List<Room> rooms = new ArrayList<>();
+            for(int j = 0; j < reservationRooms.size(); ++j){
+                Room room = roomDbManager.getRoom(reservationRooms.get(j).getRoomID());
+                rooms.add(room);
+            }
+            roomReservations.add(new RoomReservation(rooms, resv));
         }
         return roomReservations;
     }

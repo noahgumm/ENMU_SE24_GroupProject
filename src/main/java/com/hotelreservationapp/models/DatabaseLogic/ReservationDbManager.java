@@ -6,7 +6,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hotelreservationapp.models.Database.Prepared.RoomReservation;
 import com.hotelreservationapp.models.Database.Tables.Reservation;
+import com.hotelreservationapp.models.Database.Tables.ReservationRooms;
 
 /**
  * Handles the database management for the reservation table.
@@ -49,6 +51,23 @@ public class ReservationDbManager extends  DbManagerBase {
 
         }
         return reservation;
+    }
+
+    public boolean updateTotalReservationCost(int reservationID){
+        boolean success = false;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE reservations SET total_price = (SELECT SUM(price_per_night) FROM rooms WHERE room_id IN (SELECT room_id FROM reservation_rooms WHERE reservation_id = ?)) WHERE reservation_id = ?");
+            preparedStatement.setInt(1, reservationID);
+            preparedStatement.setInt(2, reservationID);
+            preparedStatement.executeUpdate();
+            conn.close();
+            success = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
     }
 
     public boolean addReservationRooms(int reservationID, String[] roomIdsAsStrings){
@@ -137,6 +156,25 @@ public class ReservationDbManager extends  DbManagerBase {
             e.printStackTrace();
         }
         return reservations;
+    }
+
+    public List<ReservationRooms> getRoomReservations(int reservationID){
+        List<ReservationRooms> roomReservations = new ArrayList<>();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservation_rooms WHERE reservation_id = ?");
+            preparedStatement.setInt(1, reservationID);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int roomID = rs.getInt("room_id");
+                roomReservations.add(new ReservationRooms(reservationID, roomID));
+            }
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return roomReservations;
     }
 
     public List<Reservation> getReservationsFor(int userID, String reservStatus) {

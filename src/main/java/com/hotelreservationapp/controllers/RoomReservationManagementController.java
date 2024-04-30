@@ -21,6 +21,7 @@ public class RoomReservationManagementController extends BaseController {
 
         DatabaseManager databaseManager = new DatabaseManager();
         if(databaseManager.reservationDbManager.addReservationRooms(Integer.parseInt(reservationID), roomIDs)) {
+            databaseManager.reservationDbManager.updateTotalReservationCost(Integer.parseInt(reservationID));
             resp.sendRedirect(req.getContextPath() + "/Cart");
         } else {
             req.setAttribute("message", "Error adding rooms to reservation.");
