@@ -22,8 +22,9 @@
              -->
             <form name="loginForm" action="Login" method="post">
                 <input type="hidden" name="action" value="login">
-                <input type="email" name="email" id="email" placeholder="Email" required>
-                <input type="password" name="password" id="password" placeholder="Password" required>
+                <p>${sessionScope.error}</p>
+                <input type="email" name="email" id="email" placeholder="Email" required><br><br>
+                <input type="password" name="password" id="password" placeholder="Password" required><br>
                 <p><a href="AdminLogin">Admins login here.</a></p>
 				<p><a href="registerView.jsp">New? Create an account.</a></p>
 				<br>

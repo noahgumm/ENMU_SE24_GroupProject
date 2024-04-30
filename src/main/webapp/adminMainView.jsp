@@ -15,16 +15,12 @@
 			<img class="logo" src="images/logo.png" alt="Logo">
 			
             <h1>Admin Home</h1>
-
-            <p>${sessionScope.mesage}</p>
-
+			
 			<h2>Welcome ${sessionScope.username}</h2>
 			
             <a href="ManageReservations"><button>VIEW RESERVATIONS</button></a><br><br>
 			
             <a href="AdminRooms"><button>MANAGE ROOMS</button></a><br><br>
-
-            <a href="AddAdmin"><button>Add Admin</button></a><br><br>
 
 			<a href="adminLoginView.jsp"><button>SIGN OUT</button></a>
         </div>

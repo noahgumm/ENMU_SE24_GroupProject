@@ -33,15 +33,53 @@ body {
     height: 100vh;
     font-family: 'Basis Grotesque Pro', sans-serif;
     color: white;
+	overflow: hidden;
+}
+
+select {
+    color: white;
+    width: 6em;
+    padding: 1em;
+    background: transparent;
+    text-align: center;
+    font-size: 1em;
+    border: none;
+    border-bottom: 2px solid white;	
+    appearance: none; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+}
+
+.leftist{
+	text-align: left;
+}
+
+input[type="date"] {
+    color: white;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid white;	
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+	filter: invert(1);
+}
+
+input[type="date"]::-moz-calendar-picker-indicator {
+	filter: invert(1);
 }
 
 .container {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 15px;
     padding: 20px;
-    width: 300px;
     text-align: center;
     position: relative;
+	color: white;
+    z-index: 2;
+	overflow: auto; 
+	min-width: 300px;
+	font-size: 0.65em;
 }
 
 .container h2, .container h3 {
@@ -55,7 +93,6 @@ h1, h2, h3, h4, h5, h6, a {
 input {
     width: 100%;
     padding: 10px 20px;
-    margin-bottom: 15px;
     box-sizing: border-box;
 }
 
@@ -101,7 +138,6 @@ input[type="text"],input[type="password"], input[type="email"] {
     background: transparent;
     color: white;
     padding: 5px;
-    margin: 10px 0;
     width: 100%;
     outline: none;
 	font-size: 16px; 
@@ -120,7 +156,8 @@ input[type="number"] {
   -webkit-appearance: textfield;
      -moz-appearance: textfield;
           appearance: textfield;
-	background: transparent;
+	background: transparent;	
+    border-bottom: 2px solid white;
 }
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
@@ -136,8 +173,12 @@ p {
 a, a:visited, a:link, a:hover, a:active {
 	color: white;	
 	font-size: 12px;
+	text-decoration: none;
 }
 
+ul {
+    list-style-type: none;
+}
 
 .back {
   position: absolute;
@@ -156,16 +197,6 @@ a, a:visited, a:link, a:hover, a:active {
 .number-input {
 	color: white;
 	width: 4em;
-	border: none;
-}
-
-#pets {
-	color: white;
-	width: 6em;
-	padding: 1em;
-    background: transparent;
-	text-align: center;
-	font-size: 1em;
 	border: none;
 }
 
@@ -212,11 +243,8 @@ option {
 }
 
 .roomItem {
-	text-align: center;
-}
-
-.room-picture {
-	width: 100px;
+	text-align: center;	
+	margin-bottom: -10px;
 }
 
 .roomDeets{
@@ -234,6 +262,59 @@ option {
 	border-bottom: none;
 }
 
+.room-details-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.room-details {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px; 
+}
+
+.room-picture {
+  flex: 0 0 auto;
+  margin-right: 10px;
+  max-width: 150px;
+}
+
+.room-details-content {
+  flex: 1;
+}
+
+.room-details-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.room-details-content li {
+  margin-bottom: 5px;
+}
+	
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.label,
+.data {
+  flex: 1; 
+}
+
+.label {
+  text-align: center;
+  margin-bottom: 5px; 
+}
+
+.data {
+  text-align: center; 
+}
+
 @media only screen and (orientation: portrait) {
     .container {
         padding: 2.5vw;
@@ -242,7 +323,7 @@ option {
 
     .container h2,
     .container h3 {
-        font-size: 5vw;
+        font-size: 1.5em;
     }
 	
     input {
@@ -266,17 +347,17 @@ option {
     }
 
     p {
-        font-size: 3vw;
+        font-size: 1em;
     }
 
     a, a:visited, a:link, a:hover, a:active {
-        font-size: 2vw;
+        font-size: 1em;
     }
 
     .back {
         top: -4vw;
         right: 2.5vw;
-        font-size: 5vw;
+        font-size: 2em;
     }
 
     .back:hover {
@@ -284,7 +365,7 @@ option {
     }
 	
 	.room-picture {
-		width: 10em;
+		width: 8em;
 	}
 
 }

@@ -10,15 +10,17 @@
 			background-image: url('images/bg2.jpg');
 		}
 	</style>
+	
+	<% 
+        String name = (String) request.getAttribute("name");
+	%>
     <body>
-        <div class="container">
-			<img class="logo" src="images/logo.png" alt="Logo">
-			
+        <div class="container">			
             <h1>Booking Manager</h1>
 			
-			<h2>Welcome ${sessionScope.username}</h2>
+			<h2>Welcome <%= name %>!</h2>
 			
-            <a href="bookingView.jsp"><button>BOOK NOW</button></a><br><br>
+            <a href="Booking"><button>BOOK NOW</button></a><br><br>
 			
             <a href="myReservationsView.jsp"><button>MY RESERVATIONS</button></a><br><br>
 			
@@ -28,5 +30,6 @@
 				<button type="submit">SIGN OUT</button>
 			</form>
         </div>
+		<img class="logo" src="images/logo.png" alt="Logo">
     </body>
 </html>
