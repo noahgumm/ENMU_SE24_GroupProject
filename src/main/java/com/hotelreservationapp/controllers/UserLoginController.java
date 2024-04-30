@@ -26,7 +26,7 @@ public class UserLoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
+        DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
         try{
             if("login".equals(request.getParameter("action"))){
                 //Attempt to log in if the hidden fields action parameter is equal to log in

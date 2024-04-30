@@ -30,9 +30,9 @@ public class AdminDbManager extends DbManagerBase {
     public Admin createAdminUser(String username, String password, String email){
         Admin user = null;
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO admins(username, password, email, created_at) values (?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Admins(username, password, email, created_at) values (?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, email);
@@ -61,9 +61,9 @@ public class AdminDbManager extends DbManagerBase {
     public Admin getAdminUser(int adminId){
         Admin user = new Admin();
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM admins WHERE admin_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Admins WHERE admin_id = ?");
             preparedStatement.setInt(1, adminId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -90,7 +90,7 @@ public class AdminDbManager extends DbManagerBase {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM admins");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Admins");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int userID = rs.getInt("admin_id");

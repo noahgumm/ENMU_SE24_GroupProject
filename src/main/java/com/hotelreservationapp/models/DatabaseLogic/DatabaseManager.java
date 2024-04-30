@@ -1,8 +1,5 @@
 package com.hotelreservationapp.models.DatabaseLogic;
 
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,50 +114,41 @@ public class DatabaseManager extends DbManagerBase {
         List<RoomReservation> reservations = getRoomReservationsFor(user.getUserId());
         return new CartInformation(user, reservations);
     }
+	
+	public List<RoomReservation> getRoomReservationsFor(int userID) {
+		List<Reservation> reservations = reservationDbManager.getReservationsFor(userID, "pending");
+		List<RoomReservation> roomReservations = new ArrayList<>();
+		for (Reservation reservation : reservations) {
+			List<Room> rooms = roomDbManager.getRoomsByReservationId(reservation.getReservationId());
+			for (Room room : rooms) {
+				roomReservations.add(new RoomReservation(room, reservation));
+			}
+		}
+		return roomReservations;
+	}
 
-    public List<RoomReservation> getRoomReservationsFor(int userID){
-        List<Reservation> reservations = reservationDbManager.getReservationsFor(userID, "pending");
-        List<RoomReservation> roomReservations = new ArrayList<>();
-        for(int i = 0; i < reservations.size(); ++i){
-            Reservation resv = reservations.get(i);
-            Room room = roomDbManager.getRoom(resv.getRoomId());
-            roomReservations.add(new RoomReservation(room, resv));
-        }
-        return roomReservations;
-    }
-
-    public List<RoomReservation> getRoomReservationsFor(User user){
-        List<Reservation> reservations = reservationDbManager.getReservationsFor(user.getUserId());
-        List<RoomReservation> roomReservations = new ArrayList<>();
-        for(int i = 0; i < reservations.size(); ++i){
-            Reservation resv = reservations.get(i);
-            Room room = roomDbManager.getRoom(resv.getRoomId());
-            roomReservations.add(new RoomReservation(room, resv));
-        }
-        return roomReservations;
-    }
-
-    public List<Room> getAvailableRoomsBetweenDates(String date1, String date2){
-        List<Reservation> reservations = reservationDbManager.getAllReservationsBetween(date1, date2);
-        List<Room> allRooms = roomDbManager.getAllRooms();
-        List<Room> availableRooms = new ArrayList<>();
-        for(int i = 0; i < allRooms.size(); ++i){
-            boolean isRoomAvailable = true;
-            Room room = allRooms.get(i);
-           for(int j = 0; j < reservations.size(); ++j){
-               Reservation resv = reservations.get(j);
-               if(resv.getRoomId() == room.getRoomId()){
-                   isRoomAvailable = false;
-                   break;
-               }
-           }
-           if(isRoomAvailable){
-               availableRooms.add(room);
-           }
-        }
-        return availableRooms;
-    }
-
+	public List<Room> getAvailableRoomsBetweenDates(String date1, String date2){
+		List<Reservation> reservations = reservationDbManager.getAllReservationsBetween(date1, date2);
+		List<Room> allRooms = roomDbManager.getAllRooms();
+		List<Room> availableRooms = new ArrayList<>();
+		
+		for (Room room : allRooms) {
+			boolean isRoomAvailable = true;
+			for (Reservation reservation : reservations) {
+				List<Room> roomsInReservation = roomDbManager.getRoomsByReservationId(reservation.getReservationId());
+				if (roomsInReservation.contains(room)) {
+					isRoomAvailable = false;
+					break;
+				}
+			}
+			if (isRoomAvailable) {
+				availableRooms.add(room);
+			}
+		}
+		
+		return availableRooms;
+	}
+	
     public TransactionInformation getTransactionInformationFor(int transactionID){
         Transaction transaction = transactionDbManager.getTransaction(transactionID);
         User user = null;
@@ -181,29 +169,20 @@ public class DatabaseManager extends DbManagerBase {
      * @param paymentMethod The payment method.
      * @return The total amount paid for all reservations.
      */
-    public double processReservationAsComplete(User user, UserPaymentMethod paymentMethod) {
-        //1. get all "pending" reservations for the user
-        //2. pay for the reservation
-        //3. set the reservation status to "complete"
-
-        //does the user payment method already exist?
-        paymentMethod.setUserId(user.getUserId());
-        UserPaymentMethod exising = userPaymentMethodDbManager.getUserPaymentMethod(paymentMethod);
-        if(exising == null) {
-            paymentMethod.setUserId(user.getUserId());
-            paymentMethod = userPaymentMethodDbManager.createUserPaymentMethod(paymentMethod);
-        }
-        else{
-            paymentMethod = exising;
-        }
+    public double processReservationAsComplete(User user, UserPaymentMethod paymentMethod, int reservationId) {
+        //1. get the payment id
         final int userPaymentMethodID = paymentMethod.getUserPaymentMethodID();
-        var wrapper = new Object(){ double finalAmountPaid = 0;};
-        reservationDbManager.getReservationsFor(user.getUserId(), "pending").forEach(reservation -> {
-            wrapper.finalAmountPaid += reservation.getTotalPrice();
-            transactionDbManager.createTransaction(user.getUserId(), reservation.getReservationId(), reservation.getTotalPrice());
-            reservationDbManager.setReservationStatus(reservation, "confirmed");
-        });
-
+		
+        //2. pay for the reservation
+        Reservation reservation = reservationDbManager.getReservation(reservationId);
+		
+		var wrapper = new Object(){ double finalAmountPaid = reservation.getTotalPrice();};
+		
+		transactionDbManager.createTransaction(user.getUserId(), reservation.getReservationId(), reservation.getTotalPrice(), userPaymentMethodID);
+		
+        //3. set the reservation status to "confirmed"
+		reservationDbManager.setReservationStatus(reservation, "confirmed");
+      
         return wrapper.finalAmountPaid;
     }
 }

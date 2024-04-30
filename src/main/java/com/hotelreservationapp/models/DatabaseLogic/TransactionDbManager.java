@@ -25,7 +25,7 @@ public class TransactionDbManager extends  DbManagerBase{
     public  List<Transaction> getAllTransactionsFor(int userID){
         List<Transaction> transactions = new ArrayList<>();
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM transactions where user_id = ?");
             preparedStatement.setInt(1, userID);
@@ -53,7 +53,7 @@ public class TransactionDbManager extends  DbManagerBase{
     public List<Transaction> getAllTransactions(){
         List<Transaction> transactions = new ArrayList<>();
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM transactions");
             ResultSet rs = preparedStatement.executeQuery();
@@ -82,7 +82,7 @@ public class TransactionDbManager extends  DbManagerBase{
     public  Transaction getTransaction(int transactionID){
         Transaction transaction = null;
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM transactions WHERE transaction_id = ?");
             preparedStatement.setInt(1, transactionID);
@@ -104,7 +104,7 @@ public class TransactionDbManager extends  DbManagerBase{
     }
 
     public Transaction createTransaction(Transaction transaction){
-        return createTransaction(transaction.getUserId(), transaction.getReservationId(), transaction.getAmount());
+        return createTransaction(transaction.getUserId(), transaction.getReservationId(), transaction.getAmount(), transaction.getUserPaymentMethodID());
     }
 
     /**
@@ -112,19 +112,21 @@ public class TransactionDbManager extends  DbManagerBase{
      * @param userID ID of the user which the transaction belongs.
      * @param reservationID ID of the users specific reservation to associate with the transaction.
      * @param amount Total amount paid or to be paid on the transaction.
+     * @param userPaymentMethodID Users specific payment method.
      * @return The newly created transaction. If failed to create, returns null;
      */
-    public Transaction createTransaction(int userID, int reservationID, double amount){
+    public Transaction createTransaction(int userID, int reservationID, double amount, int userPaymentMethodID){
         Transaction transaction = null;
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement
-                    ("INSERT INTO transactions(user_id,reservation_id,amount) " +
-                            "values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    ("INSERT INTO transactions(user_id,reservation_id,amount,user_payment_method_id,transaction_date) " +
+                            "values (?,?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, reservationID);
             preparedStatement.setDouble(3, amount);
+            preparedStatement.setInt(4, userPaymentMethodID);
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             int key = -1;

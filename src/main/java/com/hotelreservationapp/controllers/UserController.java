@@ -40,7 +40,7 @@ public class UserController extends HttpServlet {
         // Perform authentication using the User Model
         //Keep commented out for now to ensure login for any data entered
         //boolean isAuthenticated = userModel.authenticateUser(username, password);
-        DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
+        DatabaseManager databaseManager = new DatabaseManager();
         userModel = databaseManager.userDbManager.getUser(email);
 
         // boolean isAuthenticated = true;
@@ -89,7 +89,7 @@ public class UserController extends HttpServlet {
         // Perform validate using the User Model
         //Keep commented to ensure user can register no matter what
         //boolean isValid = userModel.validateCredentials(username, password);
-        DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
+        DatabaseManager databaseManager = new DatabaseManager();
         userModel = databaseManager.userDbManager.getUser(email);
         boolean isValid = userModel == null || userModel.getUsername() == null;
 

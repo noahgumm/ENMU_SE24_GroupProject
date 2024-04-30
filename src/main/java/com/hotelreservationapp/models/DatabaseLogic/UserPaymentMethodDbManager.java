@@ -195,7 +195,7 @@ public class UserPaymentMethodDbManager extends DbManagerBase{
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM user_payment_methods WHERE card_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("update a set a.is_deleted = 1 from user_payment_methods where card_id = ?");
             preparedStatement.setInt(1, card_id);
             int rowsDeleted = preparedStatement.executeUpdate();
             return rowsDeleted > 0;
