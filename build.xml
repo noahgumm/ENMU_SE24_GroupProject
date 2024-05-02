@@ -28,7 +28,9 @@
     <!-- Compile -->
     <target name="compile" depends="clean">
         <mkdir dir="target/classes"/>
-        <javac srcdir="${src.dir}" destdir="target/classes" classpathref="classpath"/>
+        <javac srcdir="${src.dir}" destdir="target/classes" classpathref="classpath"
+               debuglevel="lines,vars,source"
+               debug="true"/>
     </target>
 
     <!-- Generate sources (if there are any) -->
