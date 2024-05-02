@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class RoomDbManager extends  DbManagerBase{
     private static final Logger logger = Logger.getLogger(RoomDbManager.class.getName());
-	
+
     public RoomDbManager(String url, String username, String password){
         super(url, username, password);
     }
@@ -32,7 +32,7 @@ public class RoomDbManager extends  DbManagerBase{
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Rooms WHERE room_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM rooms WHERE room_id = ?");
             preparedStatement.setInt(1, roomID);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -50,6 +50,7 @@ public class RoomDbManager extends  DbManagerBase{
         catch (Exception e){
             e.printStackTrace();
         }
+
         return room;
     }
 
@@ -62,7 +63,7 @@ public class RoomDbManager extends  DbManagerBase{
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Rooms");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM rooms");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int roomID = rs.getInt("room_id");
@@ -185,12 +186,13 @@ public class RoomDbManager extends  DbManagerBase{
 	public List<Room> getBookedRooms(Date startDate, Date endDate) {
 		List<Room> bookedRooms = new ArrayList<>();
 		try {
-			List<Room> allRooms = getAllRooms(); // Retrieve all rooms
+			List<Room> allRooms = getAllRooms(); 
 			for (Room room : allRooms) {
 				for (DateRange bookedDate : getBookedDatesForRoom(room.getRoomId())) {
-					if (startDate.before(bookedDate.getEndDate()) && endDate.after(bookedDate.getStartDate())) {
+					if ((startDate.equals(bookedDate.getStartDate()) || startDate.after(bookedDate.getStartDate())) &&
+						(endDate.equals(bookedDate.getEndDate()) || endDate.before(bookedDate.getEndDate()))) {
 						bookedRooms.add(room);
-						break; // Once a room is booked within the date range, move to the next room
+						break; 
 					}
 				}
 			}
@@ -199,7 +201,7 @@ public class RoomDbManager extends  DbManagerBase{
 		}
 		return bookedRooms;
 	}
-	
+
 	/**
      * Gets the current booked dates for a given room
      * @param roomID The ID of the room.
@@ -232,15 +234,16 @@ public class RoomDbManager extends  DbManagerBase{
      * @param endDate The end date of the booking.
      * @return True if the booking is successful, false otherwise.
      */
-    public boolean bookRoom(int roomID, Date startDate, Date endDate) {
+    public boolean bookRoom(int userID, int roomID, Date startDate, Date endDate) {
         boolean success = false;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Bookings (room_id, start_date, end_date) VALUES (?, ?, ?)");
-            preparedStatement.setInt(1, roomID);
-            preparedStatement.setDate(2, startDate);
-            preparedStatement.setDate(3, endDate);
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Bookings (user_id, room_id, check_in_date, check_out_date) VALUES (?, ?, ?, ?)");
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, roomID);
+            preparedStatement.setDate(3, startDate);
+            preparedStatement.setDate(4, endDate);
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 success = true;
@@ -251,7 +254,7 @@ public class RoomDbManager extends  DbManagerBase{
         }
         return success;
     }
-	
+
 	/**
      * Gets the timestamp of a room given its ID.
      * @param roomId The ID of the room.
@@ -274,4 +277,86 @@ public class RoomDbManager extends  DbManagerBase{
         }
         return timestamp;
     }
+
+    /**
+    * Deletes room from database
+     * @param roomID The ID of the room to be deleted
+    * */
+    public void deleteRoom(int roomID){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+
+            PreparedStatement preparedStatement = conn.prepareStatement("DELETE from rooms WHERE room_id = ?");
+
+            preparedStatement.setInt(1, roomID);
+
+            // Execute the update statement
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+	
+	public List<Room> getRoomsByReservationId(int reservationId) {
+		List<Room> rooms = new ArrayList<>();
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"SELECT r.room_id, r.room_number, r.room_type, r.floor_number, r.price_per_night, r.room_description, r.number_of_beds, r.created_at " +
+					"FROM rooms r " +
+					"INNER JOIN reservation_rooms rr ON r.room_id = rr.room_id " +
+					"WHERE rr.reservation_id = ?");
+			preparedStatement.setInt(1, reservationId);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				int roomId = rs.getInt("room_id");
+				String roomNumber = rs.getString("room_number");
+				String roomType = rs.getString("room_type");
+				int floorNumber = rs.getInt("floor_number");
+				double pricePerNight = rs.getDouble("price_per_night");
+				String roomDescription = rs.getString("room_description");
+				int numberOfBeds = rs.getInt("number_of_beds");
+				Timestamp createdAt = rs.getTimestamp("created_at");
+				rooms.add(new Room(roomId, roomNumber, roomType, floorNumber, pricePerNight, roomDescription, numberOfBeds, createdAt));
+			}
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rooms;
+	}
+	
+	/**
+	 * Gets a room from the database based on its room number.
+	 * @param roomNumber The room number of the room to retrieve.
+	 * @return The room found. Null if no room found.
+	 */
+	public Room getRoomByRoomNumber(String roomNumber) {
+		Room room = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+			PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM rooms WHERE room_number = ?");
+			preparedStatement.setString(1, roomNumber);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				int roomId = rs.getInt("room_id");
+				String roomType = rs.getString("room_type");
+				int floorNumber = rs.getInt("floor_number");
+				double pricePerNight = rs.getDouble("price_per_night");
+				String roomDescription = rs.getString("room_description");
+				int numberOfBeds = rs.getInt("number_of_beds");
+				Timestamp createdAt = rs.getTimestamp("created_at");
+				room = new Room(roomId, roomNumber, roomType, floorNumber, pricePerNight, roomDescription, numberOfBeds, createdAt);
+			}
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return room;
+	}
+		
 }

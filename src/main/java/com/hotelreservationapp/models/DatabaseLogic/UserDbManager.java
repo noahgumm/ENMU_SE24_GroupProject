@@ -51,6 +51,7 @@ public class UserDbManager extends DbManagerBase {
         }
         catch (Exception e){
             String msg = e.getMessage();
+            e.printStackTrace();
         }
         return user;
     }
@@ -77,11 +78,12 @@ public class UserDbManager extends DbManagerBase {
                 user = new User(userID, username, password, email, phone,createdAt);
             }
             conn.close();
+            return user;
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
-        return user;
+        return null;
     }
 
     /**

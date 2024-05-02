@@ -3,6 +3,8 @@ package com.hotelreservationapp.models.Database.Tables;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Database table model
@@ -11,7 +13,7 @@ import java.sql.Timestamp;
 public class Reservation {
     private int reservationId;
     private int userId;
-    private int roomId;
+    private List<Room> rooms;
     private Date checkInDate;
     private Date checkOutDate;
     private double totalPrice;
@@ -21,18 +23,34 @@ public class Reservation {
     private Timestamp createdAt;
 
     public Reservation() {
+        this.rooms = new ArrayList<>();
     }
 
-    public Reservation(int reservationId,int userId, int roomId, Date checkInDate, Date checkOutDate, double totalPrice,
+    public Reservation(int reservationId,int userId, List<Room> rooms, Date checkInDate, Date checkOutDate, double totalPrice,
                        int numGuests, boolean pets, String reservationStatus, Timestamp createdAt) {
         this.reservationId = reservationId;
         this.userId = userId;
-        this.roomId = roomId;
+        this.rooms = rooms;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.totalPrice = totalPrice;
         this.numGuests = numGuests;
 		this.pets = pets;
+        this.reservationStatus = reservationStatus;
+        this.createdAt = createdAt;
+    }
+
+
+    public Reservation(int reservationId,int userId, List<Room> rooms, Date checkInDate, Date checkOutDate, double totalPrice,
+                       int numGuests, String reservationStatus, Timestamp createdAt) {
+        this.reservationId = reservationId;
+        this.userId = userId;
+        this.rooms = rooms;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.totalPrice = totalPrice;
+        this.numGuests = numGuests;
+		this.pets = false;
         this.reservationStatus = reservationStatus;
         this.createdAt = createdAt;
     }
@@ -53,17 +71,25 @@ public class Reservation {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
-    public int getRoomId() {
-        return roomId;
+	
+    public List<Room> getRooms() {
+        return rooms;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
     public Date getCheckInDate() {
         return checkInDate;
+    }
+
+    public String getCheckInDateAsString() {
+        return checkInDate.toString();
+    }
+
+    public String getCheckOutDateAsString() {
+        return checkOutDate.toString();
     }
 
     public void setCheckInDate(Date checkInDate) {
