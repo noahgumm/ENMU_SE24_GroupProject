@@ -26,8 +26,8 @@ public class ManageRoomsController extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
-		 // Log a debug message
-        logger.info("Entering doGet method for Rooms View");
+		// Log a debug message
+		logger.info("Entering doGet method for Rooms View");
 		
 		// Initialize the Database Manager
 		DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
@@ -49,16 +49,23 @@ public class ManageRoomsController extends HttpServlet{
 				Date endDate = Date.valueOf(tomorrow);
 
 				// Calculate the number of days for the stay
-				daysStaying = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+				daysStaying = (int) (((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
 
 				// Fetch rooms that are booked for the specified date range
 				rooms = databaseManager.roomDbManager.getAllRooms();
 				bookedRooms = databaseManager.roomDbManager.getBookedRooms(startDate, endDate);
+
+				// Fetch overlapping reservations on the start date
+				List<Room> overlappingRoomsStart = databaseManager.roomDbManager.getBookedRooms(startDate, startDate);
+
+				// Merge overlapping reservations into the bookedRooms list
+				bookedRooms.addAll(overlappingRoomsStart);
+
 				highestFloorNumber = databaseManager.roomDbManager.getHighestFloorNumber();
 				
-				logger.info("Giving default parameters: ");			
-				logger.info("Rooms: "  + rooms);		
-				logger.info("Booked Rooms: "  + bookedRooms);	
+				logger.info("Giving default parameters: ");            
+				logger.info("Rooms: "  + rooms);        
+				logger.info("Booked Rooms: "  + bookedRooms);    
 				logger.info("Highest Floor: "  + highestFloorNumber);
 				
 			} else {
@@ -67,18 +74,25 @@ public class ManageRoomsController extends HttpServlet{
 				long endDateMillis = Long.parseLong(request.getParameter("endDate"));
 				Date startDate = new Date(startDateMillis);
 				Date endDate = new Date(endDateMillis);
- 
+	 
 				// Calculate the number of days for the stay
-				daysStaying = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+				daysStaying = (int) (((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
 
 				// Fetch rooms that are Booked for the specified date range
 				rooms = databaseManager.roomDbManager.getAllRooms();
 				bookedRooms = databaseManager.roomDbManager.getBookedRooms(startDate, endDate);
+
+				// Fetch overlapping reservations on the start date
+				List<Room> overlappingRoomsStart = databaseManager.roomDbManager.getBookedRooms(startDate, startDate);
+
+				// Merge overlapping reservations into the bookedRooms list
+				bookedRooms.addAll(overlappingRoomsStart);
+
 				highestFloorNumber = databaseManager.roomDbManager.getHighestFloorNumber();
 				
-				logger.info("Received parameters from form: ");		
-				logger.info("Rooms: "  + rooms);		
-				logger.info("Booked Rooms: "  + bookedRooms);			
+				logger.info("Received parameters from form: ");       
+				logger.info("Rooms: "  + rooms);        
+				logger.info("Booked Rooms: "  + bookedRooms);            
 				logger.info("Highest Floor: "  + highestFloorNumber);
 			}
 
@@ -103,9 +117,8 @@ public class ManageRoomsController extends HttpServlet{
 			throw new ServletException(e);
 		}
 		
-		 // Log a debug message
-        logger.info("Exiting doGet method for Rooms View");
-		
+		// Log a debug message
+		logger.info("Exiting doGet method for Rooms View");
 	}
 	
     @Override
