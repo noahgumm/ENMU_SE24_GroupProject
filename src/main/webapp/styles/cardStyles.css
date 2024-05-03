@@ -1,0 +1,30 @@
+h1 {
+    color: white;
+}
+
+.container {
+    display: inline-block;
+    list-style-type: none;
+    width: 20%;
+}
+
+.list-group {
+    overflow: hidden;
+}
+
+.list-group-item {
+    text-align: left;
+    text-overflow: ellipsis;
+}
+
+.card {
+    border-radius: 8px;
+}
+
+.back {
+    top: 0;
+}
+
+option {
+    background-color: white;
+}

@@ -89,4 +89,58 @@
         <servlet-name>AdminLogin</servlet-name>
         <url-pattern>/AdminLogin</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminHome</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.AdminHomeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminHome</servlet-name>
+        <url-pattern>/AdminHome</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ManageReservations</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.AdminReservationsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManageReservations</servlet-name>
+        <url-pattern>/ManageReservations</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ModifyRoom</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ModifyRoomController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModifyRoom</servlet-name>
+        <url-pattern>/ModifyRoom</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ModifyReservation</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ModifyReservationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModifyReservation</servlet-name>
+        <url-pattern>/ModifyReservation</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReservationManagementEdit</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ReservationEditController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReservationManagementEdit</servlet-name>
+        <url-pattern>/ReservationManagementEdit</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReservationManagementDelete</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ReservationDeleteController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReservationManagementDelete</servlet-name>
+        <url-pattern>/ReservationManagementDelete</url-pattern>
+    </servlet-mapping>
 </web-app>
