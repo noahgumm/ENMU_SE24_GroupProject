@@ -36,8 +36,8 @@
 
     <!-- Compile -->
     <target name="compile" depends="clean">
-        <mkdir dir="${build.dir}"/>
-        <javac srcdir="${src.dir}:${test.dir}" destdir="${build.dir}" classpathref="classpath" includeantruntime="false"
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}:${test.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false"
                debuglevel="lines,vars,source"
                debug="true"/>
     </target>
@@ -93,7 +93,7 @@
     <target name="war" depends="compile, generate">
         <war destfile="HotelReservationApp.war" webxml="src/main/webapp/WEB-INF/web.xml">
             <fileset dir="src/main/webapp"/>
-            <classes dir="${build.dir}"/>
+            <classes dir="${classes.dir}"/>
             <lib dir="lib"/>
         </war>
     </target>
