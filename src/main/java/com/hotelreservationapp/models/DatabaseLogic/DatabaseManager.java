@@ -28,7 +28,7 @@ public class DatabaseManager extends DbManagerBase {
         SettingsReader settingsReader = new SettingsReader();
         ConnectionsConfig settings = settingsReader.readSettings();
         System.out.println(settings.getConnections());
-        Connection aws = findConnectionByName(settings, "DEFAULT");
+        Connection aws = findConnectionByName(settings, "AWS");
         String dbURL = "jdbc:mysql://" + aws.getConnectionValues().getHost() + ":" + aws.getConnectionValues().getPort() + "/" + aws.getConnectionValues().getDatabase_name();
         super.setDbURL(dbURL);
         super.setDbUsername(aws.getConnectionValues().getUser());
@@ -115,17 +115,38 @@ public class DatabaseManager extends DbManagerBase {
         return new CartInformation(user, reservations);
     }
 	
-	public List<RoomReservation> getRoomReservationsFor(int userID) {
-		List<Reservation> reservations = reservationDbManager.getReservationsFor(userID, "pending");
-		List<RoomReservation> roomReservations = new ArrayList<>();
-		for (Reservation reservation : reservations) {
-			List<Room> rooms = roomDbManager.getRoomsByReservationId(reservation.getReservationId());
-			for (Room room : rooms) {
-				roomReservations.add(new RoomReservation(room, reservation));
-			}
-		}
-		return roomReservations;
-	}
+
+    public List<RoomReservation> getRoomReservationsFor(int userID){
+        List<Reservation> reservations = reservationDbManager.getReservationsFor(userID, "pending");
+        List<RoomReservation> roomReservations = new ArrayList<>();
+        for(int i = 0; i < reservations.size(); ++i){
+            List<ReservationRooms> reservationRooms = reservationDbManager.getRoomReservations(reservations.get(i).getReservationId());
+            List<Room> rooms = new ArrayList<>();
+            for(int j = 0; j < reservationRooms.size(); ++j){
+                Room room = roomDbManager.getRoom(reservationRooms.get(j).getRoomID());
+                rooms.add(room);
+            }
+            Reservation resv = reservations.get(i);
+            roomReservations.add(new RoomReservation(rooms, resv));
+        }
+        return roomReservations;
+    }
+
+    public List<RoomReservation> getRoomReservationsFor(User user){
+        List<Reservation> reservations = reservationDbManager.getReservationsFor(user.getUserId());
+        List<RoomReservation> roomReservations = new ArrayList<>();
+        for(int i = 0; i < reservations.size(); ++i){
+            List<ReservationRooms> reservationRooms = reservationDbManager.getRoomReservations(reservations.get(i).getReservationId());
+            Reservation resv = reservations.get(i);
+            List<Room> rooms = new ArrayList<>();
+            for(int j = 0; j < reservationRooms.size(); ++j){
+                Room room = roomDbManager.getRoom(reservationRooms.get(j).getRoomID());
+                rooms.add(room);
+            }
+            roomReservations.add(new RoomReservation(rooms, resv));
+        }
+        return roomReservations;
+    }
 
 	public List<Room> getAvailableRoomsBetweenDates(String date1, String date2){
 		List<Reservation> reservations = reservationDbManager.getAllReservationsBetween(date1, date2);
@@ -184,5 +205,24 @@ public class DatabaseManager extends DbManagerBase {
 		reservationDbManager.setReservationStatus(reservation, "confirmed");
       
         return wrapper.finalAmountPaid;
+    }
+
+    public AdminReservationReport getAdminReservationReportFor(int reservationID){
+        Reservation reservation = reservationDbManager.getReservation(reservationID);
+        List<Room> rooms = roomDbManager.getRoomsFor(reservationID);
+        User user = userDbManager.getUser(reservation.getUserId());
+        return new AdminReservationReport(reservation, rooms, user);
+    }
+
+    public List<AdminReservationReport> getAdminReservationReportForAllReservations(){
+        List<AdminReservationReport> reports = new ArrayList<>();
+        List<Reservation> reservations = reservationDbManager.getAllReservations();
+        for(int i = 0; i < reservations.size(); ++i){
+            Reservation reservation = reservations.get(i);
+            List<Room> rooms = roomDbManager.getRoomsFor(reservation.getReservationId());
+            User user = userDbManager.getUser(reservation.getUserId());
+            reports.add(new AdminReservationReport(reservation, rooms, user));
+        }
+        return reports;
     }
 }

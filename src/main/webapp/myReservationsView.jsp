@@ -51,6 +51,7 @@
 					<button type="submit" name="action" value="modify">MODIFY</button>
 					<button type="submit" name="action" value="cancel">CANCEL</button>
 				</form>
+				<a href="/HotelReservationApp/Cart">CHECKOUT</a>
 			<%
 			}
 			%>

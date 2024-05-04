@@ -36,8 +36,8 @@ public class AdminLoginController extends HttpServlet {
         // Perform authentication using the User Model
         //Keep commented out for now to ensure login for any data entered
         //boolean isAuthenticated = userModel.authenticateUser(username, password);
-        DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
-
+        DatabaseManager databaseManager = new DatabaseManager();
+        admin = null;
         for (Admin a : databaseManager.adminDbManager.getAdminAllUsers()) {
             System.out.println(a.getEmail());
             if (Objects.equals(a.getEmail(), email)) {
@@ -46,9 +46,9 @@ public class AdminLoginController extends HttpServlet {
         }
 
         // boolean isAuthenticated = true;
-        int isAuthenticated = password.compareTo(admin.getPassword());
+        boolean isAuthenticated = admin != null && password.compareTo(admin.getPassword()) == 0;
         // Forward to Success or Login View based on authentication result
-        if (isAuthenticated == 0) {
+        if (isAuthenticated) {
             request.getSession().setAttribute("username", admin.getUsername());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminHome");
             dispatcher.forward(request, response);

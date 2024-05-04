@@ -143,4 +143,22 @@
         <servlet-name>ReservationManagementDelete</servlet-name>
         <url-pattern>/ReservationManagementDelete</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminReservationReport</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.AdminReservationReportController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminReservationReport</servlet-name>
+        <url-pattern>/AdminReservationReport</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RoomReservationManagement</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.RoomReservationManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RoomReservationManagement</servlet-name>
+        <url-pattern>/RoomReservationManagement</url-pattern>
+    </servlet-mapping>
 </web-app>

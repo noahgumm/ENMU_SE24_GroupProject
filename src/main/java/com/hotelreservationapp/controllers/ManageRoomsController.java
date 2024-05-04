@@ -30,7 +30,7 @@ public class ManageRoomsController extends HttpServlet{
 		logger.info("Entering doGet method for Rooms View");
 		
 		// Initialize the Database Manager
-		DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
+		DatabaseManager databaseManager = new DatabaseManager();
 
 		try {
 			List<Room> rooms;
@@ -124,7 +124,7 @@ public class ManageRoomsController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
        String action = request.getParameter("action");
-       DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
+	   DatabaseManager databaseManager = new DatabaseManager();
 	   
        try {
 			//	Create Room

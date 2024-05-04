@@ -11,7 +11,7 @@
       }
     },
     {
-      "connectionName": "DEFAULT_2",
+      "connectionName": "AWS",
       "connectionValues": {
         "host": "hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com",
         "port": "3306",

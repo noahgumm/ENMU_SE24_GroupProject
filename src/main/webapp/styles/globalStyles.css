@@ -39,6 +39,12 @@ body {
     text-align: center;
 }
 
+select option {
+    background: white;
+    color: black;
+  }
+
+
 .container h1 {
     font-size: 3em;
     padding: 0;

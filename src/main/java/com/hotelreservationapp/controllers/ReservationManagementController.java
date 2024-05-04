@@ -51,7 +51,14 @@ public class ReservationManagementController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         // Check if the request comes from the initial booking, room selection, or cart view.
+        //logged in user
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            response.sendRedirect("loginView.jsp");
+            return;
+        }
+
+         // Check if the request comes from the room selection page
         String roomSelectionParam = request.getParameter("roomSelectionParam");
         String cartParam = request.getParameter("cartParam");
 		
@@ -150,14 +157,9 @@ public class ReservationManagementController extends HttpServlet {
                 return;
             }
 
-			// Retrieve the User object from the session
-			User user = (User) request.getSession().getAttribute("user");
-			
-			if (user == null) {
-				//Send to Login if not logged in
-				response.sendRedirect(request.getContextPath());
-				return;
-			}
+            
+
+            
 			
 			int userId = user.getUserId();
 			
@@ -167,6 +169,11 @@ public class ReservationManagementController extends HttpServlet {
             reservation.setUserId(userId);
             reservation.setNumGuests(guests);
             reservation.setPets(pets);
+            reservation.setUserId(user.getUserId());
+            reservation.setTotalPrice(0);
+            reservation.setReservationStatus("pending");
+            
+
 			
 			// Convert Timestamp to java.sql.Date for check-in and check-out dates
 			java.sql.Date checkInDate = new java.sql.Date(startDate.getTime());
@@ -176,19 +183,9 @@ public class ReservationManagementController extends HttpServlet {
 			reservation.setCheckOutDate(checkOutDate);
 
             // Save the reservation to the database using ReservationDbManager
-			DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
-            Reservation createdReservation = databaseManager.reservationDbManager.createReservation(reservation);
+            DatabaseManager databaseManager = new DatabaseManager();
+            reservation = databaseManager.reservationDbManager.createReservation(reservation);
 
-			// Fetch the ID of the newly created reservation
-			int reservationId = createdReservation.getReservationId();
-			logger.info("Reservation ID before setting as attribute: " + reservationId);
-
-			// Set the reservation ID as a request attribute for later use
-			request.setAttribute("reservationId", reservationId);
-				
-			// Log the request attributes to verify the attribute is set
-			logger.info("reservationId request attibute set to: " + request.getAttribute("reservationId"));
-				
             // Redirect to ManageRoomsController passing the date range as parameter
             response.sendRedirect(request.getContextPath() + "/ManageRooms?startDate=" + startDate.getTime() + "&endDate=" + endDate.getTime() + "&reservationId=" + reservationId);
         }

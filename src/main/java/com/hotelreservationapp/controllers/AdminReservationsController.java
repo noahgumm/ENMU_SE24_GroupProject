@@ -19,7 +19,7 @@ public class AdminReservationsController extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         //Set an attribute to store all the rooms to display them on the page
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
+        DatabaseManager database = new DatabaseManager();
         req.getSession().setAttribute("reservations", database.reservationDbManager.getAllReservations());
 
         // Perform a redirect to the adminRoomsView.jsp
@@ -36,7 +36,7 @@ public class AdminReservationsController extends HttpServlet{
 
     private void SearchForReservation(HttpServletRequest req){
         //Set an attribute to store all the rooms to display them on the page
-        DatabaseManager database = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system","admin","password");
+        DatabaseManager database = new DatabaseManager();
 
         String selectedSearchOption = req.getParameter("searchType");
         System.out.println(selectedSearchOption);

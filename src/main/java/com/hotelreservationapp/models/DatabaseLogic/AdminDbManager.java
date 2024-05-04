@@ -90,7 +90,7 @@ public class AdminDbManager extends DbManagerBase {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Admins");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM admins");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int userID = rs.getInt("admin_id");
@@ -103,7 +103,7 @@ public class AdminDbManager extends DbManagerBase {
             conn.close();
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
         return users;
     }
