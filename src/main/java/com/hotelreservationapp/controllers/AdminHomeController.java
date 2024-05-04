@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @WebServlet(name = "AdminHome", urlPatterns = {"/AdminHome", "/AddAdmin"})
 public class AdminHomeController extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
@@ -37,7 +37,7 @@ public class AdminHomeController extends HttpServlet {
 
         //Add admin to the database
         if(Objects.equals(action, "AddAdmin")){
-            DatabaseManager database = new DatabaseManager("jdbc:mysql://hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com:3306/hotel_reservation_system","root","3NMU_S324_Gr0upPr0j3ct");
+            DatabaseManager database = new DatabaseManager();
 
             String username = req.getParameter("username");
             String email = req.getParameter("email");

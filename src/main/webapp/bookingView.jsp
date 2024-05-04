@@ -16,9 +16,7 @@
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <body>
-        <div class="container">
-			<img class="logo" src="images/logo.png" alt="Logo">
-			
+        <div class="container">			
             <h1>Book Your Trip</h1>		
 			
             <a href="mainView.jsp"><p class="back"><</p></a>
@@ -31,8 +29,8 @@
 				
 				<label for="pets">Bringing Pets?</label><br>
 				<select name="pets" id="pets">
-				  <option value="no">No</option>
-				  <option value="yes">Yes</option>
+				  <option value="false">No</option>
+				  <option value="true">Yes</option>
 				</select><br><br>
 				
 				<label for="dates">Select Dates</label><br>
@@ -55,7 +53,8 @@
 					}
 				});
 			});
-		</script>
+		</script>		
+		<img class="logo" src="images/logo.png" alt="Logo">
 		<style>
 			.daterangepicker {
 				color: black;

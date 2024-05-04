@@ -12,7 +12,7 @@
     <h1>Test Database Info</h1>
     <%
         // Initialize the Database Manager
-        DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
+        DatabaseManager databaseManager = new DatabaseManager();
 
         // Get all rooms from the Database
         List<Room> rooms = databaseManager.roomDbManager.getAllRooms(); 

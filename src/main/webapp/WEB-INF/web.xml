@@ -127,11 +127,38 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AddAdmin</servlet-name>
-        <servlet-class>com.hotelreservationapp.controllers.AdminHomeController</servlet-class>
+        <servlet-name>ReservationManagementEdit</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ReservationEditController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AddAdmin</servlet-name>
-        <url-pattern>/AddAdmin</url-pattern>
+        <servlet-name>ReservationManagementEdit</servlet-name>
+        <url-pattern>/ReservationManagementEdit</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReservationManagementDelete</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ReservationDeleteController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReservationManagementDelete</servlet-name>
+        <url-pattern>/ReservationManagementDelete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminReservationReport</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.AdminReservationReportController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminReservationReport</servlet-name>
+        <url-pattern>/AdminReservationReport</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RoomReservationManagement</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.RoomReservationManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RoomReservationManagement</servlet-name>
+        <url-pattern>/RoomReservationManagement</url-pattern>
     </servlet-mapping>
 </web-app>

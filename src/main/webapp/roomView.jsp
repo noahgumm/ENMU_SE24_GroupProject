@@ -46,9 +46,9 @@
             %>
             <div class="room booked" data-room="<%= room.getRoomNumber() %>" data-price="<%= room.getPricePerNight() %>">
                 <div class="roomDeets"><br>
-                    <b>Room <%= room.getRoomNumber() %></b><br><br>
-					<%= room.getRoomType() %><br>
-                    $<%= room.getPricePerNight() %>0/Night<br>
+                    <b>Room <%= room.getRoomNumber() %></b><br><br><br>
+					<%= room.getRoomType() %><br><br>
+                    $<%= room.getPricePerNight() %>0/Night<br><br>
                     <%= room.getNumberOfBeds() %> Bed(s)
                 </div>
             </div>
@@ -57,9 +57,9 @@
             %>
             <div class="room available" data-room="<%= room.getRoomNumber() %>" data-price="<%= room.getPricePerNight() %>">
                 <div class="roomDeets"><br>
-                    <b>Room <%= room.getRoomNumber() %></b><br><br>
-					<%= room.getRoomType() %><br>
-                    $<%= room.getPricePerNight() %>0/Night<br>
+                    <b>Room <%= room.getRoomNumber() %></b><br><br><br>
+					<%= room.getRoomType() %><br><br>
+                    $<%= room.getPricePerNight() %>0/Night<br><br>
                     <%= room.getNumberOfBeds() %> Bed(s)
                 </div>
             </div>
@@ -85,16 +85,19 @@
         <p>Error: Highest floor number is missing.</p>
     <% } %>
     <br><br>	
-    <form name="roomsForm" action="/ReservationManagement" method="post">
+    <form name="roomsForm" action="ReservationManagement" method="post">
         <h3>Selected Rooms:</h3>
         <div id="selected-rooms"></div><br><br>
         <h3>Nights Staying:</h3>
 		<div id="days-num" data-days="<%= request.getAttribute("daysStaying") %>"><%= request.getAttribute("daysStaying") %></div><br><br>
         <input type="hidden" id="roomCount" name="roomCount" value="0">
+		<input type="hidden" id="roomSelectionParam" name="roomSelectionParam" value="fromRoomSelectionPage">
+		<input type="hidden" name="reservationId" value="<%= request.getParameter("reservationId") %>">    
         <h3>Total Price:<br>$<span id="totalPrice">0</span></h3><br>
         <button type="submit">ADD TO CART</button>
     </form>
 </div>
+<img class="logo" src="images/logo.png" alt="Logo">
 <script>
     // Javascript for Selecting Rooms (Updates View)
     const selectedRoomsContainer = document.getElementById('selected-rooms');
@@ -115,23 +118,36 @@
         });
     });
 
-    function updateSelectedRoomsList() {
-        count = 0;
-        selectedRoomsContainer.innerHTML = '';
-        selectedRooms.forEach(room => {
-            const roomItem = document.createElement('input');
-            roomItem.value = room;
-            roomItem.type = "text"; 
-            roomItem.disabled = true;
-            let roomItemNumber = "room" + count; 
-            roomItem.name = roomItemNumber;
-            roomItem.className = "roomItem";
-            roomItem.style.borderBottom = "none";
-            selectedRoomsContainer.appendChild(roomItem);
-            count++;
-        });
-        document.getElementById("roomCount").value = count;
-    }
+	function updateSelectedRoomsList() {
+		let count = 0;
+		selectedRoomsContainer.innerHTML = '';
+		selectedRooms.forEach(room => {
+			// Create hidden input
+			const hiddenInput = document.createElement('input');
+			hiddenInput.value = room;
+			hiddenInput.type = "hidden"; 
+			let hiddenInputName = "room" + count;
+			hiddenInput.name = hiddenInputName;
+			hiddenInput.className = "roomItem";
+			hiddenInput.style.borderBottom = "none";
+			hiddenInput.style.display = "none"; 
+			selectedRoomsContainer.appendChild(hiddenInput);
+
+			// Create disabled input
+			const disabledInput = document.createElement('input');
+			disabledInput.value = room;
+			disabledInput.type = "text"; 
+			disabledInput.disabled = true; 
+			let disabledInputName = "roomDisabled" + count;
+			disabledInput.name = disabledInputName;
+			disabledInput.className = "roomItem";
+			disabledInput.style.borderBottom = "none";
+			selectedRoomsContainer.appendChild(disabledInput);
+
+			count++;
+		});
+		document.getElementById("roomCount").value = count;
+	}
 
     // Navigation between floors (Updates View)
     let currentFloor = 1;
