@@ -16,7 +16,8 @@ import java.io.PrintWriter;
 public class BookingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("bookingView.jsp");
+		// Forward to the Booking View	
+		resp.sendRedirect("bookingView.jsp");
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

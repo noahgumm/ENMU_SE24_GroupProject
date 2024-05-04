@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This servlet fetches room data in the doGet() method to populate the form
@@ -50,7 +52,7 @@ public class ModifyReservationController extends HttpServlet{
         } else if (action.equals("/ModifyReservation")){
             //Use attributes to store room data in the form as default/placeholder
             req.setAttribute("userID", reservationToModify.getReservationId());
-            req.setAttribute("roomID", reservationToModify.getRoomId());
+            req.setAttribute("rooms", reservationToModify.getRooms()); 
             req.setAttribute("checkInDate", reservationToModify.getCheckInDate());
             req.setAttribute("checkOutDate", reservationToModify.getCheckOutDate());
             req.setAttribute("totalPrice", reservationToModify.getTotalPrice());
@@ -74,27 +76,31 @@ public class ModifyReservationController extends HttpServlet{
         dispatcher.forward(req, resp);
     }
 
-    private void Modify(HttpServletRequest req){
+     private void Modify(HttpServletRequest req) {
         DatabaseManager database = new DatabaseManager();
         Reservation reservation = database.reservationDbManager.getReservation(id);
 
-        //Update room information
-
-        String checkInDate = req.getParameter("checkIn");
-        String checkOutDate = req.getParameter("checkOut");
-        Date checkIn = Date.valueOf(checkInDate);
-        Date checkOut = Date.valueOf(checkOutDate);
+        // Update room information
+        List<Room> rooms = new ArrayList<>();
+        String[] roomIdsString = req.getParameter("roomIDs").split(",");
+        for (String roomIdString : roomIdsString) {
+            int roomId = Integer.parseInt(roomIdString);
+            Room room = database.roomDbManager.getRoom(roomId);
+            if (room != null) {
+                rooms.add(room);
+            }
+        }
+        reservation.setRooms(rooms); // Set the list of Room objects
 
         reservation.setUserId(Integer.parseInt(req.getParameter("userID")));
-        reservation.setRoomId(Integer.parseInt(req.getParameter("roomID")));
-        reservation.setCheckInDate(checkIn);
-        reservation.setCheckOutDate(checkOut);
+        reservation.setCheckInDate(Date.valueOf(req.getParameter("checkInDate")));
+        reservation.setCheckOutDate(Date.valueOf(req.getParameter("checkOutDate")));
         reservation.setTotalPrice(Float.parseFloat(req.getParameter("totalPrice")));
         reservation.setNumGuests(Integer.parseInt(req.getParameter("guests")));
         reservation.setPets(Boolean.parseBoolean(req.getParameter("pets")));
         reservation.setReservationStatus(req.getParameter("status"));
 
-        //Update database and notify user
+        // Update database and notify user
         database.reservationDbManager.updateReservation(reservation);
         req.setAttribute("message", "Reservation with id of " + reservation.getReservationId() + " modified.");
     }
