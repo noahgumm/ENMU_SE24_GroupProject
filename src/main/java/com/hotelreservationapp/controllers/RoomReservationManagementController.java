@@ -13,18 +13,18 @@ import com.hotelreservationapp.models.DatabaseLogic.DatabaseManager;
 public class RoomReservationManagementController extends BaseController {
     
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        String reservationID = req.getParameter("reservationID");
-        String[] roomIDs = req.getParameterValues("selectedRoom");
+    // @Override
+    // protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //     // TODO Auto-generated method stub
+    //     String reservationID = req.getParameter("reservationID");
+    //     String[] roomIDs = req.getParameterValues("selectedRoom");
 
-        DatabaseManager databaseManager = new DatabaseManager();
-        if(databaseManager.reservationDbManager.addReservationRooms(Integer.parseInt(reservationID), roomIDs)) {
-            databaseManager.reservationDbManager.updateTotalReservationCost(Integer.parseInt(reservationID));
-            resp.sendRedirect(req.getContextPath() + "/Cart");
-        } else {
-            req.setAttribute("message", "Error adding rooms to reservation.");
-        }
-    }
+    //     DatabaseManager databaseManager = new DatabaseManager();
+    //     if(databaseManager.reservationDbManager.addReservationRooms(Integer.parseInt(reservationID), roomIDs)) {
+    //         databaseManager.reservationDbManager.updateTotalReservationCost(Integer.parseInt(reservationID));
+    //         resp.sendRedirect(req.getContextPath() + "/Cart");
+    //     } else {
+    //         req.setAttribute("message", "Error adding rooms to reservation.");
+    //     }
+    // }
 }

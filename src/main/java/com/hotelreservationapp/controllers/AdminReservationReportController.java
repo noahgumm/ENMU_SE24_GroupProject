@@ -14,7 +14,7 @@ public class AdminReservationReportController extends BaseController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DatabaseManager databaseManager = new DatabaseManager();
-        req.getSession().setAttribute("reservations", databaseManager.getAdminReservationReportForAllReservations());
+        // req.getSession().setAttribute("reservations", databaseManager.getAdminReservationReportForAllReservations());
 
         // Perform a redirect to the adminRoomsView.jsp
         resp.sendRedirect(req.getContextPath() + "/adminReservationReportsView.jsp");
