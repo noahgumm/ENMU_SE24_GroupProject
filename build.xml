@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="HotelReservationApp" default="build" basedir="">
+<project name="HotelReservationApp" default="build" basedir="." xmlns:jacoco="antlib:org.jacoco.ant">
 
     <!-- Define project properties -->
     <property name="src.dir" value="src/main/java"/>
+    <property name="test.dir" location="test"/>
     <property name="web.dir" value="src/main/webapp"/>
     <property name="build.dir" value="target"/>
     <property name="lib.dir" value="lib"/>
@@ -10,27 +11,76 @@
     <property name="generated.dir" value="target/generated-sources"/>
     <property name="annotations.dir" value="target/generated-sources/annotations"/>
     <property name="war.name" value="HotelReservationApp.war"/>
+    <property name="junit.jar" location="${lib.dir}/junit-4.13.2.jar"/>
+    <property name="hamcrest.jar" location="${lib.dir}/hamcrest-2.2.jar"/>
+    <property name="jacoco.jar" location="${lib.dir}/jacocoant.jar"/>
 
     <!-- Dependencies from lib folder -->
     <path id="classpath">
-        <fileset dir="lib">
-            <include name="*.jar"/>
-        </fileset>		
+        <fileset dir="lib" includes="*.jar"/>	
 		<pathelement location="lib/commons-io-2.16.1.jar"/>
+        <pathelement location="${test.dir}"/>
+        <pathelement location="${build.dir}"/>
+        <pathelement location="${src.dir}"/>
     </path>
+
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="${jacoco.jar}"/>
+    </taskdef>
 
     <!-- Clean up target folder and war file -->
     <target name="clean">
-        <delete dir="target" />
+        <delete dir="${build.dir}" />
         <delete file="HotelReservationApp.war" />
     </target>
 
     <!-- Compile -->
     <target name="compile" depends="clean">
-        <mkdir dir="target/classes"/>
-        <javac srcdir="${src.dir}" destdir="target/classes" classpathref="classpath"
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}:${test.dir}" destdir="${build.dir}" classpathref="classpath" includeantruntime="false"
                debuglevel="lines,vars,source"
                debug="true"/>
+    </target>
+
+    <target name="test" depends="compile">
+        <jacoco:coverage destfile="${build.dir}/jacoco.exec">
+            <junit fork="true" forkmode="once" printsummary="true">
+                <classpath>
+                    <path refid="classpath"/>
+                    <pathelement location="${junit.jar}"/>
+                    <pathelement location="${hamcrest.jar}"/>
+                </classpath>
+                <batchtest todir="${build.dir}">
+                    <fileset dir="${build.dir}">
+                        <include name="test/TestCases.class"/>
+                    </fileset>
+                </batchtest>
+            </junit>
+        </jacoco:coverage>
+    </target>
+
+    <target name="report" depends="test">
+        <jacoco:report>
+            <!-- Provide collected execution data -->
+            <executiondata>
+                <file file="${build.dir}/jacoco.exec" />
+            </executiondata>
+
+            <!-- Specify class files and source files -->
+            <structure name="JaCoCo Ant">
+                <classfiles>
+                    <fileset dir="${build.dir}"/>
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset dir="${src.dir}" />
+                </sourcefiles>
+            </structure>
+
+            <!-- Specify the format of the reports -->
+            <html destdir="${build.dir}/site/jacoco" />
+            <csv destfile="${build.dir}/site/jacoco/report.csv" />
+            <xml destfile="${build.dir}/site/jacoco/report.xml" />
+        </jacoco:report>
     </target>
 
     <!-- Generate sources (if there are any) -->
@@ -43,7 +93,7 @@
     <target name="war" depends="compile, generate">
         <war destfile="HotelReservationApp.war" webxml="src/main/webapp/WEB-INF/web.xml">
             <fileset dir="src/main/webapp"/>
-            <classes dir="target/classes"/>
+            <classes dir="${build.dir}"/>
             <lib dir="lib"/>
         </war>
     </target>
