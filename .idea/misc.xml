@@ -8,6 +8,10 @@
       </list>
     </option>
   </component>
+  <component name="ProjectResources">
+    <resource url="antlib:org.apache.tools.ant.taskdefs.optional.junit" location="$PROJECT_DIR$/lib/ant-junit.jar!/org/apache/tools/ant/taskdefs/optional/junit/JUnitTask.class" />
+    <resource url="antlib:org.jacoco.ant" location="$PROJECT_DIR$/lib/jacocoant.jar!/org/jacoco/ant/antlib.xml" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="graalvm-jdk-21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
