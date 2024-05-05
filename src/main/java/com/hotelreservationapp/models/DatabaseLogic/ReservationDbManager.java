@@ -1,16 +1,10 @@
 package com.hotelreservationapp.models.DatabaseLogic;
 
-
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import com.hotelreservationapp.models.DatabaseLogic.DatabaseManager;
-import com.hotelreservationapp.models.DatabaseLogic.RoomDbManager;
 import com.hotelreservationapp.models.Database.Tables.Reservation;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.hotelreservationapp.models.Database.Tables.Room;
 
@@ -19,18 +13,16 @@ import com.hotelreservationapp.models.Database.Tables.Room;
  * @author Griffin Graham, Joshua Espana
  */
 public class ReservationDbManager extends  DbManagerBase {
-	private RoomDbManager roomDbManager;
 	
     public ReservationDbManager(String url, String username, String password) {
-        super(url, username, password);		
-        this.roomDbManager = roomDbManager;
+        super(url, username, password);
     }
 
     /**
      * Provided a reservation ID, gets the reservation associated.
      *
-     * @param reservationID
-     * @return
+     * @param reservationID The ID of the reservation to get
+     * @return The found reservation or null if one was not found
      */
 	public Reservation getReservation(int reservationID) {
 		Reservation reservation = null;
@@ -66,8 +58,8 @@ public class ReservationDbManager extends  DbManagerBase {
     /**
      * Provided a reservation status, gets all associated reservations.
      *
-     * @param status
-     * @return
+     * @param status The status of the reservations you wish to find
+     * @return A list of found reservations matching the provided status
      */
 	public List<Reservation> getReservationsByStatus(String status) {
 		List<Reservation> reservations = new ArrayList<>();
@@ -106,11 +98,11 @@ public class ReservationDbManager extends  DbManagerBase {
     /**
      * Provided a user ID, returns a list of registrations belonging to the user specified.
      *
-     * @param userID
-     * @return
+     * @param userID The ID of the user you wish to find reservations for
+     * @return The found reservations
      */
-    public List<Reservation> getReservationsFor(int userID) {
-        List<Reservation> reservations = new ArrayList<>();
+    public ArrayList<Reservation> getReservationsFor(int userID) {
+        ArrayList<Reservation> reservations = new ArrayList<>();
         try {
             // Class.forName("com.mysql.jdbc.Driver");
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -235,7 +227,7 @@ public class ReservationDbManager extends  DbManagerBase {
     /**
      * Gets a list of all the reservations in the database.
      *
-     * @return
+     * @return All reservations
      */
     public List<Reservation> getAllReservations() {
         List<Reservation> reservations = new ArrayList<>();
@@ -263,7 +255,7 @@ public class ReservationDbManager extends  DbManagerBase {
             }
             conn.close();
         } catch (Exception e) {
-
+			e.printStackTrace();
         }
         return reservations;
     }
@@ -276,7 +268,7 @@ public class ReservationDbManager extends  DbManagerBase {
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, status);
             preparedStatement.setInt(2, reservation.getReservationId());
-            int results = preparedStatement.executeUpdate();
+			preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -311,7 +303,7 @@ public class ReservationDbManager extends  DbManagerBase {
             }
             conn.close();
         } catch (Exception e) {
-
+			e.printStackTrace();
         }
         return reservations;
     }
@@ -319,13 +311,7 @@ public class ReservationDbManager extends  DbManagerBase {
     /**
      * Creates a new reservation in the database.
      *
-     * @param userID            ID of the user the reservation is for.
-     * @param roomID            Room IDs where the user will be staying.
-     * @param checkInDate       Date of check in
-     * @param checkoutDate      Date of check out
-     * @param totalPrice        Total price for the reservation.
-     * @param numGuests         Number of guests staying in the room.
-     * @param reservationStatus Status of the reservation.
+     * @param reservation Then reservation object to create a copy of in the database
      * @return The newly created reservation. If failed to create, returns null.
      */
 	public Reservation createReservation(Reservation reservation) {
@@ -442,7 +428,7 @@ public class ReservationDbManager extends  DbManagerBase {
 			while (rs.next()) {
 				int roomId = rs.getInt("room_id");
 				
-				DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
+				DatabaseManager databaseManager = new DatabaseManager();
 		        Room room = databaseManager.roomDbManager.getRoom(roomId);
 				
 				if (room != null) {

@@ -36,7 +36,7 @@ public class AdminHomeController extends HttpServlet {
         String action = req.getServletPath();
 
         //Add admin to the database
-        if(Objects.equals(action, "AddAdmin")){
+        if(action.equals("/AddAdmin")){
             DatabaseManager database = new DatabaseManager();
 
             String username = req.getParameter("username");

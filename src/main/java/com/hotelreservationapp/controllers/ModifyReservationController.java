@@ -50,9 +50,16 @@ public class ModifyReservationController extends HttpServlet{
             dispatcher.forward(req, resp);
 
         } else if (action.equals("/ModifyReservation")){
+            //Get rooms by ID and append to a single list
+            StringBuilder roomIDs = new StringBuilder();
+            for(Room room: reservationToModify.getRooms()){
+                roomIDs.append(room.getRoomNumber());
+                roomIDs.append(",");
+            }
+
             //Use attributes to store room data in the form as default/placeholder
             req.setAttribute("userID", reservationToModify.getReservationId());
-            req.setAttribute("rooms", reservationToModify.getRooms()); 
+            req.setAttribute("roomIDs", roomIDs.toString());
             req.setAttribute("checkInDate", reservationToModify.getCheckInDate());
             req.setAttribute("checkOutDate", reservationToModify.getCheckOutDate());
             req.setAttribute("totalPrice", reservationToModify.getTotalPrice());
@@ -68,8 +75,6 @@ public class ModifyReservationController extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getServletPath();
-
         Modify(req);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("AdminReservations");

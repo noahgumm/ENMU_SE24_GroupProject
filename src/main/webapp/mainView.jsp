@@ -22,7 +22,7 @@
 			
             <a href="Booking"><button>BOOK NOW</button></a><br><br>
 			
-            <a href="myReservationsView.jsp"><button>MY RESERVATIONS</button></a><br><br>
+            <a href="UserReservations"><button>MY RESERVATIONS</button></a><br><br>
 			
             <a href="accountView.jsp"><button>MY ACCOUNT</button></a><br><br>
 

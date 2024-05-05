@@ -63,7 +63,7 @@ public class ReservationManagementController extends HttpServlet {
         String cartParam = request.getParameter("cartParam");
 		
         if (roomSelectionParam != null && roomSelectionParam.equals("fromRoomSelectionPage")) {
-			DatabaseManager databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/hotel_reservation_system", "admin", "password");
+			DatabaseManager databaseManager = new DatabaseManager();
 		        
 			// Handle data from the room selection view
             List<Room> selectedRooms = new ArrayList<>();

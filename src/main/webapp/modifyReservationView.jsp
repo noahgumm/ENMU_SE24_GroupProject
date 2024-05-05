@@ -17,8 +17,8 @@
                 <label for="userID">Guest ID</label>
                 <input type="number" value="${userID}" name="userID" id="userID"/>
 
-                <label for="roomID">Room ID</label>
-                <input type="number" value="${roomID}" name="roomID" id="roomID"/>
+                <label for="roomIDs">Room ID(s)</label>
+                <input type="text" value="${roomIDs}" name="roomIDs" id="roomIDs"/>
 
                 <label for="checkIn">Check-In Date</label>
                 <input type="date" value="${checkInDate}" name="checkIn" id="checkIn"/>

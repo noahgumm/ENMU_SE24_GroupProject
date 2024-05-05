@@ -87,11 +87,17 @@
                 <%
                     List<Reservation> reservations = (ArrayList<Reservation>)request.getSession().getAttribute("reservations");
                     for (Reservation res : reservations) {
+                        //Get rooms by ID and append to a single list
+                        StringBuilder roomIDs = new StringBuilder();
+                        for(Room room: res.getRooms()){
+                            roomIDs.append(room.getRoomId());
+                            roomIDs.append(",");
+                        }
                 %>
                 <li class="card">
                     <p>Reservation ID : <%= res.getReservationId() %></p>
                     <p>Customer ID : <%= res.getUserId() %></p>
-                    <p>Room ID : <%= res.getRoomId() %></p>
+                    <p>Room ID(s) : <%= roomIDs.toString() %></p>
                     <p>Check In : <%= res.getCheckInDate() %></p>
                     <p>Check Out : <%= res.getCheckOutDate() %></p>
                     <p>Price Total: <%= res.getTotalPrice() %></p>
