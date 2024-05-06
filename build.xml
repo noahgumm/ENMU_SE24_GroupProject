@@ -40,6 +40,9 @@
         <javac srcdir="${src.dir}:${test.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false"
                debuglevel="lines,vars,source"
                debug="true"/>
+        <copy todir="${classes.dir}">
+            <fileset dir="src/main/resources"/>
+        </copy>
     </target>
 
     <target name="test" depends="compile">

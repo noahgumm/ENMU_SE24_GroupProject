@@ -9,25 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.hotelreservationapp.models.Database.Tables.User;
+import com.hotelreservationapp.models.Settings.SettingsReader;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(name = "Home", urlPatterns = "/Home")
-public class HomeController extends HttpServlet {
+public class HomeController extends BaseController {
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Retrieve the User object from the session
-		User user = (User) request.getSession().getAttribute("user");
-		
-		// Get the user's name for greeting
-		String name = user.getUsername();
-		
-		// Set the name as an attribute for retrieval by the view		
-		request.setAttribute("name", name);
-        request.getRequestDispatcher("mainView.jsp").forward(request, response);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
+        resp.sendRedirect("mainView.jsp");
     }
 
     @Override

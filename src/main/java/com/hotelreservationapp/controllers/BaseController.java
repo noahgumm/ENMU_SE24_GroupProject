@@ -1,5 +1,8 @@
 package com.hotelreservationapp.controllers;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +13,7 @@ public class BaseController extends HttpServlet {
     public BaseController() {
         super();
     }
+
 
     public User getSessionUserOrSendToLoginPage(HttpServletRequest req, HttpServletResponse resp) {
         User user = (User) req.getSession().getAttribute("user");
@@ -22,6 +26,17 @@ public class BaseController extends HttpServlet {
             return null;
         }
         return user;
+    }
+
+    public void sendToLoginPageIfNotLoggedIn(HttpServletRequest req, HttpServletResponse resp) {
+        User user = (User) req.getSession().getAttribute("user");
+        if(user == null) {
+            try{
+                resp.sendRedirect("login.jsp");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public User getSessionUser(HttpServletRequest req) {
