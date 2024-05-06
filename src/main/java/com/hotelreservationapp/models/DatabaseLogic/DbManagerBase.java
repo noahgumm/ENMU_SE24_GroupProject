@@ -44,9 +44,8 @@ public abstract class DbManagerBase {
      * @return true if the statement was executed. False if not.
      */
     public boolean runCustomDBCommand(String sql){
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             Statement statement = conn.createStatement();
             statement.executeUpdate(sql);
             conn.close();
@@ -68,9 +67,9 @@ public abstract class DbManagerBase {
      * @return
      */
     public boolean runCustomDBCommand(String preparedSQL, Object[] parameters){
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            
             PreparedStatement statement = conn.prepareStatement(preparedSQL);
             for(int i = 0; i < parameters.length; ++i){
                 statement.setObject(i+1, parameters[i]);

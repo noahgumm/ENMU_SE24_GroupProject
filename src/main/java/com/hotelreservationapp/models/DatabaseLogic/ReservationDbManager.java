@@ -34,9 +34,9 @@ public class ReservationDbManager extends  DbManagerBase {
      */
 	public Reservation getReservation(int reservationID) {
 		Reservation reservation = null;
-		try {
+		try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+			//Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
 			PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations WHERE reservation_id = ?");
 			preparedStatement.setInt(1, reservationID);
 			ResultSet rs = preparedStatement.executeQuery();
@@ -71,9 +71,9 @@ public class ReservationDbManager extends  DbManagerBase {
      */
 	public List<Reservation> getReservationsByStatus(String status) {
 		List<Reservation> reservations = new ArrayList<>();
-		try {
+		try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+			//Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
 			PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations WHERE reservation_status = ?");
 			preparedStatement.setString(1, status);
 			ResultSet rs = preparedStatement.executeQuery();
@@ -111,10 +111,10 @@ public class ReservationDbManager extends  DbManagerBase {
      */
     public List<Reservation> getReservationsFor(int userID) {
         List<Reservation> reservations = new ArrayList<>();
-        try {
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             // Class.forName("com.mysql.jdbc.Driver");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations where user_id = ?");
             preparedStatement.setInt(1, userID);
             ResultSet rs = preparedStatement.executeQuery();
@@ -145,10 +145,10 @@ public class ReservationDbManager extends  DbManagerBase {
 
     public List<Reservation> getReservationsFor(int userID, String reservStatus) {
         List<Reservation> reservations = new ArrayList<>();
-        try {
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             // Class.forName("com.mysql.jdbc.Driver");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations where user_id = ? and reservation_status = ?");
             preparedStatement.setInt(1, userID);
             preparedStatement.setString(2, reservStatus);
@@ -184,9 +184,9 @@ public class ReservationDbManager extends  DbManagerBase {
      */
     public List<Reservation> getReservationByRoom(int roomID) {
         List<Reservation> reservations = new ArrayList<>();
-        try {
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations where room_id = ?");
             preparedStatement.setInt(1, roomID);
             ResultSet rs = preparedStatement.executeQuery();
@@ -219,9 +219,9 @@ public class ReservationDbManager extends  DbManagerBase {
      * @param reservationID The ID of the reservation to be deleted
      */
     public void deleteReservation(int reservationID) {
-        try {
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM reservations WHERE reservation_id = ?");
             preparedStatement.setInt(1, reservationID);
             ResultSet rs = preparedStatement.executeQuery();
@@ -239,9 +239,9 @@ public class ReservationDbManager extends  DbManagerBase {
      */
     public List<Reservation> getAllReservations() {
         List<Reservation> reservations = new ArrayList<>();
-        try {
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -269,9 +269,9 @@ public class ReservationDbManager extends  DbManagerBase {
     }
 
     public void setReservationStatus(Reservation reservation, String status) {
-        try {
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             String query = "UPDATE reservations SET reservation_status = ? WHERE reservation_id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, status);
@@ -285,9 +285,9 @@ public class ReservationDbManager extends  DbManagerBase {
 
     public List<Reservation> getAllReservationsBetween(String date1, String date2) {
         List<Reservation> reservations = new ArrayList<>();
-        try {
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM reservations where check_in_date >= ? and check_out_date <= ?");
             preparedStatement.setDate(1, Date.valueOf(date1));
             preparedStatement.setDate(2, Date.valueOf(date2));
@@ -329,9 +329,9 @@ public class ReservationDbManager extends  DbManagerBase {
      * @return The newly created reservation. If failed to create, returns null.
      */
 	public Reservation createReservation(Reservation reservation) {
-		try {
+		try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+			//Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
 			
 			// Insert reservation details into reservations table
 			PreparedStatement reservationStatement = conn.prepareStatement(
@@ -382,9 +382,9 @@ public class ReservationDbManager extends  DbManagerBase {
      */
 	public boolean updateReservation(Reservation reservation) {
 		boolean success = false;
-		try {
+		try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+			//Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
 
 			// Update reservation details
 			PreparedStatement preparedStatement = conn.prepareStatement(
@@ -433,9 +433,9 @@ public class ReservationDbManager extends  DbManagerBase {
 	
 	public List<Room> getRoomsForReservation(int reservationID) {
 		List<Room> rooms = new ArrayList<>();
-		try {
+		try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+			//Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
 			PreparedStatement preparedStatement = conn.prepareStatement("SELECT room_id FROM reservation_rooms WHERE reservation_id = ?");
 			preparedStatement.setInt(1, reservationID);
 			ResultSet rs = preparedStatement.executeQuery();

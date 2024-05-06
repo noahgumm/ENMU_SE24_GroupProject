@@ -30,9 +30,9 @@ public class UserDbManager extends DbManagerBase {
      */
     public User createUser(String username, String password, String email, String phone){
         User user = null;
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO users(username, password, email, phone_number, created_at) values (?,?,?,?,now())",Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
@@ -63,9 +63,9 @@ public class UserDbManager extends DbManagerBase {
      */
     public User getUser(String email){
         User user = new User();
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
@@ -93,9 +93,9 @@ public class UserDbManager extends DbManagerBase {
      */
     public User getUser(int userID){
         User user = new User();
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE user_id = ?");
             preparedStatement.setInt(1, userID);
             ResultSet rs = preparedStatement.executeQuery();
@@ -121,9 +121,9 @@ public class UserDbManager extends DbManagerBase {
      */
     public List<User> getAllUsers(){
         List<User> users = new ArrayList<>();
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM user");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {

@@ -24,9 +24,9 @@ public class TransactionDbManager extends  DbManagerBase{
      */
     public  List<Transaction> getAllTransactionsFor(int userID){
         List<Transaction> transactions = new ArrayList<>();
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM transactions where user_id = ?");
             preparedStatement.setInt(1, userID);
             ResultSet rs = preparedStatement.executeQuery();
@@ -52,9 +52,9 @@ public class TransactionDbManager extends  DbManagerBase{
      */
     public List<Transaction> getAllTransactions(){
         List<Transaction> transactions = new ArrayList<>();
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM transactions");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -81,9 +81,9 @@ public class TransactionDbManager extends  DbManagerBase{
      */
     public  Transaction getTransaction(int transactionID){
         Transaction transaction = null;
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM transactions WHERE transaction_id = ?");
             preparedStatement.setInt(1, transactionID);
             ResultSet rs = preparedStatement.executeQuery();
@@ -117,9 +117,9 @@ public class TransactionDbManager extends  DbManagerBase{
      */
     public Transaction createTransaction(int userID, int reservationID, double amount, int userPaymentMethodID){
         Transaction transaction = null;
-        try{
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement
                     ("INSERT INTO transactions(user_id,reservation_id,amount,user_payment_method_id,transaction_date) " +
                             "values (?,?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
