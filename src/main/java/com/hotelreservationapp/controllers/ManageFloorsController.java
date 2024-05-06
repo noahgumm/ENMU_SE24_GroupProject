@@ -13,11 +13,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(name = "ManageFloors", urlPatterns = "/ManageFloors")
-public class ManageFloorsController extends HttpServlet{
+public class ManageFloorsController extends BaseController{
     
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
+        
         // TODO Auto-generated method stub
         // RequestDispatcher requestDispatcher = req.getRequestDispatcher("home.jsp");
         // requestDispatcher.forward(req, resp);

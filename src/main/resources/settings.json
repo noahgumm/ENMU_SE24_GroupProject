@@ -1,8 +1,8 @@
 {
   "connections": [
     {
-      "connectionName": "DEFAULT",
-      "connectionValues": {
+      "ConnectionName": "DEFAULT",
+      "ConnectionValues": {
         "host": "localhost",
         "port": "3306",
         "database_name": "hotel_reservation_system",
@@ -11,8 +11,8 @@
       }
     },
     {
-      "connectionName": "AWS",
-      "connectionValues": {
+      "ConnectionName": "AWS",
+      "ConnectionValues": {
         "host": "hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com",
         "port": "3306",
         "database_name": "hotel_reservation_system",

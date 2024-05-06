@@ -13,9 +13,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(name = "Booking", urlPatterns = "/Booking")
-public class BookingController extends HttpServlet {
+public class BookingController extends BaseController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
         resp.sendRedirect("bookingView.jsp");
     }
     @Override

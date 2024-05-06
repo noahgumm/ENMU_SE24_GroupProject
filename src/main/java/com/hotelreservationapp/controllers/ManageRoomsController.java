@@ -21,12 +21,14 @@ import java.util.logging.Logger;
 import java.text.SimpleDateFormat;
 
 @WebServlet(name = "ManageRooms", urlPatterns = "/ManageRooms")
-public class ManageRoomsController extends HttpServlet{
+public class ManageRoomsController extends BaseController{
     private static final Logger logger = Logger.getLogger(ManageRoomsController.class.getName());
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
-		 // Log a debug message
+		sendToLoginPageIfNotLoggedIn(request, resp); 
+		
+		// Log a debug message
         logger.info("Entering doGet method for Rooms View");
 		
 		// Initialize the Database Manager

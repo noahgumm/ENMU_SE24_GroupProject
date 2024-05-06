@@ -25,6 +25,8 @@ public class CartController extends BaseController {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
+        
         DatabaseManager db = new DatabaseManager();
         //is a user logged in? get the logged in user.
         User user = getSessionUser(req);

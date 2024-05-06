@@ -31,7 +31,17 @@
         <javac srcdir="${src.dir}" destdir="target/classes" classpathref="classpath"
                debuglevel="lines,vars,source"
                debug="true"/>
+        <copy todir="${classes.dir}">
+            <fileset dir="src/main/resources"/>
+        </copy>
     </target>
+
+    <!-- Add src/main/resources/settings.json to target on compile -->
+    <!-- <target name="resources" depends="compile">
+        <copy todir="${classes.dir}">
+            <fileset dir="src/main/resources"/>
+        </copy>
+    </target> -->
 
     <!-- Generate sources (if there are any) -->
     <target name="generate">

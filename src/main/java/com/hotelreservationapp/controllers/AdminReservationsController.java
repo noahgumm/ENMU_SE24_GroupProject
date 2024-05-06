@@ -13,11 +13,11 @@ import java.io.IOException;
 import java.sql.Date;
 
 @WebServlet(name = "AdminReservations", urlPatterns = "/AdminReservations" )
-public class AdminReservationsController extends HttpServlet{
+public class AdminReservationsController extends BaseController{
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        sendToLoginPageIfNotLoggedIn(req, resp);
         //Set an attribute to store all the rooms to display them on the page
         DatabaseManager database = new DatabaseManager();
         req.getSession().setAttribute("reservations", database.reservationDbManager.getAllReservations());

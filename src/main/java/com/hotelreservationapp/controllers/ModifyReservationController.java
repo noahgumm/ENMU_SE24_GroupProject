@@ -18,7 +18,7 @@ import java.sql.Date;
  * The servlet then forwards the admin to the rooms view along with the stored rooms.
  * */
 @WebServlet(name = "ModifyRoom", urlPatterns = {"/ModifyReservation", "/DeleteReservation"})
-public class ModifyReservationController extends HttpServlet{
+public class ModifyReservationController extends BaseController{
 
     //Stores id of room to be modified or deleted
     //Found in url of request
@@ -26,6 +26,8 @@ public class ModifyReservationController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
+        
         //Get the id of the room whose modify button was clicked
         String reservationID = req.getParameter("id");
         id = Integer.parseInt(reservationID);
