@@ -13,6 +13,8 @@ import com.hotelreservationapp.models.DatabaseLogic.DatabaseManager;
 public class AdminReservationReportController extends BaseController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
+
         DatabaseManager databaseManager = new DatabaseManager();
         // req.getSession().setAttribute("reservations", databaseManager.getAdminReservationReportForAllReservations());
 

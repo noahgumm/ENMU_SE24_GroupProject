@@ -16,7 +16,7 @@ import java.io.IOException;
  * The servlet then forwards the admin to the rooms view along with the stored rooms.
  * */
 @WebServlet(name = "ModifyRoom", urlPatterns = {"/ModifyRoom", "/DeleteRoom", "/AddRoom"})
-public class ModifyRoomController extends HttpServlet{
+public class ModifyRoomController extends BaseController{
 
     //Stores id of room to be modified or deleted
     //Found in url of request
@@ -24,6 +24,8 @@ public class ModifyRoomController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
+        
         //Get the id of the room whose modify button was clicked
         String roomId = req.getParameter("id");
         id = Integer.parseInt(roomId);

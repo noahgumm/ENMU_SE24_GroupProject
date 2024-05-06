@@ -24,11 +24,11 @@ import java.util.logging.Logger;
 
 
 @WebServlet(name = "ReservationManagement", urlPatterns = "/ReservationManagement")
-public class ReservationManagementController extends HttpServlet {	
-    private static final Logger logger = Logger.getLogger(ManageRoomsController.class.getName());
-	
-	@Override
+public class ReservationManagementController extends BaseController {
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
+        
         // TODO Auto-generated method stub
         // RequestDispatcher requestDispatcher = req.getRequestDispatcher("home.jsp");
         // requestDispatcher.forward(req, resp);

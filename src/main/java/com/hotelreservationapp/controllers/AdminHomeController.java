@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "AdminHome", urlPatterns = "/AdminHome")
-public class AdminHomeController extends HttpServlet {
+public class AdminHomeController extends BaseController {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
         resp.sendRedirect("adminMainView.jsp");
     }
 

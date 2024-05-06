@@ -9,13 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "ReservationManagementEdit", urlPatterns = "/ReservationManagementEdit")
-public class ReservationEditController extends HttpServlet {
+public class ReservationEditController extends BaseController {
     public ReservationEditController() {
         super();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        sendToLoginPageIfNotLoggedIn(req, resp);
+        
         // TODO Auto-generated method stub
         req.getRequestDispatcher("reservationEdit.jsp").forward(req, resp);
     }

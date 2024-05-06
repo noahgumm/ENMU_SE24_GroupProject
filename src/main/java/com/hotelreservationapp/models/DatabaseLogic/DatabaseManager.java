@@ -68,7 +68,8 @@ public class DatabaseManager extends DbManagerBase {
         try{
             for (Connection connection : config.getConnections()) {
                 System.out.println(connection.getConnectionName() + " vs " + name);
-                if (connection.getConnectionName().equals(name)) {
+                String connectionName = connection.getConnectionName();
+                if (connectionName != null && connectionName.equals(name)) {
                     return connection;
                 }
             }
