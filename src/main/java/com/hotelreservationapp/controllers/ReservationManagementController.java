@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 
 @WebServlet(name = "ReservationManagement", urlPatterns = "/ReservationManagement")
@@ -70,26 +69,26 @@ public class ReservationManagementController extends BaseController {
 			int roomCount = Integer.parseInt(request.getParameter("roomCount"));
 			
 			// Make sure we are getting a room count
-			logger.info("Room count received: " + roomCount);			
+			//logger.info("Room count received: " + roomCount);			
 		
 		
             for (int i = 0; i < roomCount; i++) {
 				String roomIdParam = request.getParameter("room" + i);	
 
-				logger.info("Room ID Param for: " + "room" + i);					
+				//logger.info("Room ID Param for: " + "room" + i);					
 				
 				// Make sure we are getting a room added
-				logger.info("Room ID Param object: " + roomIdParam);	
+				//logger.info("Room ID Param object: " + roomIdParam);	
 				if (roomIdParam != null) {
 					
 					// Make sure we are getting a room added
-					logger.info("Room ID Param found.");	
+					//logger.info("Room ID Param found.");	
 					
 					String roomNumber = roomIdParam;
 					
 					
 					// Make sure we are getting a room added
-					logger.info("Room Number matched: " + roomNumber);	
+					//logger.info("Room Number matched: " + roomNumber);	
 					
 					
 					// Retrieve the Room object based on the room ID
@@ -97,12 +96,12 @@ public class ReservationManagementController extends BaseController {
 					
 					
 					// Make sure we are getting a room added
-					logger.info("Room Found in DB: " + room);	
+					//logger.info("Room Found in DB: " + room);	
 					
 					if (room != null) {						
 			
 						// Make sure we are getting a room added
-						logger.info("Room added to list: " + room);	
+						//logger.info("Room added to list: " + room);	
 						selectedRooms.add(room);
 					}
 				} else {
@@ -111,7 +110,7 @@ public class ReservationManagementController extends BaseController {
 			}
 			
 			// Make sure we are still gettings the set reservationId attribute
-			logger.info("reservationId request parameter set to: " + request.getParameter("reservationId"));				
+			//logger.info("reservationId request parameter set to: " + request.getParameter("reservationId"));				
 			
 			int reservationId = Integer.parseInt(request.getParameter("reservationId"));
 			
@@ -122,12 +121,12 @@ public class ReservationManagementController extends BaseController {
         
 			
 			// Make sure we are getting a reservation
-			logger.info("Reservation Retrieved: " + reservation);			
+			//logger.info("Reservation Retrieved: " + reservation);			
 		
 			reservation.setRooms(selectedRooms); 
 			
 			// Make sure we are getting rooms set to the reservation
-			logger.info("Reservation rooms set to: " + selectedRooms);			
+			//logger.info("Reservation rooms set to: " + selectedRooms);			
 			
 			// Save the updated reservation to the database
 			databaseManager.reservationDbManager.updateReservation(reservation);
@@ -180,13 +179,13 @@ public class ReservationManagementController extends BaseController {
 
 			// Fetch the ID of the newly created reservation
 			int reservationId = createdReservation.getReservationId();
-			logger.info("Reservation ID before setting as attribute: " + reservationId);
+			//logger.info("Reservation ID before setting as attribute: " + reservationId);
 
 			// Set the reservation ID as a request attribute for later use
 			request.setAttribute("reservationId", reservationId);
 				
 			// Log the request attributes to verify the attribute is set
-			logger.info("reservationId request attibute set to: " + request.getAttribute("reservationId"));
+			//logger.info("reservationId request attibute set to: " + request.getAttribute("reservationId"));
 				
             // Redirect to ManageRoomsController passing the date range as parameter
             response.sendRedirect(request.getContextPath() + "/ManageRooms?startDate=" + startDate.getTime() + "&endDate=" + endDate.getTime() + "&reservationId=" + reservationId);
