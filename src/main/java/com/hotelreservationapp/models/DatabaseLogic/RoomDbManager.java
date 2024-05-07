@@ -158,7 +158,7 @@ public class RoomDbManager extends  DbManagerBase{
             //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT MAX(floor_number) AS max_floor FROM Rooms");
+            ResultSet rs = statement.executeQuery("SELECT MAX(floor_number) AS max_floor FROM rooms");
             if (rs.next()) {
                 highestFloorNumber = rs.getInt("max_floor");
             }
@@ -254,7 +254,7 @@ public class RoomDbManager extends  DbManagerBase{
         try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT check_in_date, check_out_date FROM Bookings WHERE room_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT check_in_date, check_out_date FROM bookings WHERE room_id = ?");
             preparedStatement.setInt(1, roomID);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -319,7 +319,7 @@ public class RoomDbManager extends  DbManagerBase{
         try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT created_at FROM Rooms WHERE room_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT created_at FROM rooms WHERE room_id = ?");
             preparedStatement.setInt(1, roomId);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {

@@ -8,13 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.hotelreservationapp.models.Database.Tables.Admin;
+import com.hotelreservationapp.models.Database.Tables.User;
 import com.hotelreservationapp.models.DatabaseLogic.DatabaseManager;
 
 import java.io.IOException;
 import java.util.Objects;
 
 @WebServlet(name = "AdminLogin", urlPatterns = "/AdminLogin")
-public class AdminLoginController extends HttpServlet {
+public class AdminLoginController extends BaseController {
 
     public Admin admin;
 
@@ -50,6 +51,7 @@ public class AdminLoginController extends HttpServlet {
         // Forward to Success or Login View based on authentication result
         if (isAuthenticated) {
             request.getSession().setAttribute("username", admin.getUsername());
+            setSessionUser(request, new User(admin.getAdminId(), admin.getUsername(), admin.getPassword(), admin.getEmail(), "", admin.getCreatedAt()));
             RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminHome");
             dispatcher.forward(request, response);
         } else {

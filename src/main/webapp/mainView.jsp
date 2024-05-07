@@ -24,9 +24,9 @@
 			
             <a href="UserReservations"><button>MY RESERVATIONS</button></a><br><br>
 			
-            <a href="accountView.jsp"><button>MY ACCOUNT</button></a><br><br>
+            <a href="UserAccount"><button>MY ACCOUNT</button></a><br><br>
 
-            <a href="Cart"><button>CART</button></a><br><br>
+            <!-- <a href="Cart"><button>CART</button></a><br><br> -->
 			
             <form name="logoutForm" action="Home" method="post">
 				<button type="submit">SIGN OUT</button>

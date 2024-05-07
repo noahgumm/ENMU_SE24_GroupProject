@@ -33,7 +33,17 @@ public class UserReservationsController extends HttpServlet{
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("userEditReservationsView.jsp");
             dispatcher.forward(req, resp);
-        } else {
+        } else if(action.equals("/UserReservationsDelete")) {
+            DatabaseManager databaseManager = new DatabaseManager();
+            databaseManager.reservationDbManager.deleteReservation(Integer.parseInt(req.getParameter("id")));
+            User user = (User) req.getSession().getAttribute("user");
+            int userID = user.getUserId();
+            req.getSession().setAttribute("reservations", database.reservationDbManager.getReservationsFor(userID));
+            req.getSession().setAttribute("resvMessage", "Reservation Cancelled. Refund will be given.");
+            // Perform a redirect to the myReservationsView.jsp
+            resp.sendRedirect(req.getContextPath() + "/myReservationsView.jsp");
+        }
+        else {
             //Set an attribute to store all the reservations for the user on the page
             User user = (User) req.getSession().getAttribute("user");
             int userID = user.getUserId();
@@ -49,8 +59,9 @@ public class UserReservationsController extends HttpServlet{
         DatabaseManager databaseManager = new DatabaseManager();
 
         if(action.equals("/UserReservationsEdit")){
-            Reservation resv = (Reservation) req.getAttribute("reservationToEdit");
-
+            // Reservation resv = (Reservation) req.getAttribute("reservationToEdit");
+            String id = req.getParameter("reservationID");
+            Reservation resv = databaseManager.reservationDbManager.getReservation(Integer.parseInt(id));
             //read new rooms and set them from string
             // Update room information
             List<Room> rooms = new ArrayList<>();
@@ -63,13 +74,22 @@ public class UserReservationsController extends HttpServlet{
                 }
             }
 
+            String checkInDate = req.getParameter("checkIn");
+            String checkOutDate = req.getParameter("checkOut");
+
+            Date checkIn = Date.valueOf(checkInDate);
+            Date checkOut = Date.valueOf(checkOutDate);
+
             resv.setRooms(rooms);
-            resv.setCheckInDate(Date.valueOf(req.getParameter("checkIn")));
-            resv.setCheckOutDate(Date.valueOf(req.getParameter("checkOut")));
+            resv.setCheckInDate(checkIn);
+            resv.setCheckOutDate(checkOut);
             resv.setPets(Boolean.parseBoolean(req.getParameter("pets")));
 
+            // get number of days between dates
+            long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(checkInDate), LocalDate.parse(checkOutDate));
+
             //Need to also calculate the new total
-            int daysOfStay = (int)(Math.abs(resv.getCheckInDate().getTime() - resv.getCheckOutDate().getTime()) * (1000 * 60 * 60 * 24));
+            int daysOfStay = (int)(daysBetween);
             double price = 0;
 
             for(Room room: resv.getRooms()){
@@ -77,11 +97,12 @@ public class UserReservationsController extends HttpServlet{
             }
 
             resv.setTotalPrice(price);
-
+            databaseManager.reservationDbManager.updateReservation(resv);
             if(price <= resv.getTotalPrice()){
                 //Route user back to reservations view
                 req.getSession().setAttribute("resvMessage", "Reservation was updated. A refund will be given if required.");
                 resp.sendRedirect("UserReservations");
+                return;
             } else {
                 //Route to payment page for additional payment to be made
             }

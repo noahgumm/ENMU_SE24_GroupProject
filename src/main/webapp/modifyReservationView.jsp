@@ -14,6 +14,8 @@
 
             <a href="ManageReservations"><p class="back"><</p></a>
             <form action="ModifyReservation" method="post">
+                <input type="hidden" name="reservationID" value="<% request.getParameter("id") %>"/>
+
                 <label for="userID">Guest ID</label>
                 <input type="number" value="${userID}" name="userID" id="userID"/>
 

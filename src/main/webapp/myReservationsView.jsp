@@ -47,8 +47,18 @@
 					<p>Pets : <%= res.getPets() %></p>
 					<p>Created At : <%= res.getCreatedAt() %></p>
 
-					<a href="UserReservationsEdit?action=modify&id=<%= res.getReservationId() %>"><button>Edit</button></a>
-					<a href="UserReservationsDelete?action=delete&id=<%= res.getReservationId() %>"><button>Cancel</button></a>
+					<% 
+					if(res.getReservationStatus().equals("pending") == true) { 
+						%>
+						<a href="UserReservationsEdit?action=modify&id=<%= res.getReservationId() %>"><button>Edit</button></a>
+						<a href="UserReservationsEdit?action=cancel&id=<%= res.getReservationId() %>"><button>Cancel</button></a>
+						<a href="Cart?reservationId=<%= res.getReservationId() %>"><button>Complete Booking</button></a>
+						
+						<% } else if (res.getReservationStatus().equals("confirmed")) {%> 
+							<a href="UserReservationsEdit?action=cancel&id=<%= res.getReservationId() %>"><button>Cancel</button></a>
+							<%
+					}
+				%>
 				</li>
 				<%
 					}

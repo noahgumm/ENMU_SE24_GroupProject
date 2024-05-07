@@ -72,6 +72,7 @@ public class ModifyReservationController extends BaseController{
             req.setAttribute("guests", reservationToModify.getNumGuests());
             req.setAttribute("pets", reservationToModify.getPets());
             req.setAttribute("status", reservationToModify.getReservationStatus());
+            req.setAttribute("reservationID", reservationToModify.getReservationId());
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("modifyReservationView.jsp");
             dispatcher.forward(req, resp);

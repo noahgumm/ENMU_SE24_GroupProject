@@ -17,6 +17,7 @@
 
             <a href="myReservationsView.jsp"><p class="back"><</p></a>
             <form action="UserReservationsEdit" method="post">
+                <input type="hidden" name="reservationID" value="<%= request.getParameter("id") %>"/>
                 <!-- Need to add the ability to remove rooms -->
                 <input type="hidden" id="roomIDs" name="roomIDs">
                 <label for="roomList">Rooms</label>
@@ -26,7 +27,7 @@
                         List<Room> rooms = reservation.getRooms();
                         for (Room room : rooms) {
                     %>
-                    <li class="room-list-button"><span><%= room.getRoomNumber() %></span><button onclick="deleteRoom(this)">Delete</button></li>
+                    <li class="room-list-button" value="<%= room.getRoomId() %>"><span><%= room.getRoomNumber() %></span><button onclick="deleteRoom(this)">Delete</button></li>
                     <%
                         }
                     %>
@@ -51,21 +52,40 @@
 
 
         <script>
+            setRooms();
+
             function deleteRoom(button) {
                 var listItem = button.parentNode;
                 listItem.parentNode.removeChild(listItem);
+                setRooms();
             }
 
-            document.getElementById("roomForm").onsubmit = function() {
+            function roomsToCSV(){
                 var listItems = document.querySelectorAll("#roomList li");
                 var roomNumbers = [];
 
                 listItems.forEach(function(item) {
-                    roomNumbers.push(item.textContent.trim());
+                    roomNumbers.push(item.value);
                 });
 
-                document.getElementById("roomIDs").value = roomNumbers.join(",");
-            };
+                return roomNumbers.join(",");
+            }
+            
+            function setRooms(){
+                // set roomIDs as csv of room numbers
+                document.getElementById("roomIDs").value = roomsToCSV();
+            }
+
+            // document.getElementById("roomForm").onsubmit = function() {
+            //     var listItems = document.querySelectorAll("#roomList li");
+            //     var roomNumbers = [];
+
+            //     listItems.forEach(function(item) {
+            //         roomNumbers.push(item.value);
+            //     });
+
+            //     document.getElementById("roomIDs").value = roomNumbers.join(",");
+            // };
         </script>
 
     </body>

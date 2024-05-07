@@ -75,7 +75,7 @@ public class AdminDbManager extends DbManagerBase {
         try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Admins WHERE admin_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM admins WHERE admin_id = ?");
             preparedStatement.setInt(1, adminId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {

@@ -20,6 +20,37 @@ public class UserDbManager extends DbManagerBase {
         return createUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getPhoneNumber());
     }
 
+    public User updateUser(User user){
+        return updateUser(user.getUserId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getPhoneNumber());
+    }
+
+    public User updateUser(int userId, String username, String password, String email, String phone){
+        User user = null;
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
+            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE users SET username = ?, password = ?, email = ?, phone_number = ? WHERE user_id = ?");
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, phone);
+            preparedStatement.setInt(5, userId);
+            preparedStatement.executeUpdate();
+            user = getUser(userId);
+            conn.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return user;
+    }
+
     /**
      * Creates a new user.
      * @param username

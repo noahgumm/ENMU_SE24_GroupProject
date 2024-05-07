@@ -28,30 +28,76 @@ import java.util.logging.Logger;
 public class CartController extends BaseController {
     private static final Logger logger = Logger.getLogger(ManageRoomsController.class.getName());
     
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String redirectString = sendToLoginPageIfNotLoggedIn(req, resp);
-        if(redirectString != null){
-            resp.sendRedirect(redirectString);
-            return;
-        }
-        
-        DatabaseManager db = new DatabaseManager();
-        //is a user logged in? get the logged in user.
-        User user = getSessionUser(req);
-        // User user = getSessionUserOrSendToLoginPage(req, resp); //this will redirect to login if not logged in
-        if(user == null){ //for testing
-            user = db.userDbManager.getUser(4);
-            setSessionUser(req, user);
-        }
-        //get the cart for the logged in user
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		DatabaseManager db = new DatabaseManager();
+		
+		// Check if the user is logged in
+		User user = getSessionUser(req);
+	
+		// Retrieve the reservation ID from the request parameter
+		int reservationId = Integer.parseInt(req.getParameter("reservationId"));
+
+		// Get the reservation details from the database using the reservation ID
+		Reservation reservation = db.reservationDbManager.getReservation(reservationId);
+
+		// Get the rooms associated with the reservation
+		List<Room> rooms = db.reservationDbManager.getRoomsForReservation(reservationId);
+
+		// Set the cart attribute in the request
+		req.setAttribute("reservation", reservation);
+		
+		// Set the cart attribute in the request
+		req.setAttribute("rooms", rooms);
+		
+		
+		// Calculate the total price for all rooms
+		double totalRoomPrice = 0.0;
+		for (Room room : rooms) {
+			// Calculate the number of days between check-in and check-out dates
+			long numberOfDays = (((reservation.getCheckOutDate().getTime() - reservation.getCheckInDate().getTime()) / (1000 * 60 * 60 * 24)) + 1) ;
 
 
-        CartInformation cart = db.getCartInformationFor(user);
-        req.setAttribute("cart", cart);
-        // resp.sendRedirect("cartView.jsp");
-        req.getRequestDispatcher("cartView.jsp").forward(req, resp);
-    }
+			logger.info("Price calculation (number of days): " + numberOfDays);	
+			
+			// Calculate total price including room rates and pet fee (if applicable)
+			double roomRate = room.getPricePerNight();
+			
+			
+			logger.info("Price calculation (room rate): " + roomRate);	
+			
+			double roomPrice = roomRate * numberOfDays;
+			
+			
+			logger.info("Room price (days * rate): " + roomPrice);	
+			
+			
+			totalRoomPrice += roomPrice;
+			
+			logger.info("Total price after room added: " + totalRoomPrice);	
+		}
+
+		// Add pet fee if applicable
+		if (reservation.getPets()) {
+			totalRoomPrice += 50.00;
+			logger.info("Total price after pet fee added): " + totalRoomPrice);	
+		}
+				
+		req.setAttribute("totalRoomPrice", totalRoomPrice);
+	
+		// Set the total price for the reservation
+		reservation.setTotalPrice(totalRoomPrice);
+		
+		// Save the updated reservation to the database
+		db.reservationDbManager.updateReservation(reservation);
+					
+		// Make sure we are still gettings the set reservationId attribute
+		logger.info("totalRoomPrice request attritubte set to: " + totalRoomPrice);	
+		logger.info("rooms request attritubte set to: " + rooms);	
+		logger.info("reservation request attritubte set to: " + reservation);		
+	
+		// Forward the request to the cart view
+		req.getRequestDispatcher("cartView.jsp").forward(req, resp);
+	}
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -113,7 +159,12 @@ public class CartController extends BaseController {
 		
 
         // Send email
-        sendEmail(req, userName, emailAddress, reservation, rooms, amountPaid);
+        try{
+			sendEmail(req, userName, emailAddress, reservation, rooms, amountPaid);
+		}
+		catch (Exception e) {
+			logger.info("Failed to send email: " + e.getMessage());
+		}
 
 
 		logger.info("Email Sent to " + emailAddress + "!");		

@@ -250,9 +250,9 @@ public class ReservationDbManager extends  DbManagerBase {
         try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM reservations WHERE reservation_id = ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE reservations SET reservation_status = 'cancelled'  WHERE reservation_id = ?");
             preparedStatement.setInt(1, reservationID);
-            ResultSet rs = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -494,14 +494,20 @@ public class ReservationDbManager extends  DbManagerBase {
         try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
 			//Class.forName("com.mysql.cj.jdbc.Driver");
 			//Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-			PreparedStatement preparedStatement = conn.prepareStatement("SELECT room_id FROM reservation_rooms WHERE reservation_id = ?");
+			PreparedStatement preparedStatement = conn.prepareStatement("SELECT B.* FROM reservation_rooms as A JOIN rooms as B on A.room_id = B.room_id WHERE A.reservation_id = ?");
 			preparedStatement.setInt(1, reservationID);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				int roomId = rs.getInt("room_id");
 				
-				DatabaseManager databaseManager = new DatabaseManager();
-		        Room room = databaseManager.roomDbManager.getRoom(roomId);
+		        String roomNum = rs.getString("room_number");
+                String roomType = rs.getString("room_type");
+                int floorNumber = rs.getInt("floor_number");
+                double pricePerNight = rs.getDouble("price_per_night");
+                String roomDescription = rs.getString("room_description");
+                int numberOfBeds = rs.getInt("number_of_beds");
+                Timestamp createdAt = rs.getTimestamp("created_at");
+                Room room = new Room(roomId, roomNum, roomType, floorNumber, pricePerNight, roomDescription, numberOfBeds, createdAt);
 				
 				if (room != null) {
 					rooms.add(room);

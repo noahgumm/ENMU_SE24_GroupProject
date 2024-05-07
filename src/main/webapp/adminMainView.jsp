@@ -21,10 +21,10 @@
             <a href="ManageReservations"><button>VIEW RESERVATIONS</button></a><br><br>
             <a href="AdminRooms"><button>MANAGE ROOMS</button></a><br><br>
             <a href="AddAdmin"><button>ADD ADMIN</button></a><br><br>
-            <hr>
+            <!-- <hr>
             <div>Reports</div>
             <a href="AdminReservationReport" target="_blank">RESERVATION REPORT</a>
-			<hr>
+			<hr> -->
             <a href="adminLoginView.jsp"><button>SIGN OUT</button></a>
         </div>
     </body>
