@@ -19,7 +19,7 @@ import java.util.List;
  * This servlet fetches room data in the doGet() method to populate the form
  * The servlet then forwards the admin to the rooms view along with the stored rooms.
  * */
-@WebServlet(name = "ModifyRoom", urlPatterns = {"/ModifyReservation", "/DeleteReservation"})
+@WebServlet(name = "ModifyReservation", urlPatterns = {"/ModifyReservation", "/DeleteReservation"})
 public class ModifyReservationController extends BaseController{
 
     //Stores id of room to be modified or deleted
@@ -94,10 +94,10 @@ public class ModifyReservationController extends BaseController{
 
         // Update room information
         List<Room> rooms = new ArrayList<>();
-        String[] roomIdsString = req.getParameter("roomIDs").split(",");
-        for (String roomIdString : roomIdsString) {
-            int roomId = Integer.parseInt(roomIdString);
-            Room room = database.roomDbManager.getRoom(roomId);
+        // String[] roomIdsString = req.getParameter("roomIDs").split(","); // these are not room ids, they are room numbers
+        String[] roomNumbers = req.getParameter("roomIDs").split(",");
+        for (String roomNum : roomNumbers) {
+            Room room = database.roomDbManager.getRoomByRoomNumber(roomNum);
             if (room != null) {
                 rooms.add(room);
             }
@@ -105,8 +105,8 @@ public class ModifyReservationController extends BaseController{
         reservation.setRooms(rooms); // Set the list of Room objects
 
         reservation.setUserId(Integer.parseInt(req.getParameter("userID")));
-        reservation.setCheckInDate(Date.valueOf(req.getParameter("checkInDate")));
-        reservation.setCheckOutDate(Date.valueOf(req.getParameter("checkOutDate")));
+        reservation.setCheckInDate(Date.valueOf(req.getParameter("checkIn")));
+        reservation.setCheckOutDate(Date.valueOf(req.getParameter("checkOut")));
         reservation.setTotalPrice(Float.parseFloat(req.getParameter("totalPrice")));
         reservation.setNumGuests(Integer.parseInt(req.getParameter("guests")));
         reservation.setPets(Boolean.parseBoolean(req.getParameter("pets")));

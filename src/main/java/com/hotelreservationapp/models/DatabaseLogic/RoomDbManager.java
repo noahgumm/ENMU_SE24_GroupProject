@@ -118,7 +118,7 @@ public class RoomDbManager extends  DbManagerBase{
             //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement
-                    ("INSERT INTO Rooms(room_number, room_type, floor_number, price_per_night, room_description, number_of_beds, created_at) " +
+                    ("INSERT INTO rooms(room_number, room_type, floor_number, price_per_night, room_description, number_of_beds, created_at) " +
                             "VALUES (?, ?, ?, ?, ?, ?, now())", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, roomNumber);
             preparedStatement.setString(2, roomType);
@@ -186,7 +186,7 @@ public class RoomDbManager extends  DbManagerBase{
             //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement(
-                    "UPDATE Room SET room_number=?, room_type=?, floor_number=?, price_per_night=?, " +
+                    "UPDATE rooms SET room_number=?, room_type=?, floor_number=?, price_per_night=?, " +
                             "room_description=?, number_of_beds=? WHERE room_id=?"
             );
             preparedStatement.setString(1, room.getRoomNumber());
@@ -287,7 +287,7 @@ public class RoomDbManager extends  DbManagerBase{
         try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Bookings (user_id, room_id, check_in_date, check_out_date) VALUES (?, ?, ?, ?)");
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO bookings (user_id, room_id, check_in_date, check_out_date) VALUES (?, ?, ?, ?)");
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, roomID);
             preparedStatement.setDate(3, startDate);

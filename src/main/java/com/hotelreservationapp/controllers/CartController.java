@@ -17,6 +17,7 @@ import com.hotelreservationapp.models.Database.Prepared.CartInformation;
 import com.hotelreservationapp.models.Database.Tables.User;
 import com.hotelreservationapp.models.Database.Tables.UserPaymentMethod;
 import com.hotelreservationapp.models.DatabaseLogic.DatabaseManager;
+import com.hotelreservationapp.models.Settings.ApiSettingsReader;
 import com.hotelreservationapp.models.Database.Tables.Reservation;
 import com.hotelreservationapp.models.Database.Tables.Room;
 
@@ -188,8 +189,15 @@ public class CartController extends BaseController {
 	
 	private void sendEmail(HttpServletRequest request, String userName, String sendAddress, Reservation reservation, List<Room> rooms, Double total) throws ServletException {
         // Send Grid api key and configuration
-        final String username = "apikey";
-        final String password = "Get a new Api Key";
+
+		ApiSettingsReader settingsReader = new ApiSettingsReader();
+
+		//replace the data in the apisettings.json file with your own SendGrid API key. DO NOT SAVE IN GITHUB or your key will become inactive.
+		String username = settingsReader.readSettings().getUsername();
+		String password = settingsReader.readSettings().getPassword();
+
+        // final String username = "apikey";
+        // final String password = "Get a new Api Key";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");

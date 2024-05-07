@@ -127,12 +127,39 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>DeleteRoom</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ModifyRoomController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteRoom</servlet-name>
+        <url-pattern>/DeleteRoom</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AddRoom</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ModifyRoomController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddRoom</servlet-name>
+        <url-pattern>/AddRoom</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ModifyReservation</servlet-name>
         <servlet-class>com.hotelreservationapp.controllers.ModifyReservationController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ModifyReservation</servlet-name>
         <url-pattern>/ModifyReservation</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteReservation</servlet-name>
+        <servlet-class>com.hotelreservationapp.controllers.ModifyReservationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteReservation</servlet-name>
+        <url-pattern>/DeleteReservation</url-pattern>
     </servlet-mapping>
 
     <servlet>

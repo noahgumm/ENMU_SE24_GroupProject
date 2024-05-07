@@ -38,7 +38,7 @@ public class AdminDbManager extends DbManagerBase {
         try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
             //Class.forName("com.mysql.cj.jdbc.Driver");
             
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Admins(username, password, email, created_at) values (?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO admins(username, password, email, created_at) values (?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, email);

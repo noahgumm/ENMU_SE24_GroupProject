@@ -14,12 +14,12 @@
 
             <a href="ManageReservations"><p class="back"><</p></a>
             <form action="ModifyReservation" method="post">
-                <input type="hidden" name="reservationID" value="<% request.getParameter("id") %>"/>
+                <input type="hidden" name="reservationID" value="<%= request.getParameter("id") %>" />
 
                 <label for="userID">Guest ID</label>
-                <input type="number" value="${userID}" name="userID" id="userID"/>
+                <input type="number" value="${userID}" name="userID" id="userID" readonly/>
 
-                <label for="roomIDs">Room ID(s)</label>
+                <label for="roomIDs">Room Numbers (separate with comma)</label>
                 <input type="text" value="${roomIDs}" name="roomIDs" id="roomIDs"/>
 
                 <label for="checkIn">Check-In Date</label>
@@ -38,7 +38,7 @@
                 <input type="checkbox" id="pets" name="pets" value="${pets}">
 
                 <label for="status">Status</label>
-                <select name="status" id="status">
+                <select name="status" id="status" style="min-width: 150px;">
                     <option value="pending" ${status eq 'pending' ? 'selected' : ''}>Pending</option>
                     <option value="confirmed" ${status eq 'confirmed' ? 'selected' : ''}>Confirmed</option>
                     <option value="cancelled" ${status eq 'cancelled' ? 'selected' : ''}>Cancelled</option>
