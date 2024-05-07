@@ -20,7 +20,6 @@
         </element>
         <element id="directory" name="lib">
           <element id="file-copy" path="$PROJECT_DIR$/lib/json-20240303.jar" />
-          <element id="library" level="project" name="gson-2.4" />
         </element>
       </element>
     </root>

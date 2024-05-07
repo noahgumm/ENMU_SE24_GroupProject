@@ -1,0 +1,24 @@
+{
+  "connections": [
+    {
+      "ConnectionName": "DEFAULT",
+      "ConnectionValues": {
+        "host": "localhost",
+        "port": "3306",
+        "database_name": "hotel_reservation_system",
+        "user": "root",
+        "password": "password"
+      }
+    },
+    {
+      "ConnectionName": "AWS",
+      "ConnectionValues": {
+        "host": "hotel-reservation-system.cbzvnoedvh5z.us-east-1.rds.amazonaws.com",
+        "port": "3306",
+        "database_name": "hotel_reservation_system",
+        "user": "root",
+        "password": "3NMU_S324_Gr0upPr0j3ct"
+      }
+    }
+  ]
+}

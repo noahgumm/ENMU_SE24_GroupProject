@@ -1,15 +1,14 @@
+<%@ page import="com.hotelreservationapp.models.Database.Tables.Reservation" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.hotelreservationapp.models.Database.Tables.Room" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%
-	//Sample Test Data
-	
-	String orderStartDate = "06/10/2024";
-	String orderEndDate = "06/14/2024";
-	String[][] myOrders = {{"005", "1", orderStartDate, orderEndDate, "300.00"}};
-%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="styles/UserStyles.css" />
+		<link rel="stylesheet" href="styles/adminStyles.css" />
         <title>My Reservations</title>
     </head>
 	<style>
@@ -23,40 +22,38 @@
 			
             <h1>My Reservations</h1>
             <a href="mainView.jsp"><p class="back"><</p></a>
-				
-			<div id="myOrders">
-			<%
-			for (int i = 0; i <= myOrders.length - 1; i++) {
-			%>
-				<h2>Order #<%= myOrders[i][0] %></h2>			
-				<div id="orderSummary">
-					<div id="roomCountSummary">
-						<h2>Rooms</h2>
-						<div id="roomcount-text"><%= myOrders[i][1] %></div> 
-					</div>
-					
-					<div id="dateSummary">
-						<h2>Dates</h2>
-						<div id="startDateSummary"><%= myOrders[i][2] %>}</div> 
-						<div id="endDateSummary"><%= myOrders[i][3] %></div> 
-					</div>
-					
-					<div id="totalSummary">
-						<h2>Total</h2>
-						<div id="total-text"><%= myOrders[i][4] %></div> 
-					</div>
-				</div><br><br>
-							
-				<form name="modifyReservationForm" action="ReservationManagementController" method="post">
-					<button type="submit" name="action" value="modify">MODIFY</button>
-					<button type="submit" name="action" value="cancel">CANCEL</button>
-				</form>
-				<a href="/HotelReservationApp/Cart">CHECKOUT</a>
-			<%
-			}
-			%>
-			
-			</div>
+
+			<p>${sessionScope.resvMessage}</p>
+
+			<ul class="card-list">
+				<%
+					ArrayList<Reservation> reservations = (ArrayList<Reservation>)request.getSession().getAttribute("reservations");
+					for (Reservation res : reservations) {
+						StringBuilder roomIDs = new StringBuilder();
+						for(Room room: res.getRooms()){
+							roomIDs.append(room.getRoomId());
+							roomIDs.append(",");
+						}
+				%>
+				<li class="card">
+					<p>Reservation ID : <%= res.getReservationId() %></p>
+					<p>Customer ID : <%= res.getUserId() %></p>
+					<p>Room(s) ID(s) : <%= roomIDs %></p>
+					<p>Check In : <%= res.getCheckInDate() %></p>
+					<p>Check Out : <%= res.getCheckOutDate() %></p>
+					<p>Price Total: <%= res.getTotalPrice() %></p>
+					<p># of Guests : <%= res.getNumGuests() %></p>
+					<p>Status : <%= res.getReservationStatus() %></p>
+					<p>Pets : <%= res.getPets() %></p>
+					<p>Created At : <%= res.getCreatedAt() %></p>
+
+					<a href="UserReservationsEdit?action=modify&id=<%= res.getReservationId() %>"><button>Edit</button></a>
+					<a href="UserReservationsDelete?action=delete&id=<%= res.getReservationId() %>"><button>Cancel</button></a>
+				</li>
+				<%
+					}
+				%>
+			</ul>
         </div>		
     </body>
 </html>
