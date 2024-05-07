@@ -18,7 +18,11 @@ public class ManageFloorsController extends BaseController{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        sendToLoginPageIfNotLoggedIn(req, resp);
+        String redirectString = sendToLoginPageIfNotLoggedIn(req, resp);
+        if(redirectString != null){
+            resp.sendRedirect(redirectString);
+            return;
+        }
         
         // TODO Auto-generated method stub
         // RequestDispatcher requestDispatcher = req.getRequestDispatcher("home.jsp");

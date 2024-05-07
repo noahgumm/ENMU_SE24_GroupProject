@@ -20,7 +20,11 @@ public class AdminRoomController extends BaseController{
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        sendToLoginPageIfNotLoggedIn(req, resp);
+        String redirectString = sendToLoginPageIfNotLoggedIn(req, resp);
+        if(redirectString != null){
+            resp.sendRedirect(redirectString);
+            return;
+        }
         //Set an attribute to store all the rooms to display them on the page
         DatabaseManager database = new DatabaseManager();
         req.getSession().setAttribute("rooms", database.roomDbManager.getAllRooms());

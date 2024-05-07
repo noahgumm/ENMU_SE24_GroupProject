@@ -100,7 +100,7 @@ public class SettingsReader {
             inputStream.close();
             Gson gson = new Gson();
             toReturn = gson.fromJson(str, ConnectionsConfig.class);
-            System.out.println(str);
+            //System.out.println(str);
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();

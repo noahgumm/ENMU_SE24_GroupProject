@@ -26,8 +26,14 @@ public class UserPaymentMethodDbManager extends DbManagerBase{
      */
     public  UserPaymentMethod getUserPaymentMethod(int cardID){
         UserPaymentMethod userPaymentMethod = null;
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM user_payment_methods WHERE card_id = ?");
             preparedStatement.setInt(1, cardID);
@@ -59,8 +65,14 @@ public class UserPaymentMethodDbManager extends DbManagerBase{
      */
     public UserPaymentMethod getUserPaymentMethod(int userID, String cardNum){
         UserPaymentMethod userPaymentMethod = null;
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM user_payment_methods WHERE user_id = ? and card_number = ?");
             preparedStatement.setInt(1, userID);
@@ -89,8 +101,14 @@ public class UserPaymentMethodDbManager extends DbManagerBase{
 
     public UserPaymentMethod getUserPaymentMethod(UserPaymentMethod userPaymentMethod){
         UserPaymentMethod toReturn = null;
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM user_payment_methods WHERE user_id = ? and card_number = ? and card_holder_name = ? and card_type = ? and expiry_date = ? and cvv = ?");
             preparedStatement.setInt(1, userPaymentMethod.getUserId());
@@ -128,8 +146,14 @@ public class UserPaymentMethodDbManager extends DbManagerBase{
      */
     public  List<UserPaymentMethod> getAllUserPaymentMethodsFor(int userID){
         List<UserPaymentMethod> userPaymentMethods = new ArrayList<>();
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM user_payment_methods where user_id = ?");
             preparedStatement.setInt(1, userID);
@@ -160,8 +184,14 @@ public class UserPaymentMethodDbManager extends DbManagerBase{
      */
     public List<UserPaymentMethod> getAllUserPaymentMethodsFor(){
         List<UserPaymentMethod> userPaymentMethods = new ArrayList<>();
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM user_payment_methods");
             ResultSet rs = preparedStatement.executeQuery();
@@ -192,8 +222,14 @@ public class UserPaymentMethodDbManager extends DbManagerBase{
      * @return
      */
     public boolean deleteUserPaymentMethod(int card_id){
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("update a set a.is_deleted = 1 from user_payment_methods where card_id = ?");
             preparedStatement.setInt(1, card_id);
@@ -225,8 +261,14 @@ public class UserPaymentMethodDbManager extends DbManagerBase{
     public UserPaymentMethod createUserPaymentMethod(String cardNumber, String cardholderName, String cardType,
                                                      String expDate, String cvv, int userID){
         UserPaymentMethod userPaymentMethod = null;
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement
                     ("INSERT INTO user_payment_methods(card_number, card_holder_name, card_type, expiry_date,cvv,user_id, created_at) values (?,?,?,?,?,?,now())", Statement.RETURN_GENERATED_KEYS);

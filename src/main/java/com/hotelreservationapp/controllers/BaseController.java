@@ -28,15 +28,12 @@ public class BaseController extends HttpServlet {
         return user;
     }
 
-    public void sendToLoginPageIfNotLoggedIn(HttpServletRequest req, HttpServletResponse resp) {
+    public String sendToLoginPageIfNotLoggedIn(HttpServletRequest req, HttpServletResponse resp) {
         User user = (User) req.getSession().getAttribute("user");
         if(user == null) {
-            try{
-                resp.sendRedirect("login.jsp");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return "loginView.jsp";
         }
+        return null;
     }
 
     public User getSessionUser(HttpServletRequest req) {

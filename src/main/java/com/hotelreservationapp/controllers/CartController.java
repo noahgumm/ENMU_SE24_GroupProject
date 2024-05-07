@@ -30,7 +30,11 @@ public class CartController extends BaseController {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        sendToLoginPageIfNotLoggedIn(req, resp);
+        String redirectString = sendToLoginPageIfNotLoggedIn(req, resp);
+        if(redirectString != null){
+            resp.sendRedirect(redirectString);
+            return;
+        }
         
         DatabaseManager db = new DatabaseManager();
         //is a user logged in? get the logged in user.

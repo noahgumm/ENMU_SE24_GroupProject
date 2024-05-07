@@ -16,7 +16,11 @@ import java.io.PrintWriter;
 public class BookingController extends BaseController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        sendToLoginPageIfNotLoggedIn(req, resp);
+        String redirectString = sendToLoginPageIfNotLoggedIn(req, resp);
+        if(redirectString != null){
+            resp.sendRedirect(redirectString);
+            return;
+        }
         resp.sendRedirect("bookingView.jsp");
     }
     @Override

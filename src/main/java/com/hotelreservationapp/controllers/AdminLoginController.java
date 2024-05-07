@@ -39,7 +39,7 @@ public class AdminLoginController extends HttpServlet {
         DatabaseManager databaseManager = new DatabaseManager();
         admin = null;
         for (Admin a : databaseManager.adminDbManager.getAdminAllUsers()) {
-            System.out.println(a.getEmail());
+            //System.out.println(a.getEmail());
             if (Objects.equals(a.getEmail(), email)) {
                 admin = a;
             }

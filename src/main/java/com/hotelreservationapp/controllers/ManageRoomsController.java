@@ -26,7 +26,11 @@ public class ManageRoomsController extends BaseController{
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
-		sendToLoginPageIfNotLoggedIn(request, resp); 
+		String redirectString = sendToLoginPageIfNotLoggedIn(request, resp);
+        if(redirectString != null){
+            resp.sendRedirect(redirectString);
+            return;
+        }
 		
 		// Log a debug message
         logger.info("Entering doGet method for Rooms View");

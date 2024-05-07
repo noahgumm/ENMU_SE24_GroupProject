@@ -29,8 +29,14 @@ public class AdminDbManager extends DbManagerBase {
      */
     public Admin createAdminUser(String username, String password, String email){
         Admin user = null;
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             
             PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Admins(username, password, email, created_at) values (?,?,?,now())", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, username);
@@ -60,8 +66,14 @@ public class AdminDbManager extends DbManagerBase {
      */
     public Admin getAdminUser(int adminId){
         Admin user = new Admin();
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Admins WHERE admin_id = ?");
             preparedStatement.setInt(1, adminId);
@@ -87,8 +99,14 @@ public class AdminDbManager extends DbManagerBase {
      */
     public List<Admin> getAdminAllUsers(){
         List<Admin> users = new ArrayList<>();
-        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
+            //Class.forName("com.mysql.cj.jdbc.Driver");
             //Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword);
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM admins");
             ResultSet rs = preparedStatement.executeQuery();

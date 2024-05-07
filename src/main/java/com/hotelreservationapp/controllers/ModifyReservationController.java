@@ -28,7 +28,11 @@ public class ModifyReservationController extends BaseController{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        sendToLoginPageIfNotLoggedIn(req, resp);
+        String redirectString = sendToLoginPageIfNotLoggedIn(req, resp);
+        if(redirectString != null){
+            resp.sendRedirect(redirectString);
+            return;
+        }
         
         //Get the id of the room whose modify button was clicked
         String reservationID = req.getParameter("id");

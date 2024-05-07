@@ -17,7 +17,11 @@ public class AdminReservationsController extends BaseController{
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        sendToLoginPageIfNotLoggedIn(req, resp);
+        String redirectString = sendToLoginPageIfNotLoggedIn(req, resp);
+        if(redirectString != null){
+            resp.sendRedirect(redirectString);
+            return;
+        }
         //Set an attribute to store all the rooms to display them on the page
         DatabaseManager database = new DatabaseManager();
         req.getSession().setAttribute("reservations", database.reservationDbManager.getAllReservations());
@@ -39,7 +43,7 @@ public class AdminReservationsController extends BaseController{
         DatabaseManager database = new DatabaseManager();
 
         String selectedSearchOption = req.getParameter("searchType");
-        System.out.println(selectedSearchOption);
+        //System.out.println(selectedSearchOption);
         if(selectedSearchOption != null){
             //Change what parameter is used to get rooms depending on selected search option
             switch (selectedSearchOption){

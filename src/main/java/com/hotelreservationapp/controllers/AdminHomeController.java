@@ -17,7 +17,11 @@ public class AdminHomeController extends BaseController {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        sendToLoginPageIfNotLoggedIn(req, resp);
+        String redirectString = sendToLoginPageIfNotLoggedIn(req, resp);
+        if(redirectString != null){
+            resp.sendRedirect(redirectString);
+            return;
+        }
         String action = req.getServletPath();
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("adminMainView.jsp");
