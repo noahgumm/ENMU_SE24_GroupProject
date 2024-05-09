@@ -2,15 +2,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="styles/UserStyles.css" />
-        <link rel="stylesheet" href="styles/adminStyles.css" />
+        <link rel="stylesheet" href="styles/UserStyles.css?v=1" />
+        <link rel="stylesheet" href="styles/adminStyles.css?v=1" />
         <title>Modify Reservation</title>
     </head>
     <body>
         <div class="container">
 			<img class="logo" src="images/logo.png" alt="Logo">
 			
-            <h1>Modify Room</h1>
+            <h1>Modify Reservation</h1>
 
             <a href="ManageReservations"><p class="back"><</p></a>
             <form action="ModifyReservation" method="post">

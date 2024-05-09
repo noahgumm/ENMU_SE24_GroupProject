@@ -27,13 +27,19 @@ body {
     height: 100vh;
 }
 
+
+select option input{
+    background-color: white;
+    color: black;
+}
+
 /* Container Styles */
 .container {
     font-family: badoni, serif;
-    background-color: #2e2929c4;
+    background-color: rgba(0, 0, 0, 0.9);
     color: white;
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     padding: 20px;
     width: 300px;
     text-align: center;
@@ -58,10 +64,10 @@ select option {
 /* Form Styles*/
 
 input {
-    background-color: transparent; /* Set background color to transparent */
+    /* background-color: transparent; */
     border: none; /* Remove border */
     outline: none; /* Remove outline */
-    color: white; /* Set text color to white */
+    /* color: white; */
     border-bottom: 2.5px solid white; /* Add white underline */
     width: 100%;
     height: 2em;

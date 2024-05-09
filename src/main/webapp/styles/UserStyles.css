@@ -70,7 +70,7 @@ input[type="date"]::-moz-calendar-picker-indicator {
 }
 
 .container {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.9);
     border-radius: 15px;
     padding: 20px;
     text-align: center;
