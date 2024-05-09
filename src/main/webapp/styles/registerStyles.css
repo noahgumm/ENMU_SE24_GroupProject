@@ -13,7 +13,7 @@ p {
     padding: 0;
 }
 
-select option {
-    background: white;
+select option input{
+    background-color: white;
     color: black;
-  }
+}

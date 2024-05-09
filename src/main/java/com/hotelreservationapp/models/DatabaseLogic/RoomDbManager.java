@@ -222,16 +222,35 @@ public class RoomDbManager extends  DbManagerBase{
             e.printStackTrace();
         }
         try(Connection conn = DriverManager.getConnection(this.dbURL, this.dbUsername, this.dbPassword)){
-			List<Room> allRooms = getAllRooms(); 
-			for (Room room : allRooms) {
-				for (DateRange bookedDate : getBookedDatesForRoom(room.getRoomId())) {
-					if ((startDate.equals(bookedDate.getStartDate()) || startDate.after(bookedDate.getStartDate())) &&
-						(endDate.equals(bookedDate.getEndDate()) || endDate.before(bookedDate.getEndDate()))) {
-						bookedRooms.add(room);
-						break; 
-					}
-				}
-			}
+            String sql = "select C.* from reservations AS A\n" + //
+                                "INNER JOIN reservation_rooms AS B ON A.reservation_id = B.reservation_id\n" + //
+                                "INNER JOIN rooms AS C ON C.room_id = B.room_id\n" + //
+                                "WHERE (A.check_in_date <= ? AND A.check_out_date >= ?) ;";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setDate(1, endDate);
+            preparedStatement.setDate(2, startDate);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int roomId = rs.getInt("room_id");
+                String roomNumber = rs.getString("room_number");
+                String roomType = rs.getString("room_type");
+                int floorNumber = rs.getInt("floor_number");
+                double pricePerNight = rs.getDouble("price_per_night");
+                String roomDescription = rs.getString("room_description");
+                int numberOfBeds = rs.getInt("number_of_beds");
+                Timestamp createdAt = rs.getTimestamp("created_at");
+                bookedRooms.add(new Room(roomId, roomNumber, roomType, floorNumber, pricePerNight, roomDescription, numberOfBeds, createdAt));
+            }
+			// List<Room> allRooms = getAllRooms(); 
+			// for (Room room : allRooms) {
+			// 	for (DateRange bookedDate : getBookedDatesForRoom(room.getRoomId())) {
+			// 		if ((startDate.equals(bookedDate.getStartDate()) || startDate.after(bookedDate.getStartDate())) &&
+			// 			(endDate.equals(bookedDate.getEndDate()) || endDate.before(bookedDate.getEndDate()))) {
+			// 			bookedRooms.add(room);
+			// 			break; 
+			// 		}
+			// 	}
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

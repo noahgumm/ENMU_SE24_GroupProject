@@ -15,11 +15,13 @@
     margin-bottom: 10px;
 }
 
+
+
 input {
     border: none;
     border-bottom: 2px solid white;
-    background: transparent;
-    color: white;
+    /* background: transparent; */
+    /* color: white; */
     padding: 5px;
     margin: 10px 0;
     width: 100%;
@@ -28,10 +30,11 @@ input {
     font-family: 'Basis Grotesque Pro', sans-serif; /* Applying Basis Grotesque Pro font to the form inputs */
 }
 
-select option {
-    background: white;
+
+select option input{
+    background-color: white;
     color: black;
-  }
+}
 
 
 input::placeholder{

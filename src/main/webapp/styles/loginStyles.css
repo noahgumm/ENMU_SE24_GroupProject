@@ -32,10 +32,11 @@ body {
     position: relative;
 }
 
-select option {
-    background: white;
+
+select option input{
+    background-color: white;
     color: black;
-  }
+}
 
 
 .container h2, .container h3 {

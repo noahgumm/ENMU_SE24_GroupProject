@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="styles/UserStyles.css" />
+        <link rel="stylesheet" href="styles/UserStyles.css?v=1" />
         <title>Sign In</title>
     </head>
     <body>

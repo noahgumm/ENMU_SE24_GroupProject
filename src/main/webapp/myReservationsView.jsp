@@ -7,8 +7,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="styles/UserStyles.css" />
-		<link rel="stylesheet" href="styles/adminStyles.css" />
+        <link rel="stylesheet" href="styles/UserStyles.css?v=1" />
+		<link rel="stylesheet" href="styles/adminStyles.css?v=1" />
         <title>My Reservations</title>
     </head>
 	<style>
@@ -51,11 +51,11 @@
 					if(res.getReservationStatus().equals("pending") == true) { 
 						%>
 						<a href="UserReservationsEdit?action=modify&id=<%= res.getReservationId() %>"><button>Edit</button></a>
-						<a href="UserReservationsEdit?action=cancel&id=<%= res.getReservationId() %>"><button>Cancel</button></a>
+						<a href="UserReservationsDelete?action=cancel&id=<%= res.getReservationId() %>"><button>Cancel</button></a>
 						<a href="Cart?reservationId=<%= res.getReservationId() %>"><button>Complete Booking</button></a>
 						
 						<% } else if (res.getReservationStatus().equals("confirmed")) {%> 
-							<a href="UserReservationsEdit?action=cancel&id=<%= res.getReservationId() %>"><button>Cancel</button></a>
+							<a href="UserReservationsDelete?action=cancel&id=<%= res.getReservationId() %>"><button>Cancel</button></a>
 							<%
 					}
 				%>

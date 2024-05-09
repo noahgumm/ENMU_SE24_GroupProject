@@ -19,7 +19,7 @@
         String checkOutDateString = dateFormat.format(checkOutDate);
 	%>
     <head>
-        <link rel="stylesheet" href="styles/UserStyles.css" />
+        <link rel="stylesheet" href="styles/UserStyles.css?v=1" />
         <title>Enjoy Your Stay, <%= name %>!</title>
     </head>
     <body>	

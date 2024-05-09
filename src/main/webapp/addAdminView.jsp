@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="styles/UserStyles.css" />
-        <link rel="stylesheet" href="styles/adminStyles.css" />
+        <link rel="stylesheet" href="styles/UserStyles.css?v=1" />
+        <link rel="stylesheet" href="styles/adminStyles.css?v=1" />
         <title>Add Admin</title>
     </head>
     <body>
